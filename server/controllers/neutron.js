@@ -2,37 +2,32 @@ const http = require('http')
 const { host } = require('../config')
 const port = 9696
 const getOptions = require('../lib/util').getOptions(host, port)
+const { httpRequest } = require('../lib/util')
 
 exports.getNetworks = (req, res) => {
   const token = req.query.token
   if (!token) res.status(401).send()
 
-  const options = getOptions('/v2.0/networks', 'GET')
-  options.headers['X-Auth-Token'] = token
-  let data = ''
-
-  const request = http.request(options, (response) => {
-    response.on('data', d => {
-      data += data + d
-    }).on('end', () => {
-      res.send({
-        code: response.statusCode,
-        data: JSON.parse(data)
-      })
-    })
-  })
-
-  request.on('error', function (e) {
-    console.log('Got error: ' + e.message)
-  })
-
-  request.end()
+  const options = getOptions('/v2.0/networks', 'GET', token)
+  httpRequest(options, res)
 }
 
-exports.getNetworkById = (req, res) => {
-  const token = req.query.token
+exports.getSubnetById = (req, res) => {
+  const { token, id } = req.query
   if (!token) res.status(401).send()
+  if (!id) res.status(400).send()
 
-  const options = getOptions('/v2.0/networks', 'GET')
-  options.headers['X-Auth-Token'] = token
+  const options = getOptions(`/v2.0/subnets?id=${id}`, 'GET', token)
+  httpRequest(options, res)
+}
+
+exports.updateNetworkById = (req, res) => {
+  const { token, id, network } = req.body
+  if (!token) res.status(401).send()
+  if (!id || !network) res.status(400).send()
+
+  const options = getOptions(`/v2.0/networks/${id}`, 'PUT', token)
+  const networkString = JSON.stringify({ network })
+  options.headers['Content-Length'] = networkString.length
+  httpRequest(options, res, networkString)
 }

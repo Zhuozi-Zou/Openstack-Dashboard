@@ -15,45 +15,57 @@ export const networksCol = [
   {
     key: 'subnets_associated',
     title: 'Subnets Associated',
-    minWidth: 180,
-    sortable: true
+    minWidth: 200,
+    sortable: true,
+    render: (h, { row }) => {
+      return h('ul', {
+        style: {
+          'list-style-type': 'none'
+        }
+      }, row.subnets_associated.map(item => {
+        return h('li', item)
+      }))
+    }
   },
   {
     key: 'shared',
     title: 'Shared',
-    minWidth: 96,
+    width: 96,
     sortable: true
   },
   {
     key: 'external',
     title: 'External',
-    minWidth: 102,
+    width: 102,
     sortable: true
   },
   {
     key: 'status',
     title: 'Status',
-    minWidth: 100,
+    width: 100,
     sortable: true
   },
   {
     key: 'admin_state_up',
     title: 'Admin State',
-    minWidth: 125,
+    width: 125,
     sortable: true
   },
   {
     key: 'availability_zones',
     title: 'Availability Zones',
     minWidth: 156,
-    sortable: true
+    sortable: true,
+    render: (h, { row }) => {
+      return h('span', row.availability_zones.join(',\n'))
+    }
   },
   {
     key: 'actions',
     title: 'Actions',
     width: 130,
     align: 'center',
-    render: (h, { row, column, index }) => {
+    render: (h, { index }) => {
       return h('div', [
         h('Button', {
           type: 'primary',

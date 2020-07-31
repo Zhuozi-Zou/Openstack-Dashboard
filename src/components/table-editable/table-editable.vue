@@ -3,14 +3,15 @@
     <Table border :columns="columns" :data="value"/>
     <div class="edit">
       <Modal
+        ref="edit"
         v-model="modalVisible"
-        title="Edit Network"
-        @on-ok="ok"
+        title="Edit"
+        @on-ok="submit"
         okText="Save Changes"
         cancel-text="Cancel"
         :mask-closable="false"
       >
-        <Form>
+        <Form ref="editForm">
           <FormItem
             v-for="(item, index) in editableValues"
             :label="item.label"
@@ -54,7 +55,7 @@
       }
     },
     methods: {
-      ok () {
+      submit () {
         this.$Message.info('点击了确定')
       }
     },

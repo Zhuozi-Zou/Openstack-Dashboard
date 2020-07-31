@@ -29,20 +29,26 @@
     },
     methods: {
       ...mapActions([
-        'getNetworks'
+        'getNetworks',
+        'getSubnetById'
       ]),
-      formTableValues () {
-        this.tableValues = this.networks.map(item => {
+      async formTableValues () {
+        this.tableValues = await Promise.all(this.networks.map(async item => {
+          const subnets = await Promise.all(item.subnets.map(async id => {
+            const subnet = await this.getSubnetById(id)
+            return `${subnet.name} ${subnet.cidr}`
+          }))
+
           return {
             name: item.name,
-            subnets_associated: item.subnets[0],
+            subnets_associated: subnets,
             shared: `${item.shared ? 'Yes' : 'No'}`,
             external: `${item['router:external'] ? 'Yes' : 'No'}`,
             status: `${item.status === 'ACTIVE' ? 'Active' : 'Inactive'}`,
             admin_state_up: `${item.admin_state_up ? 'UP' : 'DOWN'}`,
-            availability_zones: item.availability_zones[0]
+            availability_zones: item.availability_zones
           }
-        })
+        }))
       },
       handleClickEdit (index) {
         this.editableValues = editableValues(this.networks[index])
@@ -50,7 +56,7 @@
     },
     async mounted () {
       this.networks = await this.getNetworks()
-      this.formTableValues()
+      await this.formTableValues()
     }
   }
 </script>

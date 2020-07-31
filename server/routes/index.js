@@ -5,4 +5,6 @@ module.exports = function (app) {
   app.get('/keystone/getAdminToken', keystone.getAdminToken)
 
   app.get('/neutron/getNetworks', neutron.getNetworks)
+  app.get('/neutron/getSubnetById', neutron.getSubnetById)
+  app.put('/neutron/updateNetworkById', neutron.updateNetworkById)
 }
