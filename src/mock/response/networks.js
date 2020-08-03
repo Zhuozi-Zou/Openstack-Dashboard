@@ -71,7 +71,7 @@ export const networksCol = [
           type: 'primary',
           size: 'small',
           on: {
-            click: () => station.$emit('on-click-edit', index)
+            click: () => station.$emit('on-modal-edit-open', index)
           }
         }, 'Edit Network')
       ])

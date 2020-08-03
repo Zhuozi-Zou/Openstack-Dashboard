@@ -1,4 +1,4 @@
-import { getNetworks, getSubnetById } from '@/api/neutron'
+import { getNetworks, getSubnetById, updateNetworkById } from '@/api/neutron'
 import { getNewToken, getToken } from '@/lib/util'
 
 const state = {
@@ -38,8 +38,19 @@ const actions = {
       console.log(e)
     }
   },
-  updateNetworkById (params, id, network) {
-    //
+  async updateNetworkById (params, { id, network }) {
+    const token = await getToken()
+    try {
+      const res = await updateNetworkById(token, id, network)
+      if (res.data.code === 200) return res.data.data.network
+      if (res.data.code === 401) {
+        console.log('token expired, requesting a new one...')
+        const newRes = await updateNetworkById(await getNewToken(), id, network)
+        return newRes.data.data.network
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 

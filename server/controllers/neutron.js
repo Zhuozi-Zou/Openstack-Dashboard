@@ -1,4 +1,3 @@
-const http = require('http')
 const { host } = require('../config')
 const port = 9696
 const getOptions = require('../lib/util').getOptions(host, port)
