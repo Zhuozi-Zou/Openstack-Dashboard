@@ -148,5 +148,57 @@ export const newSubnetValues = [
         trigger: 'blur'
       }
     ]
+  },
+  {
+    name: 'ip_version',
+    type: 'i-select',
+    value: 4,
+    label: 'IP Version',
+    children: {
+      type: 'i-option',
+      list: [
+        { value: 4, title: 'IPv4' },
+        { value: 6, title: 'IPv6' }
+      ]
+    }
+  },
+  {
+    name: 'gateway_ip ',
+    type: 'i-input',
+    value: '',
+    label: 'Gateway IP'
+  },
+  {
+    name: 'disable_gateway',
+    type: 'checkbox',
+    value: false,
+    label: 'Disable Gateway'
+  }
+]
+
+export const newSubnetDetailsValues = [
+  {
+    name: 'enable_dhcp ',
+    type: 'checkbox',
+    value: true,
+    label: 'Disable Gateway'
+  },
+  {
+    name: 'allocation_pools  ',
+    type: 'i-input',
+    value: '',
+    label: 'Allocation Pools'
+  },
+  {
+    name: 'dns_nameservers  ',
+    type: 'i-input',
+    value: '',
+    label: 'DNS Name Servers'
+  },
+  {
+    name: 'host_routes  ',
+    type: 'i-input',
+    value: '',
+    label: 'Host Routes'
   }
 ]

@@ -14,7 +14,16 @@
         :key="`${_uid}_${index}`"
         :error="errorStore[item.name]"
       >
-        <component :is="item.type" v-model="valueList[item.name]"/>
+        <component :is="item.type" v-model="valueList[item.name]">
+          <template v-if="item.children">
+            <component
+              v-for="(child, i) in item.children.list"
+              :is="item.children.type"
+              :key="`${_uid}_${index}_${i}`"
+              :value="child.value">{{ child.title }}
+            </component>
+          </template>
+        </component>
       </FormItem>
     </Form>
     <div slot="footer">
