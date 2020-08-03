@@ -2,23 +2,25 @@
   <div>
     <div class="networks-header">
       <div class="buttons">
-        <Button>Create Network</Button>
+        <Button @click="handleModalCreate">Create Network</Button>
         <Button class="del-button">Delete Networks</Button>
       </div>
     </div>
     <br>
     <Table border :columns="columns" :data="tableValues"/>
     <modal-form
-      :modalVisible="editModalVisible"
-      :editableValues="editableValues"
+      :modal-visible="editModalVisible"
+      :editable-values="editableValues"
       :title="'Edit Network'"
-      :comfirmText="'Save Changes'"
-      @on-modal-open="handleClickEdit"
-      @on-cancel="handleCancel"
-      @on-submit="hanldeSubmit"
+      :comfirm-text="'Save Changes'"
+      @on-cancel="() => this.editModalVisible = false"
+      @on-submit="hanldeSubmitEdit"
     />
     <modal-form
+      :modal-visible="createModalVisible"
       :title="'Create Network'"
+      :comfirm-text="'Next'"
+      @on-cancel="() => this.createModalVisible = false"
     />
   </div>
 </template>
@@ -37,6 +39,7 @@
     data () {
       return {
         editModalVisible: false,
+        createModalVisible: false,
         networks: [],
         tableValues: [],
         editableValues: [],
@@ -58,12 +61,12 @@
           }))
 
           return {
-            name: item.name,
+            name: item.name || `(${item.id.substring(0, 13)})`,
             subnets_associated: subnets,
-            shared: `${item.shared ? 'Yes' : 'No'}`,
-            external: `${item['router:external'] ? 'Yes' : 'No'}`,
-            status: `${item.status === 'ACTIVE' ? 'Active' : 'Inactive'}`,
-            admin_state_up: `${item.admin_state_up ? 'UP' : 'DOWN'}`,
+            shared: item.shared ? 'Yes' : 'No',
+            external: item['router:external'] ? 'Yes' : 'No',
+            status: item.status === 'ACTIVE' ? 'Active' : 'Inactive',
+            admin_state_up: item.admin_state_up ? 'UP' : 'DOWN',
             availability_zones: item.availability_zones
           }
         }))
@@ -73,10 +76,10 @@
         this.editIndex = index
         this.editModalVisible = true
       },
-      handleCancel () {
-        this.editModalVisible = false
+      handleModalCreate () {
+        this.createModalVisible = true
       },
-      async hanldeSubmit (network, cb) {
+      async hanldeSubmitEdit (network, cb) {
         const data = {
           id: this.networks[this.editIndex].id,
           network

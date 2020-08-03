@@ -85,14 +85,7 @@ export const editableValues = net => {
       name: 'name',
       type: 'i-input',
       value: net.name,
-      label: 'Name',
-      rule: [
-        {
-          required: true,
-          message: 'The name cannot be empty',
-          trigger: 'blur'
-        }
-      ]
+      label: 'Name'
     },
     {
       name: 'admin_state_up',
@@ -108,3 +101,52 @@ export const editableValues = net => {
     }
   ]
 }
+
+export const newNetworkValues = [
+  {
+    name: 'name',
+    type: 'i-input',
+    value: '',
+    label: 'Network Name'
+  },
+  {
+    name: 'admin_state_up',
+    type: 'checkbox',
+    value: true,
+    label: 'Enable Admin State'
+  },
+  {
+    name: 'shared',
+    type: 'checkbox',
+    value: false,
+    label: 'Shared'
+  },
+  {
+    name: 'create_subnet',
+    type: 'checkbox',
+    value: true,
+    label: 'Create Subnet'
+  }
+]
+
+export const newSubnetValues = [
+  {
+    name: 'name',
+    type: 'i-input',
+    value: '',
+    label: 'Subnet Name'
+  },
+  {
+    name: 'cidr',
+    type: 'i-input',
+    value: '',
+    label: 'Network Address',
+    rule: [
+      {
+        required: true,
+        message: 'Network address cannot be empty',
+        trigger: 'blur'
+      }
+    ]
+  }
+]
