@@ -2,7 +2,7 @@
   <div>
     <div class="networks-header">
       <div class="buttons">
-        <Button @click="handleModalCreate">Create Network</Button>
+        <Button @click="() => this.createModalVisible = true">Create Network</Button>
         <Button class="del-button">Delete Networks</Button>
       </div>
     </div>
@@ -16,10 +16,11 @@
       @on-cancel="() => this.editModalVisible = false"
       @on-submit="hanldeSubmitEdit"
     />
-    <modal-form
+    <modal-form-steps
       :modal-visible="createModalVisible"
+      :editable-values="newNetworkValues"
       :title="'Create Network'"
-      :comfirm-text="'Next'"
+      :comfirm-text="'Create'"
       @on-cancel="() => this.createModalVisible = false"
     />
   </div>
@@ -28,12 +29,14 @@
 <script>
   import { mapActions } from 'vuex'
   import ModalForm from '_c/modal-form'
-  import { editableValues, networksCol } from '@/mock/response/networks'
+  import { editableValues, networksCol, newNetworkValues, newSubnetValues, newSubnetDetailsValues } from '@/mock/response/networks'
   import { station } from '@/lib/util'
+  import ModalFormSteps from '_c/modal-form-steps'
 
   export default {
     name: 'Networks',
     components: {
+      ModalFormSteps,
       ModalForm
     },
     data () {
@@ -44,7 +47,9 @@
         tableValues: [],
         editableValues: [],
         columns: networksCol,
-        editIndex: -1
+        newNetworkValues,
+        editIndex: -1,
+        loading: false
       }
     },
     methods: {
@@ -75,9 +80,6 @@
         this.editableValues = editableValues(this.networks[index])
         this.editIndex = index
         this.editModalVisible = true
-      },
-      handleModalCreate () {
-        this.createModalVisible = true
       },
       async hanldeSubmitEdit (network, cb) {
         const data = {

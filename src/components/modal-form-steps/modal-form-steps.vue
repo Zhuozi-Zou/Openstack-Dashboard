@@ -17,7 +17,7 @@
   import FormEditable from '_c/form-editable'
 
   export default {
-    name: 'modal-form',
+    name: 'modal-form-steps',
     components: {
       FormEditable
     },
@@ -49,10 +49,10 @@
         this.$emit('on-cancel')
       },
       handleSubmit (valueList) {
-        this.loading = true
-        this.$emit('on-submit', valueList, () => {
-          this.loading = false
-        })
+        // this.loading = true
+        // this.$emit('on-submit', valueList, () => {
+        //   this.loading = false
+        // })
       }
     }
   }
