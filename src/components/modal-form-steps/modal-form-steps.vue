@@ -3,12 +3,28 @@
     v-model="modalVisible"
     :mask-closable="false"
     :closable="false"
+    :title="title"
   >
-    <p slot="header">{{ title }}</p>
-    <form-editable ref="editForm" :editable-values="editableValues" @on-submit-form="handleSubmit" />
+    <Tabs :animated="false">
+      <TabPane
+        v-for="(item, index) in editableValList"
+        :key="`${_uid}_${index}`"
+        :label="item.label"
+        :disabled="tabDisabledList[item.name]"
+      >
+        <form-editable
+          :ref="`editForm_${index}`"
+          :editable-values="valueList[item.name]"
+          @on-submit-form="handleSubmit"
+        />
+      </TabPane>
+    </Tabs>
     <div slot="footer">
       <Button @click="handleCancel">Cancel</Button>
-      <Button type="primary" :loading="loading" @click="() => this.$refs.editForm.handleSubmit()">{{ comfirmText }}</Button>
+      <Button type="primary" :loading="loading" @click="() => this.$refs.editForm.handleSubmit()">{{
+          comfirmText
+        }}
+      </Button>
     </div>
   </Modal>
 </template>
@@ -23,7 +39,9 @@
     },
     data () {
       return {
-        loading: false
+        loading: false,
+        tabDisabledList: {},
+        valueList: {}
       }
     },
     props: {
@@ -39,12 +57,27 @@
         type: String,
         default: 'Confirm'
       },
-      editableValues: {
+      editableValList: {
         type: Array,
         default: () => []
       }
     },
+    watch: {
+      editableValList () {
+        this.setInitValue()
+      }
+    },
     methods: {
+      setInitValue () {
+        const valueList = {}
+        const tabDisabledList = {}
+        this.editableValList.forEach(item => {
+          valueList[item.name] = item.data
+          tabDisabledList[item.name] = item.disabled
+        })
+        this.valueList = valueList
+        this.tabDisabledList = tabDisabledList
+      },
       handleCancel () {
         this.$emit('on-cancel')
       },
@@ -54,6 +87,9 @@
         //   this.loading = false
         // })
       }
+    },
+    mounted () {
+      this.setInitValue()
     }
   }
 </script>

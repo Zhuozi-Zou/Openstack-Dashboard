@@ -8,7 +8,11 @@
       :key="`${_uid}_${index}`"
       :error="errorStore[item.name]"
     >
-      <component :is="item.type" v-model="valueList[item.name]">
+      <component
+        :is="item.type"
+        @on-change="handleOnChange(item)"
+        v-model="valueList[item.name]"
+      >
         <template v-if="item.children">
           <component
             v-for="(child, i) in item.children.list"
@@ -61,6 +65,9 @@
         this.$refs.form.validate(valid => {
           if (valid) this.$emit('on-submit-form', this.valueList)
         })
+      },
+      handleOnChange (item) {
+        if (item.change) return item.change()
       }
     },
     mounted () {

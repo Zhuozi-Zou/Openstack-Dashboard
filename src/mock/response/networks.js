@@ -71,7 +71,7 @@ export const networksCol = [
           type: 'primary',
           size: 'small',
           on: {
-            click: () => station.$emit('on-modal-edit-open', index)
+            click: () => station.$emit('on-networks-edit-open', index)
           }
         }, 'Edit Network')
       ])
@@ -125,7 +125,8 @@ export const newNetworkValues = [
     name: 'create_subnet',
     type: 'checkbox',
     value: true,
-    label: 'Create Subnet'
+    label: 'Create Subnet',
+    change: () => station.$emit('on-networks-subnet-selected')
   }
 ]
 
@@ -157,8 +158,14 @@ export const newSubnetValues = [
     children: {
       type: 'i-option',
       list: [
-        { value: 4, title: 'IPv4' },
-        { value: 6, title: 'IPv6' }
+        {
+          value: 4,
+          title: 'IPv4'
+        },
+        {
+          value: 6,
+          title: 'IPv6'
+        }
       ]
     }
   },
@@ -181,7 +188,7 @@ export const newSubnetDetailsValues = [
     name: 'enable_dhcp ',
     type: 'checkbox',
     value: true,
-    label: 'Disable Gateway'
+    label: 'Enable DHCP'
   },
   {
     name: 'allocation_pools  ',
@@ -200,5 +207,26 @@ export const newSubnetDetailsValues = [
     type: 'i-input',
     value: '',
     label: 'Host Routes'
+  }
+]
+
+export const createNetworkValues = [
+  {
+    name: 'network',
+    label: 'Network',
+    disabled: false,
+    data: newNetworkValues
+  },
+  {
+    name: 'subnet',
+    label: 'Subnet',
+    disabled: false,
+    data: newSubnetValues
+  },
+  {
+    name: 'subnet_details',
+    label: 'Subnet Details',
+    disabled: false,
+    data: newSubnetDetailsValues
   }
 ]

@@ -3,8 +3,8 @@
     v-model="modalVisible"
     :mask-closable="false"
     :closable="false"
+    :title="title"
   >
-    <p slot="header">{{ title }}</p>
     <form-editable ref="editForm" :editable-values="editableValues" @on-submit-form="handleSubmit" />
     <div slot="footer">
       <Button @click="handleCancel">Cancel</Button>

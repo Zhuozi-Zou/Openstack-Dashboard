@@ -17,8 +17,9 @@
       @on-submit="hanldeSubmitEdit"
     />
     <modal-form-steps
+      ref="formStep"
       :modal-visible="createModalVisible"
-      :editable-values="newNetworkValues"
+      :editable-val-list="editableValList"
       :title="'Create Network'"
       :comfirm-text="'Create'"
       @on-cancel="() => this.createModalVisible = false"
@@ -29,7 +30,11 @@
 <script>
   import { mapActions } from 'vuex'
   import ModalForm from '_c/modal-form'
-  import { editableValues, networksCol, newNetworkValues, newSubnetValues, newSubnetDetailsValues } from '@/mock/response/networks'
+  import {
+    editableValues,
+    networksCol,
+    createNetworkValues
+  } from '@/mock/response/networks'
   import { station } from '@/lib/util'
   import ModalFormSteps from '_c/modal-form-steps'
 
@@ -47,9 +52,10 @@
         tableValues: [],
         editableValues: [],
         columns: networksCol,
-        newNetworkValues,
+        editableValList: createNetworkValues,
         editIndex: -1,
-        loading: false
+        loading: false,
+        createSubnet: true
       }
     },
     methods: {
@@ -98,8 +104,14 @@
     async mounted () {
       this.networks = await this.getNetworks()
       await this.formTableValues()
-      station.$on('on-modal-edit-open', index => {
+      station.$on('on-networks-edit-open', index => {
         this.handleClickEdit(index)
+      })
+      station.$on('on-networks-subnet-selected', () => {
+        this.createSubnet = !this.createSubnet
+        this.editableValList[1].disabled = !this.createSubnet
+        this.editableValList[2].disabled = !this.createSubnet
+        this.$refs.formStep.setInitValue()
       })
     }
   }
