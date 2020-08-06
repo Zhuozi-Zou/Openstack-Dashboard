@@ -3,16 +3,16 @@
     <div class="networks-header">
       <div class="buttons">
         <Button @click="handleClickCreate">Create Network</Button>
-        <Button class="del-button" :disabled="deleteButtonDisabled">Delete Networks</Button>
+        <Button class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
       </div>
     </div>
     <br>
-    <Table border :columns="columns" :data="tableValues" @on-selection-change="checkDeleteButton"/>
+    <Table border :columns="columns" :data="tableValues" @on-selection-change="handleSelectionChange" no-data-text="No data"/>
     <modal-form
       :modal-visible="editModalVisible"
       :editable-values="editableValues"
-      :title="'Edit Network'"
-      :comfirm-text="'Save Changes'"
+      title="Edit Network"
+      comfirm-text="Save Changes"
       @on-cancel="() => this.editModalVisible = false"
       @on-modal-form-submit="hanldeSubmitEdit"
     />
@@ -20,11 +20,19 @@
       ref="formStep"
       :modal-visible="createModalVisible"
       :editable-val-list="editableValList"
-      :title="'Create Network'"
-      :comfirm-text="'Create'"
+      title="Create Network"
+      comfirm-text="Create"
       @on-cancel="() => this.createModalVisible = false"
       @on-modal-form-steps-submit="hanldeSubmitEditSteps"
     />
+    <Modal v-model="deleteModalVisible" title="Comfirm Delete Networks">
+      {{ `You have selected: ${selectedNetNames}. Please confirm your selection. This action cannot be undone.` }}
+      <div slot="footer">
+        <Button @click="() => this.deleteModalVisible = false">Cancel</Button>
+        <Button type="error" :loading="deleteLoading" @click="handleDeleteNetworks">Delete Networks
+        </Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -47,6 +55,7 @@
       return {
         editModalVisible: false,
         createModalVisible: false,
+        deleteModalVisible: false,
         networks: [],
         tableValues: [],
         editableValues: [],
@@ -54,7 +63,10 @@
         editableValList: createNetworkValues,
         editIndex: -1,
         loading: false,
-        deleteButtonDisabled: true
+        deleteButtonDisabled: true,
+        selection: [],
+        deleteLoading: false,
+        selectedNetNames: ''
       }
     },
     methods: {
@@ -65,7 +77,17 @@
         'createNetworkWithSubnet',
         'createNetwork'
       ]),
-      checkDeleteButton (selection) {
+      handleDeleteNetworks () {
+
+      },
+      handleClickDeleteNetworks () {
+        this.selectedNetNames = this.selection.map(item => {
+          return `"${item.name}"`
+        }).join(', ')
+        this.deleteModalVisible = true
+      },
+      handleSelectionChange (selection) {
+        this.selection = selection
         this.deleteButtonDisabled = !selection.length > 0
       },
       async formTableValues () {
