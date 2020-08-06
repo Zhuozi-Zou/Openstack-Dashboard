@@ -3,11 +3,11 @@
     <div class="networks-header">
       <div class="buttons">
         <Button @click="handleClickCreate">Create Network</Button>
-        <Button class="del-button">Delete Networks</Button>
+        <Button class="del-button" :disabled="deleteButtonDisabled">Delete Networks</Button>
       </div>
     </div>
     <br>
-    <Table border :columns="columns" :data="tableValues"/>
+    <Table border :columns="columns" :data="tableValues" @on-selection-change="checkDeleteButton"/>
     <modal-form
       :modal-visible="editModalVisible"
       :editable-values="editableValues"
@@ -53,7 +53,8 @@
         columns: networksCol,
         editableValList: createNetworkValues,
         editIndex: -1,
-        loading: false
+        loading: false,
+        deleteButtonDisabled: true
       }
     },
     methods: {
@@ -64,6 +65,9 @@
         'createNetworkWithSubnet',
         'createNetwork'
       ]),
+      checkDeleteButton (selection) {
+        this.deleteButtonDisabled = !selection.length > 0
+      },
       async formTableValues () {
         this.tableValues = await Promise.all(this.networks.map(async item => {
           const subnets = await Promise.all(item.subnets.map(async id => {
@@ -131,11 +135,7 @@
               return { destination, nexthop }
             })
           }
-
-          await this.createNetworkWithSubnet({
-            network,
-            subnet: valueList
-          })
+          await this.createNetworkWithSubnet({ network, subnet: valueList })
         }
 
         this.networks = await this.getNetworks()
