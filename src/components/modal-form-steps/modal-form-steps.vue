@@ -10,20 +10,19 @@
         v-for="(item, index) in editableValList"
         :key="`${_uid}_${index}`"
         :label="item.label"
-        :disabled="tabDisabledList[item.name]"
+        :disabled="item.disabled"
       >
         <form-editable
-          :ref="`editForm_${index}`"
+          :ref="item.name"
           :editable-values="valueList[item.name]"
           @on-submit-form="handleSubmit"
+          @on-submit-form-invalid="handleSubmitInvalid"
         />
       </TabPane>
     </Tabs>
     <div slot="footer">
       <Button @click="handleCancel">Cancel</Button>
-      <Button type="primary" :loading="loading" @click="() => this.$refs.editForm.handleSubmit()">{{
-          comfirmText
-        }}
+      <Button type="primary" :loading="loading" @click="handleClickSubmit">{{ comfirmText }}
       </Button>
     </div>
   </Modal>
@@ -40,8 +39,9 @@
     data () {
       return {
         loading: false,
-        tabDisabledList: {},
-        valueList: {}
+        valueList: {},
+        filledValues: {},
+        remainFormToCheck: 0
       }
     },
     props: {
@@ -70,22 +70,45 @@
     methods: {
       setInitValue () {
         const valueList = {}
-        const tabDisabledList = {}
         this.editableValList.forEach(item => {
           valueList[item.name] = item.data
-          tabDisabledList[item.name] = item.disabled
         })
         this.valueList = valueList
-        this.tabDisabledList = tabDisabledList
       },
       handleCancel () {
         this.$emit('on-cancel')
       },
       handleSubmit (valueList) {
-        // this.loading = true
-        // this.$emit('on-submit', valueList, () => {
-        //   this.loading = false
-        // })
+        if (this.remainFormToCheck !== -10) {
+          Object.assign(this.filledValues, valueList)
+          --this.remainFormToCheck
+
+          if (this.remainFormToCheck === 0) {
+            this.loading = true
+            this.$emit('on-modal-form-steps-submit', this.filledValues, () => {
+              this.loading = false
+              this.editableValList.forEach(item => {
+                this.$refs[item.name][0].handleReset()
+              })
+            })
+          }
+        }
+      },
+      handleSubmitInvalid () {
+        this.$Message.error('Info filled not valid')
+        this.remainFormToCheck = -10
+      },
+      handleClickSubmit () {
+        this.remainFormToCheck = 0
+        this.filledValues = {}
+        this.editableValList.forEach(item => {
+          if (!item.disabled) ++this.remainFormToCheck
+        })
+        this.editableValList.forEach(item => {
+          if (!item.disabled) {
+            this.$refs[item.name][0].handleSubmit()
+          }
+        })
       }
     },
     mounted () {

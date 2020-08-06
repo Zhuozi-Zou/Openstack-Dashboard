@@ -50,7 +50,7 @@
       },
       handleSubmit (valueList) {
         this.loading = true
-        this.$emit('on-submit', valueList, () => {
+        this.$emit('on-modal-form-submit', valueList, () => {
           this.loading = false
         })
       }

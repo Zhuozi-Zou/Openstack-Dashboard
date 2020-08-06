@@ -104,7 +104,7 @@ export const editableValues = net => {
 
 export const newNetworkValues = [
   {
-    name: 'name',
+    name: 'net_name',
     type: 'i-input',
     value: '',
     label: 'Network Name'
@@ -170,7 +170,7 @@ export const newSubnetValues = [
     }
   },
   {
-    name: 'gateway_ip ',
+    name: 'gateway_ip',
     type: 'i-input',
     value: '',
     label: 'Gateway IP'
@@ -185,26 +185,29 @@ export const newSubnetValues = [
 
 export const newSubnetDetailsValues = [
   {
-    name: 'enable_dhcp ',
+    name: 'enable_dhcp',
     type: 'checkbox',
     value: true,
     label: 'Enable DHCP'
   },
   {
-    name: 'allocation_pools  ',
+    name: 'allocation_pools',
     type: 'i-input',
+    subType: 'textarea',
     value: '',
     label: 'Allocation Pools'
   },
   {
-    name: 'dns_nameservers  ',
+    name: 'dns_nameservers',
     type: 'i-input',
+    subType: 'textarea',
     value: '',
     label: 'DNS Name Servers'
   },
   {
-    name: 'host_routes  ',
+    name: 'host_routes',
     type: 'i-input',
+    subType: 'textarea',
     value: '',
     label: 'Host Routes'
   }

@@ -6,5 +6,7 @@ module.exports = function (app) {
 
   app.get('/neutron/getNetworks', neutron.getNetworks)
   app.get('/neutron/getSubnetById', neutron.getSubnetById)
+  app.post('/neutron/createNetwork', neutron.createNetwork)
+  app.post('/neutron/createSubnet', neutron.createSubnet)
   app.put('/neutron/updateNetworkById', neutron.updateNetworkById)
 }

@@ -30,3 +30,25 @@ export const updateNetworkById = (token, id, network) => {
     }
   })
 }
+
+export const createNetwork = (token, network) => {
+  return axios.request({
+    url: '/neutron/createNetwork',
+    method: 'post',
+    data: {
+      token,
+      network
+    }
+  })
+}
+
+export const createSubnet = (token, subnet) => {
+  return axios.request({
+    url: '/neutron/createSubnet',
+    method: 'post',
+    data: {
+      token,
+      subnet
+    }
+  })
+}

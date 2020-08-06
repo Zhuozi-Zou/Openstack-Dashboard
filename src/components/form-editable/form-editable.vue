@@ -10,6 +10,7 @@
     >
       <component
         :is="item.type"
+        :type="item.subType"
         @on-change="handleOnChange(item)"
         v-model="valueList[item.name]"
       >
@@ -64,10 +65,14 @@
       handleSubmit () {
         this.$refs.form.validate(valid => {
           if (valid) this.$emit('on-submit-form', this.valueList)
+          else this.$emit('on-submit-form-invalid')
         })
       },
       handleOnChange (item) {
         if (item.change) return item.change()
+      },
+      handleReset () {
+        this.$refs.form.resetFields()
       }
     },
     mounted () {

@@ -2,7 +2,7 @@
   <div>
     <div class="networks-header">
       <div class="buttons">
-        <Button @click="() => this.createModalVisible = true">Create Network</Button>
+        <Button @click="handleClickCreate">Create Network</Button>
         <Button class="del-button">Delete Networks</Button>
       </div>
     </div>
@@ -14,7 +14,7 @@
       :title="'Edit Network'"
       :comfirm-text="'Save Changes'"
       @on-cancel="() => this.editModalVisible = false"
-      @on-submit="hanldeSubmitEdit"
+      @on-modal-form-submit="hanldeSubmitEdit"
     />
     <modal-form-steps
       ref="formStep"
@@ -23,19 +23,18 @@
       :title="'Create Network'"
       :comfirm-text="'Create'"
       @on-cancel="() => this.createModalVisible = false"
+      @on-modal-form-steps-submit="hanldeSubmitEditSteps"
     />
   </div>
 </template>
 
 <script>
   import { mapActions } from 'vuex'
+  import clonedeep from 'clonedeep'
   import ModalForm from '_c/modal-form'
-  import {
-    editableValues,
-    networksCol,
-    createNetworkValues
-  } from '@/mock/response/networks'
+  import { createNetworkValues, editableValues, networksCol, newNetworkValues } from '@/mock/response/networks'
   import { station } from '@/lib/util'
+  import { objDelReturn, objRemoveEmptyVal } from '@/lib/tools'
   import ModalFormSteps from '_c/modal-form-steps'
 
   export default {
@@ -62,7 +61,9 @@
       ...mapActions([
         'getNetworks',
         'getSubnetById',
-        'updateNetworkById'
+        'updateNetworkById',
+        'createNetworkWithSubnet',
+        'createNetwork'
       ]),
       async formTableValues () {
         this.tableValues = await Promise.all(this.networks.map(async item => {
@@ -87,6 +88,12 @@
         this.editIndex = index
         this.editModalVisible = true
       },
+      handleClickCreate () {
+        this.createSubnet = true
+        this.editableValList[1].disabled = false
+        this.editableValList[2].disabled = false
+        this.createModalVisible = true
+      },
       async hanldeSubmitEdit (network, cb) {
         const data = {
           id: this.networks[this.editIndex].id,
@@ -98,6 +105,47 @@
         }
         this.editIndex = -1
         this.editModalVisible = false
+        cb()
+      },
+      async hanldeSubmitEditSteps (filledValues, cb) {
+        const valueList = clonedeep(filledValues)
+        const network = {}
+        newNetworkValues.forEach(item => {
+          network[item.name] = objDelReturn(valueList, item.name)
+        })
+        network.name = objDelReturn(network, 'net_name')
+
+        if (objDelReturn(network, 'create_subnet')) {
+          objRemoveEmptyVal(valueList)
+
+          if ('allocation_pools' in valueList) {
+            valueList.allocation_pools = valueList.allocation_pools.split('\n').map(item => {
+              const [start, end] = item.split(',')
+              return { start, end }
+            })
+          }
+
+          if ('dns_nameservers' in valueList) valueList.dns_nameservers = valueList.dns_nameservers.split('\n')
+
+          if ('host_routes' in valueList) {
+            valueList.host_routes = valueList.host_routes.split('\n').map(item => {
+              const [destination, nexthop] = item.split(',')
+              return { destination, nexthop }
+            })
+          }
+
+          const data = {
+            network,
+            subnet: valueList
+          }
+          await this.createNetworkWithSubnet(data)
+        } else {
+          await this.createNetwork(network)
+        }
+
+        // this.networks = await this.getNetworks()
+
+        this.createModalVisible = false
         cb()
       }
     },
@@ -111,7 +159,6 @@
         this.createSubnet = !this.createSubnet
         this.editableValList[1].disabled = !this.createSubnet
         this.editableValList[2].disabled = !this.createSubnet
-        this.$refs.formStep.setInitValue()
       })
     }
   }
