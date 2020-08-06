@@ -52,3 +52,14 @@ export const createSubnet = (token, subnet) => {
     }
   })
 }
+
+export const deleteNetwork = (token, id) => {
+  return axios.request({
+    url: '/neutron/deleteNetwork',
+    method: 'delete',
+    data: {
+      token,
+      id
+    }
+  })
+}

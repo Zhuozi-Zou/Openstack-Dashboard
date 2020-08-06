@@ -52,3 +52,12 @@ exports.createSubnet = (req, res) => {
   options.headers['Content-Length'] = subnetString.length
   httpRequest(options, res, subnetString)
 }
+
+exports.deleteNetwork = (req, res) => {
+  const { token, id } = req.body
+  if (!token) res.status(401).send()
+  if (!id) res.status(400).send()
+
+  const options = getOptions(`/v2.0/networks/${id}`, 'DELETE', token)
+  httpRequest(options, res)
+}

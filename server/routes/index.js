@@ -9,4 +9,5 @@ module.exports = function (app) {
   app.post('/neutron/createNetwork', neutron.createNetwork)
   app.post('/neutron/createSubnet', neutron.createSubnet)
   app.put('/neutron/updateNetworkById', neutron.updateNetworkById)
+  app.delete('/neutron/deleteNetwork', neutron.deleteNetwork)
 }

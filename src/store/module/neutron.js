@@ -1,4 +1,4 @@
-import { createNetwork, createSubnet, getNetworks, getSubnetById, updateNetworkById } from '@/api/neutron'
+import { createNetwork, createSubnet, getNetworks, getSubnetById, updateNetworkById, deleteNetwork } from '@/api/neutron'
 import { getNewToken, getToken } from '@/lib/util'
 
 const state = {
@@ -87,6 +87,11 @@ const actions = {
     } catch (e) {
       console.log('createNetwork: ' + e)
     }
+  },
+  async deleteNetworks (params, networks) {
+    for (const item of networks) {
+      await deleteNetworkHelper(item.id)
+    }
   }
 }
 
@@ -103,7 +108,20 @@ const createSubnetHelper = async (subnet) => {
       return newRes.data.data.subnet
     }
   } catch (e) {
-    console.log('getNetworks: ' + e)
+    console.log('createSubnetHelper: ' + e)
+  }
+}
+
+const deleteNetworkHelper = async (id) => {
+  const token = await getToken()
+  try {
+    const res = await deleteNetwork(token, id)
+    if (res.data.code === 401) {
+      console.log('token expired, requesting a new one...')
+      await createSubnet(await getNewToken(), id)
+    }
+  } catch (e) {
+    console.log('deleteNetworkHelper: ' + e)
   }
 }
 

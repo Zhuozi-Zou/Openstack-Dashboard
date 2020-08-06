@@ -23,9 +23,11 @@ exports.httpRequest = (options, res, body = '') => {
     response.on('data', d => {
       data += data + d
     }).on('end', () => {
+      let finalData = {}
+      if (data) finalData = JSON.parse(data)
       res.send({
         code: response.statusCode,
-        data: JSON.parse(data)
+        data: finalData
       })
     })
   })

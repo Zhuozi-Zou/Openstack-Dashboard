@@ -7,7 +7,7 @@
       </div>
     </div>
     <br>
-    <Table border :columns="columns" :data="tableValues" @on-selection-change="handleSelectionChange" no-data-text="No data"/>
+    <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
     <modal-form
       :modal-visible="editModalVisible"
       :editable-values="editableValues"
@@ -63,10 +63,14 @@
         editableValList: createNetworkValues,
         editIndex: -1,
         loading: false,
-        deleteButtonDisabled: true,
         selection: [],
         deleteLoading: false,
         selectedNetNames: ''
+      }
+    },
+    computed: {
+      deleteButtonDisabled () {
+        return !this.selection.length > 0
       }
     },
     methods: {
@@ -75,20 +79,26 @@
         'getSubnetById',
         'updateNetworkById',
         'createNetworkWithSubnet',
-        'createNetwork'
+        'createNetwork',
+        'deleteNetworks'
       ]),
-      handleDeleteNetworks () {
-
+      async refreshData () {
+        this.networks = await this.getNetworks()
+        await this.formTableValues()
+      },
+      async handleDeleteNetworks () {
+        this.deleteLoading = true
+        await this.deleteNetworks(this.selection)
+        await this.refreshData()
+        this.selection = []
+        this.deleteLoading = false
+        this.deleteModalVisible = false
       },
       handleClickDeleteNetworks () {
         this.selectedNetNames = this.selection.map(item => {
           return `"${item.name}"`
         }).join(', ')
         this.deleteModalVisible = true
-      },
-      handleSelectionChange (selection) {
-        this.selection = selection
-        this.deleteButtonDisabled = !selection.length > 0
       },
       async formTableValues () {
         this.tableValues = await Promise.all(this.networks.map(async item => {
@@ -98,6 +108,7 @@
           }))
 
           return {
+            id: item.id,
             name: item.name || `(${item.id.substring(0, 13)})`,
             subnets_associated: subnets,
             shared: item.shared ? 'Yes' : 'No',
@@ -160,8 +171,7 @@
           await this.createNetworkWithSubnet({ network, subnet: valueList })
         }
 
-        this.networks = await this.getNetworks()
-        await this.formTableValues()
+        await this.refreshData()
         this.createModalVisible = false
         cb()
       }
