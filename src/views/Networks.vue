@@ -118,33 +118,36 @@
         if (objDelReturn(network, 'create_subnet')) {
           objRemoveEmptyVal(valueList)
 
-          if ('allocation_pools' in valueList) {
+          if (!('allocation_pools' in valueList)) {
+            await this.createNetwork(network)
+          } else {
             valueList.allocation_pools = valueList.allocation_pools.split('\n').map(item => {
               const [start, end] = item.split(',')
-              return { start, end }
+              return {
+                start,
+                end
+              }
             })
           }
-
           if ('dns_nameservers' in valueList) valueList.dns_nameservers = valueList.dns_nameservers.split('\n')
-
           if ('host_routes' in valueList) {
             valueList.host_routes = valueList.host_routes.split('\n').map(item => {
               const [destination, nexthop] = item.split(',')
-              return { destination, nexthop }
+              return {
+                destination,
+                nexthop
+              }
             })
           }
 
-          const data = {
+          await this.createNetworkWithSubnet({
             network,
             subnet: valueList
-          }
-          await this.createNetworkWithSubnet(data)
-        } else {
-          await this.createNetwork(network)
+          })
         }
 
-        // this.networks = await this.getNetworks()
-
+        this.networks = await this.getNetworks()
+        await this.formTableValues()
         this.createModalVisible = false
         cb()
       }

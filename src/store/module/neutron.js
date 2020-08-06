@@ -58,10 +58,6 @@ const actions = {
       const resNet = await createNetwork(token, network)
       if (resNet.data.code === 201) {
         subnet.network_id = resNet.data.data.network.id
-        console.log('2')
-        console.log(subnet)
-
-        console.log('3')
         console.log(await createSubnetHelper(subnet))
       } else if (resNet.data.code === 401) {
         console.log('token expired, requesting a new one...')
