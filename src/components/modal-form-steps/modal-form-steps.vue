@@ -75,6 +75,11 @@
         })
         this.valueList = valueList
       },
+      resetForm () {
+        this.editableValList.forEach(item => {
+          this.$refs[item.name][0].handleReset()
+        })
+      },
       handleCancel () {
         this.$emit('on-cancel')
       },
@@ -87,9 +92,7 @@
             this.loading = true
             this.$emit('on-modal-form-steps-submit', this.filledValues, () => {
               this.loading = false
-              this.editableValList.forEach(item => {
-                this.$refs[item.name][0].handleReset()
-              })
+              this.resetForm()
             })
           }
         }

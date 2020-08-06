@@ -53,8 +53,7 @@
         columns: networksCol,
         editableValList: createNetworkValues,
         editIndex: -1,
-        loading: false,
-        createSubnet: true
+        loading: false
       }
     },
     methods: {
@@ -89,9 +88,9 @@
         this.editModalVisible = true
       },
       handleClickCreate () {
-        this.createSubnet = true
         this.editableValList[1].disabled = false
         this.editableValList[2].disabled = false
+        this.$refs.formStep.resetForm()
         this.createModalVisible = true
       },
       async hanldeSubmitEdit (network, cb) {
@@ -152,9 +151,8 @@
         this.handleClickEdit(index)
       })
       station.$on('on-networks-subnet-selected', () => {
-        this.createSubnet = !this.createSubnet
-        this.editableValList[1].disabled = !this.createSubnet
-        this.editableValList[2].disabled = !this.createSubnet
+        this.editableValList[1].disabled = !this.editableValList[1].disabled
+        this.editableValList[2].disabled = !this.editableValList[2].disabled
       })
     }
   }
