@@ -115,28 +115,21 @@
         })
         network.name = objDelReturn(network, 'net_name')
 
-        if (objDelReturn(network, 'create_subnet')) {
+        if (!objDelReturn(network, 'create_subnet')) {
+          await this.createNetwork(network)
+        } else {
           objRemoveEmptyVal(valueList)
-
-          if (!('allocation_pools' in valueList)) {
-            await this.createNetwork(network)
-          } else {
+          if ('allocation_pools' in valueList) {
             valueList.allocation_pools = valueList.allocation_pools.split('\n').map(item => {
               const [start, end] = item.split(',')
-              return {
-                start,
-                end
-              }
+              return { start, end }
             })
           }
           if ('dns_nameservers' in valueList) valueList.dns_nameservers = valueList.dns_nameservers.split('\n')
           if ('host_routes' in valueList) {
             valueList.host_routes = valueList.host_routes.split('\n').map(item => {
               const [destination, nexthop] = item.split(',')
-              return {
-                destination,
-                nexthop
-              }
+              return { destination, nexthop }
             })
           }
 

@@ -21,7 +21,7 @@ const actions = {
         return newRes.data.data.networks
       }
     } catch (e) {
-      console.log(e)
+      console.log('getNetworks: ' + e)
     }
   },
   async getSubnetById (params, id) {
@@ -35,7 +35,7 @@ const actions = {
         return newRes.data.data.subnets[0]
       }
     } catch (e) {
-      console.log(e)
+      console.log('getSubnetById: ' + e)
     }
   },
   async updateNetworkById (params, { id, network }) {
@@ -49,7 +49,7 @@ const actions = {
         return newRes.data.data.network
       }
     } catch (e) {
-      console.log(e)
+      console.log('updateNetworkById: ' + e)
     }
   },
   async createNetworkWithSubnet (params, { network, subnet }) {
@@ -58,7 +58,7 @@ const actions = {
       const resNet = await createNetwork(token, network)
       if (resNet.data.code === 201) {
         subnet.network_id = resNet.data.data.network.id
-        console.log(await createSubnetHelper(subnet))
+        await createSubnetHelper(subnet)
       } else if (resNet.data.code === 401) {
         console.log('token expired, requesting a new one...')
         const newResNet = await createNetwork(await getNewToken(), network)
@@ -66,7 +66,7 @@ const actions = {
         await createSubnetHelper(subnet)
       }
     } catch (e) {
-      console.log(e)
+      console.log('createNetworkWithSubnet: ' + e)
     }
   },
   async createSubnet (params, subnet) {
@@ -85,7 +85,7 @@ const actions = {
         return newResNet.data.data.network
       }
     } catch (e) {
-      console.log(e)
+      console.log('createNetwork: ' + e)
     }
   }
 }
@@ -103,7 +103,7 @@ const createSubnetHelper = async (subnet) => {
       return newRes.data.data.subnet
     }
   } catch (e) {
-    console.log(e)
+    console.log('getNetworks: ' + e)
   }
 }
 
