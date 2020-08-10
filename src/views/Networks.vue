@@ -45,6 +45,8 @@
   import { objDelReturn, objRemoveEmptyVal } from '@/lib/tools'
   import ModalFormSteps from '_c/modal-form-steps'
 
+  const log = console.log
+
   export default {
     name: 'Networks',
     components: {
@@ -83,16 +85,24 @@
         'deleteNetworks'
       ]),
       async refreshData () {
-        this.networks = await this.getNetworks()
-        await this.formTableValues()
+        try {
+          this.networks = await this.getNetworks()
+          await this.formTableValues()
+        } catch (e) {
+          log(e)
+        }
       },
       async handleDeleteNetworks () {
         this.deleteLoading = true
-        await this.deleteNetworks(this.selection)
-        await this.refreshData()
-        this.selection = []
-        this.deleteLoading = false
-        this.deleteModalVisible = false
+        try {
+          await this.deleteNetworks(this.selection)
+          await this.refreshData()
+          this.selection = []
+          this.deleteLoading = false
+          this.deleteModalVisible = false
+        } catch (e) {
+          log(e)
+        }
       },
       handleClickDeleteNetworks () {
         this.selectedNetNames = this.selection.map(item => {
@@ -103,8 +113,12 @@
       async formTableValues () {
         this.tableValues = await Promise.all(this.networks.map(async item => {
           const subnets = await Promise.all(item.subnets.map(async id => {
-            const subnet = await this.getSubnetById(id)
-            return `${subnet.name} ${subnet.cidr}`
+            try {
+              const subnet = await this.getSubnetById(id)
+              return `${subnet.name} ${subnet.cidr}`
+            } catch (e) {
+              log(e)
+            }
           }))
 
           return {
@@ -136,8 +150,12 @@
           network
         }
         if (this.editIndex !== -1) {
-          this.networks[this.editIndex] = await this.updateNetworkById(data)
-          await this.formTableValues()
+          try {
+            this.networks[this.editIndex] = await this.updateNetworkById(data)
+            await this.formTableValues()
+          } catch (e) {
+            log(e)
+          }
         }
         this.editIndex = -1
         this.editModalVisible = false
@@ -151,41 +169,49 @@
         })
         network.name = objDelReturn(network, 'net_name')
 
-        if (!objDelReturn(network, 'create_subnet')) {
-          await this.createNetwork(network)
-        } else {
-          objRemoveEmptyVal(valueList)
-          if ('allocation_pools' in valueList) {
-            valueList.allocation_pools = valueList.allocation_pools.split('\n').map(item => {
-              const [start, end] = item.split(',')
-              return { start, end }
-            })
+        try {
+          if (!objDelReturn(network, 'create_subnet')) {
+            await this.createNetwork(network)
+          } else {
+            objRemoveEmptyVal(valueList)
+            if ('allocation_pools' in valueList) {
+              valueList.allocation_pools = valueList.allocation_pools.split('\n').map(item => {
+                const [start, end] = item.split(',')
+                return { start, end }
+              })
+            }
+            if ('dns_nameservers' in valueList) valueList.dns_nameservers = valueList.dns_nameservers.split('\n')
+            if ('host_routes' in valueList) {
+              valueList.host_routes = valueList.host_routes.split('\n').map(item => {
+                const [destination, nexthop] = item.split(',')
+                return { destination, nexthop }
+              })
+            }
+            await this.createNetworkWithSubnet({ network, subnet: valueList })
           }
-          if ('dns_nameservers' in valueList) valueList.dns_nameservers = valueList.dns_nameservers.split('\n')
-          if ('host_routes' in valueList) {
-            valueList.host_routes = valueList.host_routes.split('\n').map(item => {
-              const [destination, nexthop] = item.split(',')
-              return { destination, nexthop }
-            })
-          }
-          await this.createNetworkWithSubnet({ network, subnet: valueList })
-        }
 
-        await this.refreshData()
-        this.createModalVisible = false
-        cb()
+          await this.refreshData()
+          this.createModalVisible = false
+          cb()
+        } catch (e) {
+          log(e)
+        }
       }
     },
     async mounted () {
-      this.networks = await this.getNetworks()
-      await this.formTableValues()
-      station.$on('on-networks-edit-open', index => {
-        this.handleClickEdit(index)
-      })
-      station.$on('on-networks-subnet-selected', () => {
-        this.editableValList[1].disabled = !this.editableValList[1].disabled
-        this.editableValList[2].disabled = !this.editableValList[2].disabled
-      })
+      try {
+        this.networks = await this.getNetworks()
+        await this.formTableValues()
+        station.$on('on-networks-edit-open', index => {
+          this.handleClickEdit(index)
+        })
+        station.$on('on-networks-subnet-selected', () => {
+          this.editableValList[1].disabled = !this.editableValList[1].disabled
+          this.editableValList[2].disabled = !this.editableValList[2].disabled
+        })
+      } catch (e) {
+        log(e)
+      }
     }
   }
 </script>

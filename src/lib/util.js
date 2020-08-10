@@ -3,7 +3,9 @@ import keystone from '../store/module/keystone'
 import Vue from 'vue'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
-  Cookies.set(tokenName, token)
+  const expires = new Date()
+  expires.setTime(expires.getTime() + 23 * 24 * 60 * 60 * 1000)
+  Cookies.set(tokenName, token, { expires })
 }
 
 export const getTokenFromCookie = (tokenName = 'token') => {
@@ -15,7 +17,7 @@ export const getNewToken = async () => {
     const res = await keystone.actions.getAdminToken()
     return res.data
   } catch (e) {
-    console.log(e)
+    console.log('getNewToken: ' + e)
   }
 }
 

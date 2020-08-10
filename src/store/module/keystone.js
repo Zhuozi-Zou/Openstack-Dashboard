@@ -12,12 +12,12 @@ const mutations = {
 const actions = {
   async getAdminToken (params) {
     console.log('getAdminToken called')
-    const res = await getAdminToken()
-    if (res.status === 201) {
+    try {
+      const res = await getAdminToken()
       setTokenToCookie(res.data)
       return res
-    } else {
-      console.log(new Error('getAdminToken error'))
+    } catch (e) {
+      console.log('getAdminToken: ' + e)
     }
   }
 }

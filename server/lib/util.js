@@ -23,12 +23,8 @@ exports.httpRequest = (options, res, body = '') => {
     response.on('data', d => {
       data += data + d
     }).on('end', () => {
-      let finalData = {}
-      if (data) finalData = JSON.parse(data)
-      res.send({
-        code: response.statusCode,
-        data: finalData
-      })
+      data = data ? JSON.parse(data) : {}
+      res.status(response.statusCode).send({ data })
     })
   })
 
