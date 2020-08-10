@@ -1,8 +1,8 @@
 const http = require('http')
-const { host, admin } = require('../config')
+const { host, admin } = require('../../config')
 const { name, password } = admin
 const port = 5000
-const getOptions = require('../lib/util').getOptions(host, port)
+const getOptions = require('../../lib/util').getOptions(host, port)
 
 exports.getAdminToken = (req, res) => {
   const authBody = {

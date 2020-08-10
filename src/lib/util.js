@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import keystone from '../store/module/keystone'
+import keystone from '../store/module/keystone/auth'
 import Vue from 'vue'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {

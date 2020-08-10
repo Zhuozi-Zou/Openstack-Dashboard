@@ -15,8 +15,8 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    neutron,
-    keystone
+    networks: neutron.networks,
+    auth: keystone.auth
   },
   plugins: [saveInLocal]
 })

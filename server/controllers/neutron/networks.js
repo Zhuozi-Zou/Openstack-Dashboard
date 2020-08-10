@@ -1,7 +1,7 @@
-const { host } = require('../config')
+const { host } = require('../../config')
 const port = 9696
-const getOptions = require('../lib/util').getOptions(host, port)
-const { httpRequest } = require('../lib/util')
+const getOptions = require('../../lib/util').getOptions(host, port)
+const { httpRequest } = require('../../lib/util')
 
 exports.getNetworks = (req, res) => {
   const token = req.query.token
