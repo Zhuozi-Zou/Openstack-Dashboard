@@ -3,6 +3,7 @@ import {
   createSubnet,
   deleteNetwork,
   getNetworks,
+  getNetworkById,
   getSubnetById,
   updateNetworkById
 } from '@/api/neutron/networks'
@@ -24,6 +25,15 @@ const actions = {
       return res.data.data.networks
     } catch (e) {
       throw new Error('getNetworks: ' + e)
+    }
+  },
+  async getNetworkById (params, id) {
+    try {
+      const token = await getToken()
+      const res = await getNetworkById(token, id)
+      return res.data.data.networks[0]
+    } catch (e) {
+      throw new Error('getNetworkById: ' + e)
     }
   },
   async getSubnetById (params, id) {

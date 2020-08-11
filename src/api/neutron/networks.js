@@ -8,6 +8,17 @@ export const getNetworks = token => {
   })
 }
 
+export const getNetworkById = (token, id) => {
+  return axios.request({
+    url: '/neutron/getNetworkById',
+    method: 'get',
+    params: {
+      token,
+      id
+    }
+  })
+}
+
 export const getSubnetById = (token, id) => {
   return axios.request({
     url: '/neutron/getSubnetById',

@@ -4,6 +4,7 @@ const networks = require('../controllers/neutron/networks')
 const floatingIps = require('../controllers/neutron/floating_ips')
 
 neutron.get('/getNetworks', networks.getNetworks)
+neutron.get('/getNetworkById', networks.getNetworkById)
 neutron.get('/getSubnetById', networks.getSubnetById)
 neutron.post('/createNetwork', networks.createNetwork)
 neutron.post('/createSubnet', networks.createSubnet)

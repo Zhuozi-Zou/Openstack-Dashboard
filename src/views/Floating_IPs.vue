@@ -42,26 +42,23 @@
     },
     methods: {
       ...mapActions([
+        'getNetworkById',
         'getFloatingIps'
       ]),
       async formTableValues () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
-          // const subnets = await Promise.all(item.subnets.map(async id => {
-          //   try {
-          //     const subnet = await this.getSubnetById(id)
-          //     return `${subnet.name} ${subnet.cidr}`
-          //   } catch (e) {
-          //     log(e)
-          //   }
-          // }))
-
-          return {
-            id: item.id,
-            floating_ip_address: item.floating_ip_address,
-            description: item.description,
-            mapped_fixed_ip_address: '',
-            pool: '',
-            status: item.status === 'ACTIVE' ? 'Active' : 'Down'
+          try {
+            const floatingNetwork = await this.getNetworkById(item.floating_network_id)
+            return {
+              id: item.id,
+              floating_ip_address: item.floating_ip_address,
+              description: item.description,
+              mapped_fixed_ip_address: '',
+              pool: floatingNetwork.name,
+              status: item.status === 'ACTIVE' ? 'Active' : 'Down'
+            }
+          } catch (e) {
+            log(e)
           }
         }))
       },
@@ -82,11 +79,6 @@
         bus.$on('on-floatingIps-disassociate-open', index => {
           this.handleClickDisassociate(index)
         })
-
-        // bus.$on('on-networks-subnet-selected', () => {
-        //   this.editableValList[1].disabled = !this.editableValList[1].disabled
-        //   this.editableValList[2].disabled = !this.editableValList[2].disabled
-        // })
       } catch (e) {
         log(e)
       }

@@ -12,6 +12,16 @@ exports.getNetworks = (req, res) => {
   }
 }
 
+exports.getNetworkById = (req, res) => {
+  const { token, id } = req.query
+  if (!token) res.status(401).send()
+  else if (!id) res.status(400).send()
+  else {
+    const options = getOptions(`/v2.0/networks?id=${id}`, 'GET', token)
+    httpRequest(options, res)
+  }
+}
+
 exports.getSubnetById = (req, res) => {
   const { token, id } = req.query
   if (!token) res.status(401).send()
