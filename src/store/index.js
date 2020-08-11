@@ -16,6 +16,7 @@ export default new Vuex.Store({
   actions,
   modules: {
     networks: neutron.networks,
+    floatingIps: neutron.floatingIps,
     auth: keystone.auth
   },
   plugins: [saveInLocal]

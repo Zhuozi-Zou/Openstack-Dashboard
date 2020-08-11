@@ -22,8 +22,24 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Create a session cookie
+const session = require('express-session')
+app.use(session({
+  secret: 'oursecret',
+  resave: false,
+  saveUninitialized: false
+  // cookie: {
+  //   expires: 3600000,
+  //   httpOnly: true
+  // }
+})
+)
+
 // routes
-require('./routes/index.js')(app)
+const neutron = require('./routes/neutron')
+const keystone = require('./routes/keystone')
+app.use('/neutron', neutron)
+app.use('/keystone', keystone)
 
 // cors stuff
 app.use(cors({

@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie'
 import keystone from '../store/module/keystone/auth'
-import Vue from 'vue'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
   const expires = new Date()
@@ -28,5 +27,3 @@ export const getToken = async () => {
   }
   return token
 }
-
-export const station = new Vue()

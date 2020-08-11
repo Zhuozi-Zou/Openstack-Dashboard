@@ -1,4 +1,4 @@
-import { getAdminToken } from '@/api/keystone'
+import { getAdminToken } from '@/api/keystone/auth'
 import { setTokenToCookie } from '@/lib/util'
 
 const state = {

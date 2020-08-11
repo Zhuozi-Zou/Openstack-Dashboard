@@ -1,4 +1,4 @@
-import { station } from '@/lib/util'
+import bus from '@/lib/bus'
 
 export const networksCol = [
   {
@@ -42,7 +42,7 @@ export const networksCol = [
   {
     key: 'status',
     title: 'Status',
-    width: 100,
+    width: 92,
     sortable: true
   },
   {
@@ -71,7 +71,7 @@ export const networksCol = [
           type: 'primary',
           size: 'small',
           on: {
-            click: () => station.$emit('on-networks-edit-open', index)
+            click: () => bus.$emit('on-networks-edit-open', index)
           }
         }, 'Edit Network')
       ])
@@ -126,7 +126,7 @@ export const newNetworkValues = [
     type: 'checkbox',
     value: true,
     label: 'Create Subnet',
-    change: () => station.$emit('on-networks-subnet-selected')
+    change: () => bus.$emit('on-networks-subnet-selected')
   }
 ]
 

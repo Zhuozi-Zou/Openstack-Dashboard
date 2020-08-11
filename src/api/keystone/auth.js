@@ -1,8 +1,8 @@
-import axios from './index'
+import axios from '../index'
 
 export const getAdminToken = () => {
   return axios.request({
-    url: '/keystone/auth/getAdminToken',
+    url: '/keystone/getAdminToken',
     method: 'get'
   })
 }

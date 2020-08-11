@@ -29,8 +29,7 @@
       {{ `You have selected: ${selectedNetNames}. Please confirm your selection. This action cannot be undone.` }}
       <div slot="footer">
         <Button @click="() => this.deleteModalVisible = false">Cancel</Button>
-        <Button type="error" :loading="deleteLoading" @click="handleDeleteNetworks">Delete Networks
-        </Button>
+        <Button type="error" :loading="deleteLoading" @click="handleDeleteNetworks">Delete Networks</Button>
       </div>
     </Modal>
   </div>
@@ -41,7 +40,7 @@
   import clonedeep from 'clonedeep'
   import ModalForm from '_c/modal-form'
   import { createNetworkValues, editableValues, networksCol, newNetworkValues } from '@/mock/response/networks'
-  import { station } from '@/lib/util'
+  import bus from '@/lib/bus'
   import { objDelReturn, objRemoveEmptyVal } from '@/lib/tools'
   import ModalFormSteps from '_c/modal-form-steps'
 
@@ -127,7 +126,7 @@
             subnets_associated: subnets,
             shared: item.shared ? 'Yes' : 'No',
             external: item['router:external'] ? 'Yes' : 'No',
-            status: item.status === 'ACTIVE' ? 'Active' : 'Inactive',
+            status: item.status === 'ACTIVE' ? 'Active' : 'Down',
             admin_state_up: item.admin_state_up ? 'UP' : 'DOWN',
             availability_zones: item.availability_zones
           }
@@ -202,10 +201,14 @@
       try {
         this.networks = await this.getNetworks()
         await this.formTableValues()
-        station.$on('on-networks-edit-open', index => {
+
+        bus.$off('on-networks-edit-open')
+        bus.$on('on-networks-edit-open', index => {
           this.handleClickEdit(index)
         })
-        station.$on('on-networks-subnet-selected', () => {
+
+        bus.$off('on-networks-subnet-selected')
+        bus.$on('on-networks-subnet-selected', () => {
           this.editableValList[1].disabled = !this.editableValList[1].disabled
           this.editableValList[2].disabled = !this.editableValList[2].disabled
         })

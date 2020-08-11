@@ -5,7 +5,7 @@ import {
   getNetworks,
   getSubnetById,
   updateNetworkById
-} from '@/api/neutron'
+} from '@/api/neutron/networks'
 import { getToken } from '@/lib/util'
 
 const state = {
