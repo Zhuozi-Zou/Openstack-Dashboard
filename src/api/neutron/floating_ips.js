@@ -8,11 +8,11 @@ export const getFloatingIps = token => {
   })
 }
 
-export const createFloatingIp = (token, id) => {
+export const createFloatingIp = (token, floatingip) => {
   return axios.request({
     url: '/neutron/createFloatingIp',
     method: 'post',
-    data: { token, id }
+    data: { token, floatingip }
   })
 }
 

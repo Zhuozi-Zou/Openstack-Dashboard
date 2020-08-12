@@ -19,10 +19,10 @@ const actions = {
       throw new Error('getFloatingIps: ' + e)
     }
   },
-  async createFloatingIp (id) {
+  async createFloatingIp (params, floatingip) {
     try {
       const token = await getToken()
-      const res = await createFloatingIp(token, id)
+      const res = await createFloatingIp(token, floatingip)
       return res.data
     } catch (e) {
       throw new Error('createFloatingIp: ' + e)

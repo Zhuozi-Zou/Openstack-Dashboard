@@ -67,8 +67,17 @@
         'getNetworkById',
         'getInstanceById',
         'getFloatingIps',
-        'getFloatingIpPools'
+        'getFloatingIpPools',
+        'createFloatingIp'
       ]),
+      async refreshData () {
+        try {
+          this.floatingIps = await this.getFloatingIps()
+          await this.formTableValues()
+        } catch (e) {
+          log(e)
+        }
+      },
       async formTableValues () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
           try {
@@ -97,9 +106,10 @@
         this.confirmModalText = text
         this.confirmModalVisible = true
       },
-      setFormModal (title, confirmText) {
+      setFormModal (title, confirmText, type) {
         this.formModalTitle = title
         this.formModalConfirmText = confirmText
+        this.formModalType = type
         this.formModalVisible = true
       },
       handleClickDisassociate (index) {
@@ -120,21 +130,30 @@
           }
         }))
         this.formValues = allocateValues(poolsDetail)
-        this.setFormModal('Allocate Floating IP', 'Allocate IP')
+        this.setFormModal('Allocate Floating IP', 'Allocate IP', 'allocate')
       },
       handleClickRelease () {
         const selectedIpNames = joinSelections(this.selection, 'floating_ip_address')
         const { title, text } = confirmModalTexts(selectedIpNames).release
         this.setConfirmModal(title, text)
       },
-      hanldeSubmitForm () {
-        //
+      async hanldeAllocate (floatingip, cb) {
+        try {
+          await this.createFloatingIp(floatingip)
+          await this.refreshData()
+        } catch (e) {
+          log(e)
+        }
+        this.formModalVisible = false
+        cb()
+      },
+      async hanldeSubmitForm (values, cb) {
+        if (this.formModalType === 'allocate') await this.hanldeAllocate(values, cb)
       }
     },
     async mounted () {
       try {
-        this.floatingIps = await this.getFloatingIps()
-        await this.formTableValues()
+        await this.refreshData()
         bus.$on('on-floatingIps-disassociate-open', index => {
           this.handleClickDisassociate(index)
         })

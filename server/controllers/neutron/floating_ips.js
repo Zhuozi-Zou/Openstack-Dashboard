@@ -26,12 +26,14 @@ exports.getFloatingIps = (req, res) => {
 }
 
 exports.createFloatingIp = (req, res) => {
-  const { token, id } = req.body
+  const { token, floatingip } = req.body
   if (!token) res.status(401).send()
-  else if (!id) res.status(400).send()
+  else if (!floatingip) res.status(400).send()
   else {
-    initNeutron(req, token)
-    neutron.createFloatingIp(id, callBack(res))
+    const options = getOptions('/v2.0/floatingips', 'POST', token)
+    const floatingipString = JSON.stringify({ floatingip })
+    options.headers['Content-Length'] = floatingipString.length
+    httpRequest(options, res, floatingipString)
   }
 }
 
