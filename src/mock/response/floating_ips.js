@@ -41,15 +41,19 @@ export const floatingIpsCol = [
     title: 'Actions',
     width: 130,
     align: 'center',
-    render: (h, { index }) => {
+    render: (h, { row, index }) => {
+      const active = row.status === 'Active'
       return h('div', [
         h('Button', {
           type: 'primary',
           size: 'small',
           on: {
-            click: () => bus.$emit('on-floatingIps-disassociate-open', index)
+            click: () => {
+              if (active) bus.$emit('on-floatingIps-disassociate-open', index)
+              else bus.$emit('on-floatingIps-associate-open', index)
+            }
           }
-        }, 'Disassociate')
+        }, active ? 'Disassociate' : 'Associate')
       ])
     }
   }
@@ -61,6 +65,10 @@ export const confirmModalTexts = txt => {
     disassociate: {
       title: 'Confirm Disassociate',
       text: selectedText
+    },
+    release: {
+      title: 'Confirm Release Floating IPs',
+      text: selectedText + ' Once a floating IP is released, there is no guarantee the same IP can be allocated again.'
     }
   }
 }

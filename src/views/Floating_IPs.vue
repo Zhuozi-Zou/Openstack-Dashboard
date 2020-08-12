@@ -2,8 +2,8 @@
   <div>
     <div class="floatingIps-header">
       <div class="buttons">
-<!--        <Button @click="handleClickCreate">Create Network</Button>-->
-<!--        <Button class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>-->
+        <Button @click="handleClickAllocate">Allocate IP To Project</Button>
+        <Button type="error" class="release-button" :disabled="releaseButtonDisabled" @click="handleClickRelease">Release Floating IPs</Button>
       </div>
     </div>
     <br>
@@ -22,6 +22,7 @@
   import { mapActions } from 'vuex'
   import { floatingIpsCol, confirmModalTexts } from '@/mock/response/floating_ips'
   import bus from '@/lib/bus'
+  import { joinSelections } from '@/lib/util'
 
   const log = console.log
 
@@ -38,6 +39,11 @@
         editableValues: [],
         editIndex: -1,
         selection: []
+      }
+    },
+    computed: {
+      releaseButtonDisabled () {
+        return !this.selection.length > 0
       }
     },
     methods: {
@@ -72,12 +78,27 @@
           }
         }))
       },
-      handleClickDisassociate (index) {
-        const selected = `"${this.tableValues[index].floating_ip_address}"`
-        const { title, text } = confirmModalTexts(selected).disassociate
+      setConfirmModal (title, text) {
         this.confirmModalTitle = title
         this.confirmModalText = text
         this.confirmModalVisible = true
+      },
+      handleClickDisassociate (index) {
+        const selected = `"${this.tableValues[index].floating_ip_address}"`
+        const { title, text } = confirmModalTexts(selected).disassociate
+        this.setConfirmModal(title, text)
+      },
+      handleClickAssociate (index) {
+        //
+      },
+      handleClickAllocate () {
+        //
+      },
+      handleClickRelease () {
+        log(this.selection)
+        const selectedIpNames = joinSelections(this.selection, 'floating_ip_address')
+        const { title, text } = confirmModalTexts(selectedIpNames).release
+        this.setConfirmModal(title, text)
       }
     },
     async mounted () {
@@ -85,17 +106,30 @@
         this.floatingIps = await this.getFloatingIps()
         await this.formTableValues()
 
-        bus.$off('on-floatingIps-disassociate-open')
         bus.$on('on-floatingIps-disassociate-open', index => {
           this.handleClickDisassociate(index)
+        })
+
+        bus.$on('on-floatingIps-associate-open', index => {
+          this.handleClickAssociate(index)
         })
       } catch (e) {
         log(e)
       }
+    },
+    destroyed () {
+      bus.$off('on-floatingIps-disassociate-open')
+      bus.$off('on-floatingIps-associate-open')
     }
   }
 </script>
 
-<style scoped>
-
+<style lang="less">
+  .floatingIps-header {
+    .buttons {
+      .release-button {
+        margin-left: 5px;
+      }
+    }
+  }
 </style>

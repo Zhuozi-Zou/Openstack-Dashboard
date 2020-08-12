@@ -27,3 +27,9 @@ export const getToken = async () => {
   }
   return token
 }
+
+export const joinSelections = (selection, toJoin) => {
+  return selection.map(item => {
+    return `"${item[toJoin]}"`
+  }).join(', ')
+}

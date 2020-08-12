@@ -3,7 +3,7 @@
     <div class="networks-header">
       <div class="buttons">
         <Button @click="handleClickCreate">Create Network</Button>
-        <Button class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
+        <Button type="error" class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
       </div>
     </div>
     <br>
@@ -41,6 +41,7 @@
   import ModalForm from '_c/modal-form'
   import { createNetworkValues, editableValues, networksCol, newNetworkValues } from '@/mock/response/networks'
   import bus from '@/lib/bus'
+  import { joinSelections } from '@/lib/util'
   import { objDelReturn, objRemoveEmptyVal } from '@/lib/tools'
   import ModalFormSteps from '_c/modal-form-steps'
 
@@ -104,9 +105,7 @@
         }
       },
       handleClickDeleteNetworks () {
-        this.selectedNetNames = this.selection.map(item => {
-          return `"${item.name}"`
-        }).join(', ')
+        this.selectedNetNames = joinSelections(this.selection, 'name')
         this.deleteModalVisible = true
       },
       async formTableValues () {
@@ -199,15 +198,10 @@
     },
     async mounted () {
       try {
-        this.networks = await this.getNetworks()
-        await this.formTableValues()
-
-        bus.$off('on-networks-edit-open')
+        await this.refreshData()
         bus.$on('on-networks-edit-open', index => {
           this.handleClickEdit(index)
         })
-
-        bus.$off('on-networks-subnet-selected')
         bus.$on('on-networks-subnet-selected', () => {
           this.editableValList[1].disabled = !this.editableValList[1].disabled
           this.editableValList[2].disabled = !this.editableValList[2].disabled
@@ -215,6 +209,10 @@
       } catch (e) {
         log(e)
       }
+    },
+    destroyed () {
+      bus.$off('on-networks-edit-open')
+      bus.$off('on-networks-subnet-selected')
     }
   }
 </script>
