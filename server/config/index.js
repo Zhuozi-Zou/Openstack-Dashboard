@@ -6,5 +6,6 @@ exports.admin = {
 }
 
 exports.apiAccess = {
-  network: 'http://10.199.32.243:9696/v2.0'
+  network: 'http://10.199.32.243:9696/v2.0',
+  compute: 'http://10.199.32.243:8774/v2.1'
 }

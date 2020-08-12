@@ -4,13 +4,12 @@ const osWrap = require('openstack-wrapper')
 let neutron = ''
 
 const initNeutron = (req, token) => {
-  const authToken = req.session.authToken
+  const authToken = req.session.authTokenNeutron
   if (!authToken || authToken !== token) {
-    console.log('AuthToken renewed')
+    console.log('=====AuthToken renewed=====')
     neutron = new osWrap.Neutron(apiAccess.network, token)
-    req.session.authToken = token
+    req.session.authTokenNeutron = token
   }
-  return neutron
 }
 
 exports.getFloatingIps = (req, res) => {
@@ -18,7 +17,7 @@ exports.getFloatingIps = (req, res) => {
   if (!token) res.status(401).send()
   else {
     initNeutron(req, token)
-    neutron.listFloatingIps({}, function (error, ipArray) {
+    neutron.listFloatingIps({}, (error, ipArray) => {
       if (error) {
         res.status(error.detail.remoteStatusCode).send(error)
       } else {

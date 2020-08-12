@@ -43,17 +43,27 @@
     methods: {
       ...mapActions([
         'getNetworkById',
+        'getInstanceById',
         'getFloatingIps'
       ]),
       async formTableValues () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
           try {
             const floatingNetwork = await this.getNetworkById(item.floating_network_id)
+            const portDetails = item.port_details
+            let deviceName = '-'
+            if (portDetails) {
+              const instance = await this.getInstanceById(portDetails.device_id)
+              // const deviceNames = Object.values(instance.addresses).map(item => {
+              //   const subnet = item[0]
+              // })
+              deviceName = `${instance.name} ${Object.values(instance.addresses)[0][0].addr}`
+            }
             return {
               id: item.id,
               floating_ip_address: item.floating_ip_address,
               description: item.description,
-              mapped_fixed_ip_address: '',
+              mapped_fixed_ip_address: deviceName,
               pool: floatingNetwork.name,
               status: item.status === 'ACTIVE' ? 'Active' : 'Down'
             }

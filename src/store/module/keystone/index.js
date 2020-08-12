@@ -1,4 +1,4 @@
-import auth from '@/store/module/keystone/auth'
+import auth from './auth'
 
 export default {
   auth

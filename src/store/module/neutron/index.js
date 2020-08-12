@@ -1,6 +1,6 @@
-import networks from '@/store/module/neutron/networks'
-import floatingIps from '@/store/module/neutron/floating_ips'
-import routers from '@/store/module/neutron/routers'
+import networks from './networks'
+import floatingIps from './floating_ips'
+import routers from './routers'
 
 export default {
   networks,

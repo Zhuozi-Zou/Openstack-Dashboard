@@ -6,6 +6,7 @@ import actions from './actions'
 import saveInLocal from './plugin/saveInLocal'
 import neutron from './module/neutron'
 import keystone from './module/keystone'
+import nova from './module/nova'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
   modules: {
     networks: neutron.networks,
     floatingIps: neutron.floatingIps,
-    auth: keystone.auth
+    auth: keystone.auth,
+    instances: nova.instances
   },
   plugins: [saveInLocal]
 })

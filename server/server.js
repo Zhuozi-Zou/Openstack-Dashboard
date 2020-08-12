@@ -38,8 +38,10 @@ app.use(session({
 // routes
 const neutron = require('./routes/neutron')
 const keystone = require('./routes/keystone')
+const nova = require('./routes/nova')
 app.use('/neutron', neutron)
 app.use('/keystone', keystone)
+app.use('/nova', nova)
 
 // cors stuff
 app.use(cors({
