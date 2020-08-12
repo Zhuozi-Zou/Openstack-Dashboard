@@ -72,3 +72,33 @@ export const confirmModalTexts = txt => {
     }
   }
 }
+
+export const allocateValues = pool => {
+  return [
+    {
+      name: 'floating_network_id',
+      type: 'i-select',
+      value: pool.length > 0 ? pool[0].value : '',
+      label: 'Pool',
+      placeholder: 'Select a pool',
+      not_found_text: 'No pools available',
+      rule: [
+        {
+          required: true,
+          message: 'Please choose a pool',
+          trigger: 'blur'
+        }
+      ],
+      children: {
+        type: 'i-option',
+        list: pool
+      }
+    },
+    {
+      name: 'description',
+      type: 'i-input',
+      value: '',
+      label: 'Description'
+    }
+  ]
+}

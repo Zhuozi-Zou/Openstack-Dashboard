@@ -1,5 +1,5 @@
 import { getToken } from '@/lib/util'
-import { getFloatingIps } from '@/api/neutron/floating_ips'
+import { getFloatingIps, createFloatingIp, getFloatingIpPools } from '@/api/neutron/floating_ips'
 
 const state = {
   //
@@ -17,6 +17,24 @@ const actions = {
       return res.data
     } catch (e) {
       throw new Error('getFloatingIps: ' + e)
+    }
+  },
+  async createFloatingIp (id) {
+    try {
+      const token = await getToken()
+      const res = await createFloatingIp(token, id)
+      return res.data
+    } catch (e) {
+      throw new Error('createFloatingIp: ' + e)
+    }
+  },
+  async getFloatingIpPools () {
+    try {
+      const token = await getToken()
+      const res = await getFloatingIpPools(token)
+      return res.data.data.floatingip_pools
+    } catch (e) {
+      throw new Error('getFloatingIpPools: ' + e)
     }
   }
 }

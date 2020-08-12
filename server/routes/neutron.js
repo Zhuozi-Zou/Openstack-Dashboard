@@ -12,5 +12,7 @@ neutron.put('/updateNetworkById', networks.updateNetworkById)
 neutron.delete('/deleteNetwork', networks.deleteNetwork)
 
 neutron.get('/getFloatingIps', floatingIps.getFloatingIps)
+neutron.get('/getFloatingIpPools', floatingIps.getFloatingIpPools)
+neutron.post('/createFloatingIp', floatingIps.createFloatingIp)
 
 module.exports = neutron

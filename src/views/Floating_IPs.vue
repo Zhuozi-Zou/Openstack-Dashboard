@@ -8,6 +8,14 @@
     </div>
     <br>
     <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
+    <modal-form
+      :modal-visible="formModalVisible"
+      :editable-values="formValues"
+      :title="formModalTitle"
+      :comfirm-text="formModalConfirmText"
+      @on-cancel="() => this.formModalVisible = false"
+      @on-modal-form-submit="hanldeSubmitForm"
+    />
     <Modal v-model="confirmModalVisible" :title="confirmModalTitle">
       {{ confirmModalText }}
       <div slot="footer">
@@ -20,23 +28,31 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import { floatingIpsCol, confirmModalTexts } from '@/mock/response/floating_ips'
+  import { floatingIpsCol, confirmModalTexts, allocateValues } from '@/mock/response/floating_ips'
   import bus from '@/lib/bus'
   import { joinSelections } from '@/lib/util'
+  import ModalForm from '_c/modal-form'
 
   const log = console.log
 
   export default {
     name: 'Floating_IPs',
+    components: {
+      ModalForm
+    },
     data () {
       return {
         confirmModalVisible: false,
         confirmModalTitle: 'Confirm',
         confirmModalText: 'Please confirm your selection.',
+        formModalVisible: false,
+        formModalTitle: '',
+        formModalConfirmText: 'Confirm',
+        formModalType: '',
         columns: floatingIpsCol,
         floatingIps: [],
         tableValues: [],
-        editableValues: [],
+        formValues: [],
         editIndex: -1,
         selection: []
       }
@@ -50,7 +66,8 @@
       ...mapActions([
         'getNetworkById',
         'getInstanceById',
-        'getFloatingIps'
+        'getFloatingIps',
+        'getFloatingIpPools'
       ]),
       async formTableValues () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
@@ -60,9 +77,6 @@
             let deviceName = '-'
             if (portDetails) {
               const instance = await this.getInstanceById(portDetails.device_id)
-              // const deviceNames = Object.values(instance.addresses).map(item => {
-              //   const subnet = item[0]
-              // })
               deviceName = `${instance.name} ${Object.values(instance.addresses)[0][0].addr}`
             }
             return {
@@ -83,6 +97,11 @@
         this.confirmModalText = text
         this.confirmModalVisible = true
       },
+      setFormModal (title, confirmText) {
+        this.formModalTitle = title
+        this.formModalConfirmText = confirmText
+        this.formModalVisible = true
+      },
       handleClickDisassociate (index) {
         const selected = `"${this.tableValues[index].floating_ip_address}"`
         const { title, text } = confirmModalTexts(selected).disassociate
@@ -91,25 +110,34 @@
       handleClickAssociate (index) {
         //
       },
-      handleClickAllocate () {
-        //
+      async handleClickAllocate () {
+        const pools = await this.getFloatingIpPools()
+        const poolsDetail = await Promise.all(pools.map(async item => {
+          const net = await this.getNetworkById(item.network_id)
+          return {
+            value: net.id,
+            title: net.name
+          }
+        }))
+        this.formValues = allocateValues(poolsDetail)
+        this.setFormModal('Allocate Floating IP', 'Allocate IP')
       },
       handleClickRelease () {
-        log(this.selection)
         const selectedIpNames = joinSelections(this.selection, 'floating_ip_address')
         const { title, text } = confirmModalTexts(selectedIpNames).release
         this.setConfirmModal(title, text)
+      },
+      hanldeSubmitForm () {
+        //
       }
     },
     async mounted () {
       try {
         this.floatingIps = await this.getFloatingIps()
         await this.formTableValues()
-
         bus.$on('on-floatingIps-disassociate-open', index => {
           this.handleClickDisassociate(index)
         })
-
         bus.$on('on-floatingIps-associate-open', index => {
           this.handleClickAssociate(index)
         })

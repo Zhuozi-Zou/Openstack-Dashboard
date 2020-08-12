@@ -11,6 +11,8 @@
       <component
         :is="item.type"
         :type="item.subType"
+        :placeholder="item.placeholder"
+        :not-found-text="item.not_found_text"
         @on-change="handleOnChange(item)"
         v-model="valueList[item.name]"
       >

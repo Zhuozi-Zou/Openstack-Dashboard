@@ -35,3 +35,13 @@ exports.httpRequest = (options, res, body = '') => {
   if (body) request.write(body)
   request.end()
 }
+
+exports.callBack = res => {
+  return (error, data) => {
+    if (error) {
+      res.status(error.detail.remoteStatusCode).send(error)
+    } else {
+      res.send(data)
+    }
+  }
+}
