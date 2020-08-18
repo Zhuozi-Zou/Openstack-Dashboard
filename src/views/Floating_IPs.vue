@@ -126,21 +126,6 @@
         this.formModalType = type
         this.formModalVisible = true
       },
-      async waitUntilStatusChanged (id, originalStatus, cb) {
-        setTimeout(async () => {
-          let ip = {}
-          const int = setInterval(async () => {
-            ip = await this.getFloatingIpById(id)
-            log(ip.status)
-            if (ip.status !== originalStatus) {
-              clearInterval(int)
-              await this.refreshData()
-              this.formModalVisible = false
-              cb()
-            }
-          }, 1000)
-        }, 5000)
-      },
       handleClickDisassociate (row) {
         const selected = `"${row.floating_ip_address}"`
         const { title, text, confirmText, type } = confirmModalTexts(selected).disassociate
@@ -155,7 +140,6 @@
             let ip = {}
             const int = setInterval(async () => {
               ip = await this.getFloatingIpById(this.selectedRow.id)
-              log(ip.status)
               if (ip.status !== 'ACTIVE') {
                 clearInterval(int)
                 await this.refreshData()
@@ -213,7 +197,6 @@
             let ip = {}
             const int = setInterval(async () => {
               ip = await this.getFloatingIpById(this.selectedRow.id)
-              log(ip.status)
               if (ip.status !== 'DOWN') {
                 clearInterval(int)
                 await this.refreshData()

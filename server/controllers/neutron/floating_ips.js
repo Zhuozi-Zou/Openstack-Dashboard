@@ -71,6 +71,6 @@ exports.associateFloatingIp = (req, res) => {
   else if (!ipId || !portId) res.status(400).send()
   else {
     const neutron = initNeutron(req, token)
-    neutron.updateFloatingIp(ipId, 'f4c1b2da-b1d2-4516-925a-d7916ad28f60', callBack(res))
+    neutron.updateFloatingIp(ipId, portId, callBack(res))
   }
 }
