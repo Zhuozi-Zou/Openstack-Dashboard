@@ -126,19 +126,20 @@
         this.formModalType = type
         this.formModalVisible = true
       },
-      async waitUntilStatusChanged (id, originalStatus) {
+      async waitUntilStatusChanged (id, originalStatus, cb) {
         setTimeout(async () => {
-          // let ip = {}
-          // setInterval(async () => { ip = await this.getFloatingIpById(id) }, 500)
-          // log(ip.status)
-          // if (ip.status !== 'DOWN') {
-          //   await this.refreshData()
-          //   log(ip.status)
-          //   setInterval(async () => { ip = await this.getFloatingIpById(id) }, 500)
-          // }
-          // log(ip.status)
-          await this.refreshData()
-        }, 2500)
+          let ip = {}
+          const int = setInterval(async () => {
+            ip = await this.getFloatingIpById(id)
+            log(ip.status)
+            if (ip.status !== originalStatus) {
+              clearInterval(int)
+              await this.refreshData()
+              this.formModalVisible = false
+              cb()
+            }
+          }, 1000)
+        }, 5000)
       },
       handleClickDisassociate (row) {
         const selected = `"${row.floating_ip_address}"`
@@ -150,9 +151,19 @@
         this.comfirmLoading = true
         try {
           await this.disassociateFloatingIp(this.selectedRow.id)
-          await this.refreshData()
-          this.comfirmLoading = false
-          this.confirmModalVisible = false
+          setTimeout(async () => {
+            let ip = {}
+            const int = setInterval(async () => {
+              ip = await this.getFloatingIpById(this.selectedRow.id)
+              log(ip.status)
+              if (ip.status !== 'ACTIVE') {
+                clearInterval(int)
+                await this.refreshData()
+                this.comfirmLoading = false
+                this.confirmModalVisible = false
+              }
+            }, 1000)
+          }, 5000)
         } catch (e) {
           log(e)
         }
@@ -197,12 +208,23 @@
             ipId: this.selectedRow.id,
             portId: port.port_id
           })
-          await this.waitUntilStatusChanged(this.selectedRow.id, 'DOWN')
+
+          setTimeout(async () => {
+            let ip = {}
+            const int = setInterval(async () => {
+              ip = await this.getFloatingIpById(this.selectedRow.id)
+              log(ip.status)
+              if (ip.status !== 'DOWN') {
+                clearInterval(int)
+                await this.refreshData()
+                this.formModalVisible = false
+                cb()
+              }
+            }, 1000)
+          }, 5000)
         } catch (e) {
           log(e)
         }
-        this.formModalVisible = false
-        cb()
       },
       async handleClickAllocate () {
         try {
