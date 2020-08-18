@@ -22,3 +22,12 @@ exports.getInstanceById = (req, res) => {
     nova.getServer(id, callBack(res))
   }
 }
+
+exports.getInstances = (req, res) => {
+  const { token } = req.query
+  if (!token) res.status(401).send()
+  else {
+    initNova(req, token)
+    nova.listServers({}, callBack(res))
+  }
+}

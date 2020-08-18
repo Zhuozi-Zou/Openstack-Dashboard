@@ -6,13 +6,18 @@ const floatingIps = require('../controllers/neutron/floating_ips')
 neutron.get('/getNetworks', networks.getNetworks)
 neutron.get('/getNetworkById', networks.getNetworkById)
 neutron.get('/getSubnetById', networks.getSubnetById)
+neutron.get('/getPorts', networks.getPorts)
 neutron.post('/createNetwork', networks.createNetwork)
 neutron.post('/createSubnet', networks.createSubnet)
 neutron.put('/updateNetworkById', networks.updateNetworkById)
 neutron.delete('/deleteNetwork', networks.deleteNetwork)
 
 neutron.get('/getFloatingIps', floatingIps.getFloatingIps)
+neutron.get('/getFloatingIpById', floatingIps.getFloatingIpById)
 neutron.get('/getFloatingIpPools', floatingIps.getFloatingIpPools)
 neutron.post('/createFloatingIp', floatingIps.createFloatingIp)
+neutron.put('/disassociateFloatingIp', floatingIps.disassociateFloatingIp)
+neutron.put('/associateFloatingIp', floatingIps.associateFloatingIp)
+neutron.delete('/deleteFloatingIp', floatingIps.deleteFloatingIp)
 
 module.exports = neutron

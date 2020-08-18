@@ -3,7 +3,7 @@ import keystone from '../store/module/keystone/auth'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
   const expires = new Date()
-  expires.setTime(expires.getTime() + 23 * 24 * 60 * 60 * 1000)
+  expires.setTime(expires.getTime() + 23 * 60 * 60 * 1000)
   Cookies.set(tokenName, token, { expires })
 }
 

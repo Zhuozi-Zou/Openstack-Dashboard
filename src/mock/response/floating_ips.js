@@ -41,7 +41,7 @@ export const floatingIpsCol = [
     title: 'Actions',
     width: 130,
     align: 'center',
-    render: (h, { row, index }) => {
+    render: (h, { row }) => {
       const active = row.status === 'Active'
       return h('div', [
         h('Button', {
@@ -49,8 +49,8 @@ export const floatingIpsCol = [
           size: 'small',
           on: {
             click: () => {
-              if (active) bus.$emit('on-floatingIps-disassociate-open', index)
-              else bus.$emit('on-floatingIps-associate-open', index)
+              if (active) bus.$emit('on-floatingIps-disassociate-open', row)
+              else bus.$emit('on-floatingIps-associate-open', row)
             }
           }
         }, active ? 'Disassociate' : 'Associate')
@@ -64,11 +64,15 @@ export const confirmModalTexts = txt => {
   return {
     disassociate: {
       title: 'Confirm Disassociate',
-      text: selectedText
+      text: selectedText,
+      confirmText: 'Disassociate',
+      type: 'disassociate'
     },
     release: {
       title: 'Confirm Release Floating IPs',
-      text: selectedText + ' Once a floating IP is released, there is no guarantee the same IP can be allocated again.'
+      text: selectedText + ' Once a floating IP is released, there is no guarantee the same IP can be allocated again.',
+      confirmText: 'Release Floating IPs',
+      type: 'release'
     }
   }
 }
@@ -99,6 +103,30 @@ export const allocateValues = pool => {
       type: 'i-input',
       value: '',
       label: 'Description'
+    }
+  ]
+}
+
+export const associateValues = port => {
+  return [
+    {
+      name: 'port_id',
+      type: 'i-select',
+      value: port.length > 0 ? port[0].value : '',
+      label: 'Port to be associated',
+      placeholder: 'Select a port',
+      not_found_text: 'No ports available',
+      rule: [
+        {
+          required: true,
+          message: 'Please choose a port',
+          trigger: 'blur'
+        }
+      ],
+      children: {
+        type: 'i-option',
+        list: port
+      }
     }
   ]
 }

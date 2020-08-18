@@ -7,3 +7,11 @@ export const getInstanceById = (token, id) => {
     params: { token, id }
   })
 }
+
+export const getInstances = (token) => {
+  return axios.request({
+    url: '/nova/getInstances',
+    method: 'get',
+    params: { token }
+  })
+}
