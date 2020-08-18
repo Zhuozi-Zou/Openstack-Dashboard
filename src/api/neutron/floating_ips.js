@@ -1,68 +1,66 @@
 import axios from '../index'
 
-export const getFloatingIps = token => {
+export const getFloatingIps = () => {
   return axios.request({
     url: '/neutron/getFloatingIps',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 
-export const getFloatingIpById = (token, id) => {
+export const getFloatingIpById = (id) => {
   return axios.request({
     url: '/neutron/getFloatingIpById',
     method: 'get',
-    params: { token, id }
+    params: { id }
   })
 }
 
-export const createFloatingIp = (token, floatingip) => {
+export const createFloatingIp = (floatingip) => {
   return axios.request({
     url: '/neutron/createFloatingIp',
     method: 'post',
-    data: { token, floatingip }
+    data: { floatingip }
   })
 }
 
-export const getFloatingIpPools = token => {
+export const getFloatingIpPools = () => {
   return axios.request({
     url: '/neutron/getFloatingIpPools',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 
-export const getFloatingIpPorts = (token, filters) => {
+export const getFloatingIpPorts = (filters) => {
   return axios.request({
     url: '/neutron/getPorts',
     method: 'get',
-    params: { token, filters }
+    params: { filters }
   })
 }
 
-export const deleteFloatingIp = (token, id) => {
+export const deleteFloatingIp = (id) => {
   return axios.request({
     url: '/neutron/deleteFloatingIp',
     method: 'delete',
-    data: {
-      token,
-      id
-    }
+    data: { id }
   })
 }
 
-export const disassociateFloatingIp = (token, ipId) => {
+export const disassociateFloatingIp = (ipId) => {
   return axios.request({
     url: '/neutron/disassociateFloatingIp',
     method: 'put',
-    data: { token, ipId }
+    data: { ipId }
   })
 }
 
-export const associateFloatingIp = (token, ipId, portId) => {
+export const associateFloatingIp = (ipId, portId) => {
   return axios.request({
     url: '/neutron/associateFloatingIp',
     method: 'put',
-    data: { token, ipId, portId }
+    data: {
+      ipId,
+      portId
+    }
   })
 }

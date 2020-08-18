@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseURL } from '../config'
+import { baseURL } from '@/config'
 
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -10,6 +10,7 @@ class HttpRequest {
   getInsideConfig () {
     const config = {
       baseUrl: this.baseUrl,
+      withCredentials: true,
       headers: {
         //
       }

@@ -12,8 +12,8 @@ const mutations = {
 const actions = {
   async getInstanceById (params, id) {
     try {
-      const token = await getToken()
-      const res = await getInstanceById(token, id)
+      await getToken()
+      const res = await getInstanceById(id)
       return res.data
     } catch (e) {
       throw new Error('getInstanceById: ' + e)
@@ -21,8 +21,8 @@ const actions = {
   },
   async getInstances () {
     try {
-      const token = await getToken()
-      const res = await getInstances(token)
+      await getToken()
+      const res = await getInstances()
       return res.data
     } catch (e) {
       throw new Error('getInstances: ' + e)

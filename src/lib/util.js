@@ -13,19 +13,16 @@ export const getTokenFromCookie = (tokenName = 'token') => {
 
 export const getNewToken = async () => {
   try {
-    const res = await keystone.actions.getAdminToken()
-    return res.data
+    await keystone.actions.getAdminToken()
   } catch (e) {
     console.log('getNewToken: ' + e)
   }
 }
 
 export const getToken = async () => {
-  const token = getTokenFromCookie()
-  if (!token) {
-    return await getNewToken()
+  if (!getTokenFromCookie()) {
+    await getNewToken()
   }
-  return token
 }
 
 export const joinSelections = (selection, toJoin) => {

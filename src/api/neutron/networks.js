@@ -1,76 +1,59 @@
 import axios from '../index'
 
-export const getNetworks = token => {
+export const getNetworks = () => {
   return axios.request({
     url: '/neutron/getNetworks',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 
-export const getNetworkById = (token, id) => {
+export const getNetworkById = (id) => {
   return axios.request({
     url: '/neutron/getNetworkById',
     method: 'get',
-    params: {
-      token,
-      id
-    }
+    params: { id }
   })
 }
 
-export const getSubnetById = (token, id) => {
+export const getSubnetById = (id) => {
   return axios.request({
     url: '/neutron/getSubnetById',
     method: 'get',
-    params: {
-      token,
-      id
-    }
+    params: { id }
   })
 }
 
-export const updateNetworkById = (token, id, network) => {
+export const updateNetworkById = (id, network) => {
   return axios.request({
     url: '/neutron/updateNetworkById',
     method: 'put',
     data: {
-      token,
       id,
       network
     }
   })
 }
 
-export const createNetwork = (token, network) => {
+export const createNetwork = (network) => {
   return axios.request({
     url: '/neutron/createNetwork',
     method: 'post',
-    data: {
-      token,
-      network
-    }
+    data: { network }
   })
 }
 
-export const createSubnet = (token, subnet) => {
+export const createSubnet = (subnet) => {
   return axios.request({
     url: '/neutron/createSubnet',
     method: 'post',
-    data: {
-      token,
-      subnet
-    }
+    data: { subnet }
   })
 }
 
-export const deleteNetwork = (token, id) => {
+export const deleteNetwork = (id) => {
   return axios.request({
     url: '/neutron/deleteNetwork',
     method: 'delete',
-    data: {
-      token,
-      id
-    }
+    data: { id }
   })
 }

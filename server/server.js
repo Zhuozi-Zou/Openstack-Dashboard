@@ -43,10 +43,13 @@ app.use('/neutron', neutron)
 app.use('/keystone', keystone)
 app.use('/nova', nova)
 
-// cors stuff
-app.use(cors({
-  origin: ['http://localhost:8080', 'http://localhost:5000']
-}))
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080')
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, authorization, Cache-Control')
+  res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  next()
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

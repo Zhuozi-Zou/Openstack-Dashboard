@@ -21,8 +21,8 @@ const mutations = {
 const actions = {
   async getFloatingIps () {
     try {
-      const token = await getToken()
-      const res = await getFloatingIps(token)
+      await getToken()
+      const res = await getFloatingIps()
       return res.data
     } catch (e) {
       throw new Error('getFloatingIps: ' + e)
@@ -30,8 +30,8 @@ const actions = {
   },
   async getFloatingIpById (params, id) {
     try {
-      const token = await getToken()
-      const res = await getFloatingIpById(token, id)
+      await getToken()
+      const res = await getFloatingIpById(id)
       return res.data
     } catch (e) {
       throw new Error('getFloatingIpById: ' + e)
@@ -39,8 +39,8 @@ const actions = {
   },
   async createFloatingIp (params, floatingip) {
     try {
-      const token = await getToken()
-      const res = await createFloatingIp(token, floatingip)
+      await getToken()
+      const res = await createFloatingIp(floatingip)
       return res.data
     } catch (e) {
       throw new Error('createFloatingIp: ' + e)
@@ -48,8 +48,8 @@ const actions = {
   },
   async getFloatingIpPools () {
     try {
-      const token = await getToken()
-      const res = await getFloatingIpPools(token)
+      await getToken()
+      const res = await getFloatingIpPools()
       return res.data.data.floatingip_pools
     } catch (e) {
       throw new Error('getFloatingIpPools: ' + e)
@@ -57,8 +57,8 @@ const actions = {
   },
   async getFloatingIpPorts () {
     try {
-      const token = await getToken()
-      const res = await getFloatingIpPorts(token, { device_owner: 'compute:nova' })
+      await getToken()
+      const res = await getFloatingIpPorts({ device_owner: 'compute:nova' })
       return res.data
     } catch (e) {
       throw new Error('getFloatingIpPorts: ' + e)
@@ -71,8 +71,8 @@ const actions = {
   },
   async disassociateFloatingIp (params, ipId) {
     try {
-      const token = await getToken()
-      const res = await disassociateFloatingIp(token, ipId)
+      await getToken()
+      const res = await disassociateFloatingIp(ipId)
       return res.data
     } catch (e) {
       throw new Error('disassociateFloatingIp: ' + e)
@@ -80,8 +80,8 @@ const actions = {
   },
   async associateFloatingIp (params, { ipId, portId }) {
     try {
-      const token = await getToken()
-      const res = await associateFloatingIp(token, ipId, portId)
+      await getToken()
+      const res = await associateFloatingIp(ipId, portId)
       return res.data
     } catch (e) {
       throw new Error('associateFloatingIp: ' + e)
@@ -91,8 +91,8 @@ const actions = {
 
 const deleteFloatingIpHelper = async (id) => {
   try {
-    const token = await getToken()
-    await deleteFloatingIp(token, id)
+    await getToken()
+    await deleteFloatingIp(id)
   } catch (e) {
     throw new Error('deleteFloatingIpHelper: ' + e)
   }

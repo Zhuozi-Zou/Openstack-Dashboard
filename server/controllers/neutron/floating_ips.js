@@ -5,27 +5,22 @@ const { httpRequest, callBack } = require('../../lib/util')
 const { initNeutron } = require('./index')
 
 exports.getFloatingIps = (req, res) => {
-  const token = req.query.token
-  if (!token) res.status(401).send()
-  else {
-    const neutron = initNeutron(req, token)
-    neutron.listFloatingIps({}, callBack(res))
-  }
+  const neutron = initNeutron(req, res)
+  neutron.listFloatingIps({}, callBack(res))
 }
 
 exports.getFloatingIpById = (req, res) => {
-  const { token, id } = req.query
-  if (!token) res.status(401).send()
-  else if (!id) res.status(400).send()
+  const { id } = req.query
+  if (!id) res.status(400).send()
   else {
-    const neutron = initNeutron(req, token)
+    const neutron = initNeutron(req, res)
     neutron.getFloatingIp(id, callBack(res))
   }
 }
 
 exports.createFloatingIp = (req, res) => {
-  const { token, floatingip } = req.body
-  console.log(typeof floatingip)
+  const token = req.cookies.token
+  const { floatingip } = req.body
   if (!token) res.status(401).send()
   else if (!floatingip) res.status(400).send()
   else {
@@ -37,7 +32,7 @@ exports.createFloatingIp = (req, res) => {
 }
 
 exports.getFloatingIpPools = (req, res) => {
-  const token = req.query.token
+  const token = req.cookies.token
   if (!token) res.status(401).send()
   else {
     const options = getOptions('/v2.0/floatingip_pools', 'GET', token)
@@ -46,31 +41,28 @@ exports.getFloatingIpPools = (req, res) => {
 }
 
 exports.deleteFloatingIp = (req, res) => {
-  const { token, id } = req.body
-  if (!token) res.status(401).send()
-  else if (!id) res.status(400).send()
+  const { id } = req.body
+  if (!id) res.status(400).send()
   else {
-    const neutron = initNeutron(req, token)
+    const neutron = initNeutron(req, res)
     neutron.removeFloatingIp(id, callBack(res))
   }
 }
 
 exports.disassociateFloatingIp = (req, res) => {
-  const { token, ipId } = req.body
-  if (!token) res.status(401).send()
-  else if (!ipId) res.status(400).send()
+  const { ipId } = req.body
+  if (!ipId) res.status(400).send()
   else {
-    const neutron = initNeutron(req, token)
+    const neutron = initNeutron(req, res)
     neutron.updateFloatingIp(ipId, null, callBack(res))
   }
 }
 
 exports.associateFloatingIp = (req, res) => {
-  const { token, ipId, portId } = req.body
-  if (!token) res.status(401).send()
-  else if (!ipId || !portId) res.status(400).send()
+  const { ipId, portId } = req.body
+  if (!ipId || !portId) res.status(400).send()
   else {
-    const neutron = initNeutron(req, token)
+    const neutron = initNeutron(req, res)
     neutron.updateFloatingIp(ipId, portId, callBack(res))
   }
 }

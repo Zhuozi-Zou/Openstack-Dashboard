@@ -18,10 +18,10 @@ const mutations = {
 }
 
 const actions = {
-  async getNetworks (params) {
+  async getNetworks () {
     try {
-      const token = await getToken()
-      const res = await getNetworks(token)
+      await getToken()
+      const res = await getNetworks()
       return res.data.data.networks
     } catch (e) {
       throw new Error('getNetworks: ' + e)
@@ -29,8 +29,8 @@ const actions = {
   },
   async getNetworkById (params, id) {
     try {
-      const token = await getToken()
-      const res = await getNetworkById(token, id)
+      await getToken()
+      const res = await getNetworkById(id)
       return res.data.data.networks[0]
     } catch (e) {
       throw new Error('getNetworkById: ' + e)
@@ -38,8 +38,8 @@ const actions = {
   },
   async getSubnetById (params, id) {
     try {
-      const token = await getToken()
-      const res = await getSubnetById(token, id)
+      await getToken()
+      const res = await getSubnetById(id)
       return res.data.data.subnets[0]
     } catch (e) {
       throw new Error('getSubnetById: ' + e)
@@ -47,8 +47,8 @@ const actions = {
   },
   async updateNetworkById (params, { id, network }) {
     try {
-      const token = await getToken()
-      const res = await updateNetworkById(token, id, network)
+      await getToken()
+      const res = await updateNetworkById(id, network)
       return res.data.data.network
     } catch (e) {
       throw new Error('updateNetworkById: ' + e)
@@ -56,8 +56,8 @@ const actions = {
   },
   async createNetworkWithSubnet (params, { network, subnet }) {
     try {
-      const token = await getToken()
-      const resNet = await createNetwork(token, network)
+      await getToken()
+      const resNet = await createNetwork(network)
       subnet.network_id = resNet.data.data.network.id
       await createSubnetHelper(subnet)
     } catch (e) {
@@ -69,8 +69,8 @@ const actions = {
   },
   async createNetwork (params, network) {
     try {
-      const token = await getToken()
-      const resNet = await createNetwork(token, network)
+      await getToken()
+      const resNet = await createNetwork(network)
       return resNet.data.data.network
     } catch (e) {
       throw new Error('createNetwork: ' + e)
@@ -85,8 +85,8 @@ const actions = {
 
 const createSubnetHelper = async (subnet) => {
   try {
-    const token = await getToken()
-    const res = await createSubnet(token, subnet)
+    await getToken()
+    const res = await createSubnet(subnet)
     return res.data.data.subnet
   } catch (e) {
     throw new Error('createSubnetHelper: ' + e)
@@ -95,8 +95,8 @@ const createSubnetHelper = async (subnet) => {
 
 const deleteNetworkHelper = async (id) => {
   try {
-    const token = await getToken()
-    await deleteNetwork(token, id)
+    await getToken()
+    await deleteNetwork(id)
   } catch (e) {
     throw new Error('deleteNetworkHelper: ' + e)
   }

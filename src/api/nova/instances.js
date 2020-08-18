@@ -1,17 +1,16 @@
 import axios from '../index'
 
-export const getInstanceById = (token, id) => {
+export const getInstanceById = (id) => {
   return axios.request({
     url: '/nova/getInstanceById',
     method: 'get',
-    params: { token, id }
+    params: { id }
   })
 }
 
-export const getInstances = (token) => {
+export const getInstances = () => {
   return axios.request({
     url: '/nova/getInstances',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
