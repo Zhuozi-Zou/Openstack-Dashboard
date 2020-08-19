@@ -1,4 +1,5 @@
 const http = require('http')
+const jwt = require('jsonwebtoken')
 const { host, admin } = require('../../config')
 const { name, password } = admin
 const port = 5000
@@ -29,7 +30,12 @@ exports.getAdminToken = (req, res) => {
   const request = http.request(options, (response) => {
     response.on('data', d => {
     }).on('end', () => {
-      res.status(response.statusCode).send(response.headers['x-subject-token'])
+      const token = response.headers['x-subject-token']
+      const tokenJwt = jwt.sign(
+        { name: token },
+        'openstack token',
+        { expiresIn: '1d' })
+      res.status(response.statusCode).send(tokenJwt)
     })
   })
 

@@ -6,7 +6,8 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
-const cors = require('cors')
+const session = require('express-session')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
@@ -23,7 +24,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Create a session cookie
-const session = require('express-session')
 app.use(session({
   secret: 'oursecret',
   resave: false,
@@ -35,14 +35,6 @@ app.use(session({
 })
 )
 
-// routes
-const neutron = require('./routes/neutron')
-const keystone = require('./routes/keystone')
-const nova = require('./routes/nova')
-app.use('/neutron', neutron)
-app.use('/keystone', keystone)
-app.use('/nova', nova)
-
 app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:8080')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, authorization, Cache-Control')
@@ -50,6 +42,41 @@ app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', 'true')
   next()
 })
+
+const whiteListUrl = {
+  get: [
+    '/keystone/getAdminToken'
+  ]
+}
+
+const hasOneOf = (str, arr) => {
+  return arr.some(item => item.includes(str))
+}
+
+app.all('*', (req, res, next) => {
+  const method = req.method.toLowerCase()
+  const path = req.path
+  const token = req.cookies.token
+  if (whiteListUrl[method] && hasOneOf(path, whiteListUrl[method])) next()
+  else if (!token) res.status(401).send('there is no token')
+  else {
+    jwt.verify(token, 'openstack token', (error, decode) => {
+      if (error) res.status(401).send('token error')
+      else {
+        req.token = decode.name
+        next()
+      }
+    })
+  }
+})
+
+// routes
+const neutron = require('./routes/neutron')
+const keystone = require('./routes/keystone')
+const nova = require('./routes/nova')
+app.use('/neutron', neutron)
+app.use('/keystone', keystone)
+app.use('/nova', nova)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

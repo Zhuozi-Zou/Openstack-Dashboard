@@ -5,7 +5,7 @@ const { httpRequest, callBack } = require('../../lib/util')
 const { initNeutron } = require('./index')
 
 exports.getNetworks = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   if (!token) {
     res.status(401).send()
   } else {
@@ -15,7 +15,7 @@ exports.getNetworks = (req, res) => {
 }
 
 exports.getNetworkById = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { id } = req.query
   if (!token) {
     res.status(401).send()
@@ -28,7 +28,7 @@ exports.getNetworkById = (req, res) => {
 }
 
 exports.getSubnetById = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { id } = req.query
   if (!token) {
     res.status(401).send()
@@ -41,7 +41,7 @@ exports.getSubnetById = (req, res) => {
 }
 
 exports.updateNetworkById = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { id, network } = req.body
   if (!token) {
     res.status(401).send()
@@ -56,7 +56,7 @@ exports.updateNetworkById = (req, res) => {
 }
 
 exports.createNetwork = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { network } = req.body
   if (!token) {
     res.status(401).send()
@@ -71,7 +71,7 @@ exports.createNetwork = (req, res) => {
 }
 
 exports.createSubnet = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { subnet } = req.body
   if (!token) {
     res.status(401).send()
@@ -86,7 +86,7 @@ exports.createSubnet = (req, res) => {
 }
 
 exports.deleteNetwork = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { id } = req.body
   if (!token) {
     res.status(401).send()
@@ -99,13 +99,13 @@ exports.deleteNetwork = (req, res) => {
 }
 
 exports.getPorts = (req, res) => {
-  const token = req.cookies.token
+  const token = req.token
   const { filters } = req.query
   const filtersObj = typeof (filters) === 'string' ? JSON.parse(filters) : {}
   if (!token) {
     res.status(401).send()
   } else {
-    const neutron = initNeutron(req, token)
+    const neutron = initNeutron(req)
     neutron.listPorts({ filters: filtersObj }, callBack(res))
   }
 }

@@ -1,17 +1,21 @@
 const { apiAccess } = require('../../config')
 const osWrap = require('openstack-wrapper')
+const jwt = require('jsonwebtoken')
 
 let neutron = ''
 
-exports.initNeutron = (req, res) => {
-  const token = req.cookies.token
-  if (!token) res.status(401).send()
+const getNewNeutron = (token, req) => {
+  console.log('=====authTokenNeutron renewed=====')
+  neutron = new osWrap.Neutron(apiAccess.network, token)
+  req.session.authTokenNeutron = token
+}
 
+exports.initNeutron = (req) => {
   const authToken = req.session.authTokenNeutron
-  if (!authToken || authToken !== token) {
-    console.log('=====authTokenNeutron renewed=====')
-    neutron = new osWrap.Neutron(apiAccess.network, token)
-    req.session.authTokenNeutron = token
-  }
+  jwt.verify(authToken, 'openstack token', (error, decode) => {
+    if (error) {
+      getNewNeutron(req.token, req)
+    }
+  })
   return neutron
 }

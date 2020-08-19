@@ -10,7 +10,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAdminToken (params) {
+  async getAdminToken () {
     console.log('getAdminToken called')
     try {
       const res = await getAdminToken()
