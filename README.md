@@ -11,6 +11,6 @@ This is where all the server source code is.
 Once in, run `npm install` to install all the necessary dependencies. 
 Then run `node server.js` to run the server on localhost. 
 
-Open [http://localhost:8080](http://localhost:5000) in Google Chrome to view the website.
+Open [http://localhost:8080](http://localhost:8080) in Google Chrome to view the website.
 
 You should be able to see the home page.
