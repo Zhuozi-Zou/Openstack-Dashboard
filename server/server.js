@@ -32,8 +32,7 @@ app.use(session({
   //   expires: 3600000,
   //   httpOnly: true
   // }
-})
-)
+}))
 
 app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:8080')

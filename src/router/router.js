@@ -64,11 +64,24 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login')
+    component: () => import('@/views/Login')
   },
   {
     path: '*',
     name: 'Error_404',
-    component: () => import('../views/Error_404')
+    component: () => import('@/views/Error_404')
   }
 ]
+
+// export const routes = [
+//   {
+//     path: '/login',
+//     name: 'Login',
+//     component: () => import('@/views/Login')
+//   },
+//   {
+//     path: '*',
+//     name: 'Error_404',
+//     component: () => import('@/views/Error_404')
+//   }
+// ]
