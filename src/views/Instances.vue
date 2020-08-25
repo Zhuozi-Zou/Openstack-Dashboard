@@ -25,7 +25,9 @@
       ...mapActions([
         'getInstances',
         'getPowerStateStr',
-        'getInstanceById'
+        'getInstanceById',
+        'getImageById',
+        'getFlavorById'
       ]),
       async refreshData () {
         try {
@@ -37,15 +39,17 @@
       },
       async formTableValues () {
         this.tableValues = await Promise.all(this.instances.map(async item => {
+          const imagePro = this.getImageById(item.image.id)
+          const flavorPro = this.getFlavorById(item.flavor.id)
 
           return {
             id: item.id,
             name: item.name || `(${item.id.substring(0, 13)})`,
-            image_name: '',
+            image_name: (await imagePro).name,
             ip_address: Object.values(item.addresses)[0].map(subnet => subnet.addr).join(', '),
-            flavor: '',
+            flavor: (await flavorPro).name,
             key_name: item.key_name,
-            status: item.status === 'ACTIVE' ? 'Active' : 'Down',
+            status: item.status,
             'OS-EXT-AZ:availability_zone': item['OS-EXT-AZ:availability_zone'],
             'OS-EXT-STS:task_state': item['OS-EXT-STS:task_state'] || 'None',
             'OS-EXT-STS:power_state': await this.getPowerStateStr(item['OS-EXT-STS:power_state']),

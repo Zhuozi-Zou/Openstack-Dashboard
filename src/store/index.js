@@ -7,6 +7,7 @@ import saveInLocal from './plugin/saveInLocal'
 import neutron from './module/neutron'
 import keystone from './module/keystone'
 import nova from './module/nova'
+import glance from './module/glance'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,9 @@ export default new Vuex.Store({
     networks: neutron.networks,
     floatingIps: neutron.floatingIps,
     auth: keystone.auth,
-    instances: nova.instances
+    instances: nova.instances,
+    flavors: nova.flavors,
+    images: glance.images
   },
   plugins: [saveInLocal]
 })

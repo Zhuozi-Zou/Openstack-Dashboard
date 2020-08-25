@@ -9,19 +9,19 @@ export const instancesCol = [
   {
     key: 'name',
     title: 'Instance Name',
-    minWidth: 100,
+    minWidth: 140,
     sortable: true
   },
   {
     key: 'image_name',
     title: 'Image Name',
-    minWidth: 100,
+    minWidth: 126,
     sortable: true
   },
   {
     key: 'ip_address',
     title: 'IP Address',
-    minWidth: 140,
+    minWidth: 178,
     sortable: true
   },
   {
@@ -39,7 +39,7 @@ export const instancesCol = [
   {
     key: 'status',
     title: 'Status',
-    width: 92,
+    minWidth: 130,
     sortable: true
   },
   {
@@ -63,7 +63,7 @@ export const instancesCol = [
   {
     key: 'age',
     title: 'Age',
-    minWidth: 55,
+    minWidth: 110,
     sortable: true
   },
   {
