@@ -73,9 +73,11 @@ app.all('*', (req, res, next) => {
 const neutron = require('./routes/neutron')
 const keystone = require('./routes/keystone')
 const nova = require('./routes/nova')
+const glance = require('./routes/glance')
 app.use('/neutron', neutron)
 app.use('/keystone', keystone)
 app.use('/nova', nova)
+app.use('/glance', glance)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

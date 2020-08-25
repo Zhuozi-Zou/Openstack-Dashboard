@@ -19,7 +19,7 @@
       @on-cancel="() => this.formModalVisible = false"
       @on-modal-form-submit="hanldeSubmitForm"
     />
-    <Modal v-model="confirmModalVisible" :title="confirmModalTitle">
+    <Modal v-model="confirmModalVisible" :title="confirmModalTitle" :mask-closable="false">
       {{ confirmModalText }}
       <div slot="footer">
         <Button @click="() => this.confirmModalVisible = false">Cancel</Button>
@@ -93,11 +93,12 @@
       async formTableValues () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
           try {
-            const floatingNetwork = await this.getNetworkById(item.floating_network_id)
+            const floatingNetworkPro = this.getNetworkById(item.floating_network_id)
             const portDetails = item.port_details
             let deviceName = '-'
             if (portDetails) {
-              const instance = await this.getInstanceById(portDetails.device_id)
+              const instancePro = this.getInstanceById(portDetails.device_id)
+              const instance = await instancePro
               deviceName = `${instance.name} ${Object.values(instance.addresses)[0][0].addr}`
             }
             return {
@@ -105,7 +106,7 @@
               floating_ip_address: item.floating_ip_address,
               description: item.description,
               mapped_fixed_ip_address: deviceName,
-              pool: floatingNetwork.name,
+              pool: (await floatingNetworkPro).name,
               status: item.status === 'ACTIVE' ? 'Active' : 'Down'
             }
           } catch (e) {

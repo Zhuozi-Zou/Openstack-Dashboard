@@ -23,7 +23,9 @@
     },
     methods: {
       ...mapActions([
-        'getInstances'
+        'getInstances',
+        'getPowerStateStr',
+        'getInstanceById'
       ]),
       async refreshData () {
         try {
@@ -35,21 +37,18 @@
       },
       async formTableValues () {
         this.tableValues = await Promise.all(this.instances.map(async item => {
-          // await Promise.all(
-          //
-          // )
 
           return {
             id: item.id,
             name: item.name || `(${item.id.substring(0, 13)})`,
             image_name: '',
-            ip_address: '',
+            ip_address: Object.values(item.addresses)[0].map(subnet => subnet.addr).join(', '),
             flavor: '',
             key_name: item.key_name,
             status: item.status === 'ACTIVE' ? 'Active' : 'Down',
             'OS-EXT-AZ:availability_zone': item['OS-EXT-AZ:availability_zone'],
             'OS-EXT-STS:task_state': item['OS-EXT-STS:task_state'] || 'None',
-            'OS-EXT-STS:power_state': item['OS-EXT-STS:power_state'],
+            'OS-EXT-STS:power_state': await this.getPowerStateStr(item['OS-EXT-STS:power_state']),
             age: getAgeStr(item.created)
           }
         }))

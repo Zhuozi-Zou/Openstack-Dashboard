@@ -25,7 +25,7 @@
       @on-cancel="() => this.createModalVisible = false"
       @on-modal-form-steps-submit="hanldeSubmitEditSteps"
     />
-    <Modal v-model="deleteModalVisible" title="Comfirm Delete Networks">
+    <Modal v-model="deleteModalVisible" title="Comfirm Delete Networks" :mask-closable="false">
       {{ `You have selected: ${selectedNetNames}. Please confirm your selection. This action cannot be undone.` }}
       <div slot="footer">
         <Button @click="() => this.deleteModalVisible = false">Cancel</Button>

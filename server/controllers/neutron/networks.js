@@ -6,20 +6,14 @@ const { initNeutron } = require('./index')
 
 exports.getNetworks = (req, res) => {
   const token = req.token
-  if (!token) {
-    res.status(401).send()
-  } else {
-    const options = getOptions('/v2.0/networks', 'GET', token)
-    httpRequest(options, res)
-  }
+  const options = getOptions('/v2.0/networks', 'GET', token)
+  httpRequest(options, res)
 }
 
 exports.getNetworkById = (req, res) => {
   const token = req.token
   const { id } = req.query
-  if (!token) {
-    res.status(401).send()
-  } else if (!id) {
+  if (!id) {
     res.status(400).send()
   } else {
     const options = getOptions(`/v2.0/networks?id=${id}`, 'GET', token)
@@ -30,9 +24,7 @@ exports.getNetworkById = (req, res) => {
 exports.getSubnetById = (req, res) => {
   const token = req.token
   const { id } = req.query
-  if (!token) {
-    res.status(401).send()
-  } else if (!id) {
+  if (!id) {
     res.status(400).send()
   } else {
     const options = getOptions(`/v2.0/subnets?id=${id}`, 'GET', token)
@@ -43,9 +35,7 @@ exports.getSubnetById = (req, res) => {
 exports.updateNetworkById = (req, res) => {
   const token = req.token
   const { id, network } = req.body
-  if (!token) {
-    res.status(401).send()
-  } else if (!id || !network) {
+  if (!id || !network) {
     res.status(400).send()
   } else {
     const options = getOptions(`/v2.0/networks/${id}`, 'PUT', token)
@@ -58,9 +48,7 @@ exports.updateNetworkById = (req, res) => {
 exports.createNetwork = (req, res) => {
   const token = req.token
   const { network } = req.body
-  if (!token) {
-    res.status(401).send()
-  } else if (!network) {
+  if (!network) {
     res.status(400).send()
   } else {
     const options = getOptions('/v2.0/networks', 'POST', token)
@@ -73,9 +61,7 @@ exports.createNetwork = (req, res) => {
 exports.createSubnet = (req, res) => {
   const token = req.token
   const { subnet } = req.body
-  if (!token) {
-    res.status(401).send()
-  } else if (!subnet) {
+  if (!subnet) {
     res.status(400).send()
   } else {
     const options = getOptions('/v2.0/subnets', 'POST', token)
@@ -88,9 +74,7 @@ exports.createSubnet = (req, res) => {
 exports.deleteNetwork = (req, res) => {
   const token = req.token
   const { id } = req.body
-  if (!token) {
-    res.status(401).send()
-  } else if (!id) {
+  if (!id) {
     res.status(400).send()
   } else {
     const options = getOptions(`/v2.0/networks/${id}`, 'DELETE', token)
@@ -99,13 +83,8 @@ exports.deleteNetwork = (req, res) => {
 }
 
 exports.getPorts = (req, res) => {
-  const token = req.token
   const { filters } = req.query
   const filtersObj = typeof (filters) === 'string' ? JSON.parse(filters) : {}
-  if (!token) {
-    res.status(401).send()
-  } else {
-    const neutron = initNeutron(req)
-    neutron.listPorts({ filters: filtersObj }, callBack(res))
-  }
+  const neutron = initNeutron(req)
+  neutron.listPorts({ filters: filtersObj }, callBack(res))
 }

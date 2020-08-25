@@ -21,8 +21,7 @@ exports.getFloatingIpById = (req, res) => {
 exports.createFloatingIp = (req, res) => {
   const token = req.token
   const { floatingip } = req.body
-  if (!token) res.status(401).send()
-  else if (!floatingip) res.status(400).send()
+  if (!floatingip) res.status(400).send()
   else {
     const options = getOptions('/v2.0/floatingips', 'POST', token)
     const floatingipString = JSON.stringify({ floatingip })
@@ -33,11 +32,8 @@ exports.createFloatingIp = (req, res) => {
 
 exports.getFloatingIpPools = (req, res) => {
   const token = req.token
-  if (!token) res.status(401).send()
-  else {
-    const options = getOptions('/v2.0/floatingip_pools', 'GET', token)
-    httpRequest(options, res)
-  }
+  const options = getOptions('/v2.0/floatingip_pools', 'GET', token)
+  httpRequest(options, res)
 }
 
 exports.deleteFloatingIp = (req, res) => {

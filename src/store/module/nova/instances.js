@@ -27,6 +27,22 @@ const actions = {
     } catch (e) {
       throw new Error('getInstances: ' + e)
     }
+  },
+  getPowerStateStr (params, stateNum) {
+    switch (stateNum) {
+      case 0:
+        return 'No State'
+      case 1:
+        return 'Running'
+      case 3:
+        return 'Paused'
+      case 4:
+        return 'Shut Down'
+      case 6:
+        return 'Crashed'
+      case 7:
+        return 'Suspended'
+    }
   }
 }
 

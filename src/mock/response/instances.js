@@ -9,19 +9,19 @@ export const instancesCol = [
   {
     key: 'name',
     title: 'Instance Name',
-    minWidth: 140,
+    minWidth: 100,
     sortable: true
   },
   {
     key: 'image_name',
     title: 'Image Name',
-    minWidth: 126,
+    minWidth: 100,
     sortable: true
   },
   {
     key: 'ip_address',
     title: 'IP Address',
-    minWidth: 117,
+    minWidth: 140,
     sortable: true
   },
   {
@@ -51,7 +51,7 @@ export const instancesCol = [
   {
     key: 'OS-EXT-STS:task_state',
     title: 'Task',
-    minWidth: 81,
+    minWidth: 100,
     sortable: true
   },
   {
@@ -63,7 +63,7 @@ export const instancesCol = [
   {
     key: 'age',
     title: 'Age',
-    minWidth: 80,
+    minWidth: 55,
     sortable: true
   },
   {
