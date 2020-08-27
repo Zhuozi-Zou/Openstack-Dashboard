@@ -14,10 +14,10 @@ const actions = {
     console.log('getAdminToken called')
     try {
       const res = await getAdminToken()
-      setTokenToCookie(res.data)
+      setTokenToCookie(res.data.token)
       return res
     } catch (e) {
-      console.log('getAdminToken: ' + e)
+      throw new Error('getAdminToken: ' + e)
     }
   }
 }

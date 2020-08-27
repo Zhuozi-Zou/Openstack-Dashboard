@@ -35,7 +35,7 @@ exports.getAdminToken = (req, res) => {
         { name: token },
         'openstack token',
         { expiresIn: '1d' })
-      res.status(response.statusCode).send(tokenJwt)
+      res.status(response.statusCode).send({ token: tokenJwt })
     })
   })
 

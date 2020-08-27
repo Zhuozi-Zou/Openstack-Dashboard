@@ -40,7 +40,6 @@
   import clonedeep from 'clonedeep'
   import ModalForm from '_c/modal-form'
   import { createNetworkValues, editableValues, networksCol, newNetworkValues } from '@/mock/response/networks'
-  import bus from '@/lib/bus'
   import { joinSelections } from '@/lib/util'
   import { objDelReturn, objRemoveEmptyVal } from '@/lib/tools'
   import ModalFormSteps from '_c/modal-form-steps'
@@ -199,10 +198,10 @@
     async mounted () {
       try {
         await this.refreshData()
-        bus.$on('on-networks-edit-open', index => {
+        this.$bus.$on('on-networks-edit-open', index => {
           this.handleClickEdit(index)
         })
-        bus.$on('on-networks-subnet-selected', () => {
+        this.$bus.$on('on-networks-subnet-selected', () => {
           this.editableValList[1].disabled = !this.editableValList[1].disabled
           this.editableValList[2].disabled = !this.editableValList[2].disabled
         })
@@ -211,8 +210,8 @@
       }
     },
     destroyed () {
-      bus.$off('on-networks-edit-open')
-      bus.$off('on-networks-subnet-selected')
+      this.$bus.$off('on-networks-edit-open')
+      this.$bus.$off('on-networks-subnet-selected')
     }
   }
 </script>

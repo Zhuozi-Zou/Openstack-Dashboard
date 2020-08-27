@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png"/>
+    <img alt="Vue logo" src="../assets/img/logo.png"/>
     <div>
       <button @click="handleClick('back')">返回上一页</button>
       <button @click="handleClick('push')">跳转到Argu</button>

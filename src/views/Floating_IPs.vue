@@ -32,7 +32,6 @@
 <script>
   import { mapActions } from 'vuex'
   import { allocateValues, associateValues, confirmModalTexts, floatingIpsCol } from '@/mock/response/floating_ips'
-  import bus from '@/lib/bus'
   import { joinSelections } from '@/lib/util'
   import ModalForm from '_c/modal-form'
 
@@ -250,10 +249,10 @@
     async mounted () {
       try {
         await this.refreshData()
-        bus.$on('on-floatingIps-disassociate-open', row => {
+        this.$bus.$on('on-floatingIps-disassociate-open', row => {
           this.handleClickDisassociate(row)
         })
-        bus.$on('on-floatingIps-associate-open', row => {
+        this.$bus.$on('on-floatingIps-associate-open', row => {
           this.handleClickAssociate(row)
         })
       } catch (e) {
@@ -261,8 +260,8 @@
       }
     },
     destroyed () {
-      bus.$off('on-floatingIps-disassociate-open')
-      bus.$off('on-floatingIps-associate-open')
+      this.$bus.$off('on-floatingIps-disassociate-open')
+      this.$bus.$off('on-floatingIps-associate-open')
     }
   }
 </script>

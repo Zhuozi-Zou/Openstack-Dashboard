@@ -2,9 +2,13 @@ import Cookies from 'js-cookie'
 import keystone from '../store/module/keystone/auth'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
-  const expires = new Date()
-  expires.setTime(expires.getTime() + 23 * 60 * 60 * 1000)
-  Cookies.set(tokenName, token, { expires })
+  const params = {}
+  if (tokenName === 'token') {
+    const expires = new Date()
+    expires.setTime(expires.getTime() + 23 * 60 * 60 * 1000) // 23 hrs
+    params.expires = expires
+  }
+  Cookies.set(tokenName, token, params)
 }
 
 export const getTokenFromCookie = (tokenName = 'token') => {
@@ -47,4 +51,8 @@ export const getOpenArrByName = (name, routerList) => {
     }
   })
   return arr
+}
+
+export const setTitle = (title) => {
+  window.document.title = title || 'openstack dashboard'
 }

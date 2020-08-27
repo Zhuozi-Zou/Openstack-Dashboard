@@ -8,7 +8,6 @@
   import { mapActions } from 'vuex'
   import { instancesCol } from '@/mock/response/instances'
   import { getAgeStr } from '@/lib/tools'
-  import bus from '@/lib/bus'
 
   const log = console.log
 
@@ -61,9 +60,15 @@
     async mounted () {
       try {
         await this.refreshData()
+        this.$bus.$on('on-instances-dropdown-click', (name) => {
+          console.log(name)
+        })
       } catch (e) {
         log(e)
       }
+    },
+    destroyed () {
+      this.$bus.$off('on-instances-dropdown-click')
     }
   }
 </script>

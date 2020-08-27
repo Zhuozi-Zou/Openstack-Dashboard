@@ -45,6 +45,9 @@ app.all('*', function (req, res, next) {
 const whiteListUrl = {
   get: [
     '/keystone/getAdminToken'
+  ],
+  post: [
+    '/user/login'
   ]
 }
 
@@ -70,10 +73,13 @@ app.all('*', (req, res, next) => {
 })
 
 // routes
+const user = require('./routes/user')
 const neutron = require('./routes/neutron')
 const keystone = require('./routes/keystone')
 const nova = require('./routes/nova')
 const glance = require('./routes/glance')
+
+app.use('/user', user)
 app.use('/neutron', neutron)
 app.use('/keystone', keystone)
 app.use('/nova', nova)
