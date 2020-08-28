@@ -53,55 +53,55 @@
         list: [
           {
             title: 'Project',
-            name: 'project',
-            icon: 'ios-briefcase',
+            name: 'Project',
+            icon: 'md-filing',
             children: [
               {
                 title: 'Compute',
-                name: 'compute',
-                icon: 'ios-speedometer',
+                name: 'Compute',
+                icon: 'md-analytics',
                 children: [
                   {
                     title: 'Instances',
-                    name: 'instances',
-                    icon: 'ios-videocam'
+                    name: 'Instances',
+                    icon: 'md-desktop'
                   },
                   {
                     title: 'Images',
-                    name: 'images',
-                    icon: 'ios-copy'
+                    name: 'Images',
+                    icon: 'md-copy'
                   },
                   {
                     title: 'Key Pairs',
-                    name: 'key_pairs',
-                    icon: 'ios-pricetags'
+                    name: 'Key_Pairs',
+                    icon: 'md-key'
                   }
                 ]
               },
               {
                 title: 'Network',
-                name: 'network',
-                icon: 'ios-keypad',
+                name: 'Network',
+                icon: 'md-globe',
                 children: [
                   {
                     title: 'Networks',
-                    name: 'networks',
-                    icon: 'ios-pulse'
+                    name: 'Networks',
+                    icon: 'md-pulse'
                   },
                   {
                     title: 'Routers',
-                    name: 'routers',
-                    icon: 'ios-shuffle'
+                    name: 'Routers',
+                    icon: 'md-shuffle'
                   },
                   {
                     title: 'Security Groups',
-                    name: 'security_groups',
-                    icon: 'ios-infinite'
+                    name: 'Security_Groups',
+                    icon: 'md-lock'
                   },
                   {
                     title: 'Floating IPs',
-                    name: 'floating_ips',
-                    icon: 'ios-flag'
+                    name: 'Floating_Ips',
+                    icon: 'md-locate'
                   }
                 ]
               }
@@ -109,9 +109,14 @@
           },
           {
             title: 'Admin',
-            name: 'admin',
-            icon: 'ios-people',
+            name: 'Admin',
+            icon: 'md-person',
             children: [
+              {
+                title: 'Overview',
+                name: 'Overview',
+                icon: 'md-map'
+              }
             ]
           }
         ]

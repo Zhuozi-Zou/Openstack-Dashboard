@@ -77,7 +77,7 @@ export const instancesCol = [
         <Dropdown trigger="click" transfer={ true } on-on-click={ (name) => bus.$emit('on-instances-dropdown-click', name) }>
           <i-button>
             Select
-            <Icon type="ios-arrow-down" style="margin-left: 8px" />
+            <Icon type="md-arrow-dropdown" style="margin-left: 8px" />
           </i-button>
           <Dropdown-menu slot="list">
             { !running && <Dropdown-item name="start_instance">Start Instance</Dropdown-item> }

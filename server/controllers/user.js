@@ -22,3 +22,7 @@ exports.login = (req, res) => {
     }
   }
 }
+
+exports.authorization = (req, res) => {
+
+}

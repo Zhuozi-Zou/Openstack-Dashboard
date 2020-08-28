@@ -28,7 +28,7 @@ export default [
     children: [
       {
         path: 'networks',
-        name: 'networks',
+        name: 'Networks',
         component: () => import('../views/Networks'),
         meta: {
           title: 'Networks'
@@ -36,7 +36,7 @@ export default [
       },
       {
         path: 'routers',
-        name: 'routers',
+        name: 'Routers',
         component: () => import('../views/Routers'),
         meta: {
           title: 'Routers'
@@ -44,7 +44,7 @@ export default [
       },
       {
         path: 'security_groups',
-        name: 'security_groups',
+        name: 'Security_Groups',
         component: () => import('../views/Security_Groups'),
         meta: {
           title: 'Security Groups'
@@ -52,7 +52,7 @@ export default [
       },
       {
         path: 'floating_ips',
-        name: 'floating_ips',
+        name: 'Floating_Ips',
         component: () => import('../views/Floating_IPs'),
         meta: {
           title: 'Floating IPs'
@@ -70,7 +70,7 @@ export default [
     children: [
       {
         path: 'instances',
-        name: 'instances',
+        name: 'Instances',
         component: () => import('../views/Instances'),
         meta: {
           title: 'Instances'
@@ -78,7 +78,7 @@ export default [
       },
       {
         path: 'images',
-        name: 'images',
+        name: 'Images',
         component: () => import('../views/Images'),
         meta: {
           title: 'Images'
@@ -86,10 +86,28 @@ export default [
       },
       {
         path: 'key_pairs',
-        name: 'key_pairs',
+        name: 'Key_Pairs',
         component: () => import('../views/Key_Pairs'),
         meta: {
           title: 'Key Pairs'
+        }
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Layout,
+    meta: {
+      title: 'Admin'
+    },
+    children: [
+      {
+        path: 'overview',
+        name: 'Overview',
+        component: () => import('../views/Overview'),
+        meta: {
+          title: 'Overview'
         }
       }
     ]

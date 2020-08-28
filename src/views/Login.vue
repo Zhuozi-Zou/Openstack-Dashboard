@@ -7,10 +7,14 @@
         </div>
         <Form ref="loginForm" :model="formVals" :rules="rules" @keydown.native.enter.prevent="handleLogin">
           <Form-item prop="user" label="User Name">
-            <Input type="text" v-model="formVals.user" placeholder="User Name" />
+            <Input type="text" v-model="formVals.user" placeholder="User Name">
+              <Icon type="ios-person-outline" slot="prepend"></Icon>
+            </Input>
           </Form-item>
           <Form-item prop="password" label="Password">
-            <Input type="password" v-model="formVals.password" placeholder="Password" />
+            <Input type="password" v-model="formVals.password" placeholder="Password">
+              <Icon type="ios-lock-outline" slot="prepend"></Icon>
+            </Input>
           </Form-item>
           <br>
           <Form-item style="text-align: center">
