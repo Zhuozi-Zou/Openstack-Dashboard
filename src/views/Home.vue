@@ -1,14 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/img/logo.png"/>
-    <div>
-      <button @click="handleClick('back')">返回上一页</button>
-      <button @click="handleClick('push')">跳转到Argu</button>
-      <button @click="handleClick('replace')">替换到Parent</button>
-      <!--      <button @click="getInfo" :style="{ background: bgColor }">-->
-      <!--        请求数据-->
-      <!--      </button>-->
-    </div>
+    <img alt="Openstack logo" src="../assets/img/openstack.png"/>
   </div>
 </template>
 

@@ -3,7 +3,7 @@ import Layout from '../views/Layout'
 export default [
   {
     path: '/',
-    name: 'Home',
+    name: 'Index',
     component: Layout,
     meta: {
       title: 'Home'
@@ -11,6 +11,7 @@ export default [
     children: [
       {
         path: 'home',
+        name: 'Home',
         component: () => import('../views/Home'),
         meta: {
           title: 'Home'
