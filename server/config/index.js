@@ -24,37 +24,30 @@ exports.auth = {
       Instances: true,
       Images: true,
       Key_Pairs: true,
+      Admin: true,
+      Overview: true,
       Login: true,
       Error_404: true
     },
-    component: {
-      edit_button: true,
-      publish_button: false
-    }
+    component: {}
   },
   user: {
     page: {
-      home: true,
-      home_index: true,
-      about: true,
-      argu: true,
-      count_to: true,
-      menu_page: true,
-      upload: true,
-      form: true,
-      folder_tree: true,
-      table_page: true,
-      render_page: true,
-      split_pane: true,
-      parent: true,
-      child: true,
-      named_view: true,
-      store: true,
-      main: true
+      Home: true,
+      Network: true,
+      Networks: true,
+      Routers: true,
+      Security_Groups: true,
+      Floating_Ips: true,
+      Compute: true,
+      Instances: true,
+      Images: true,
+      Key_Pairs: true,
+      Admin: false,
+      Overview: false,
+      Login: true,
+      Error_404: true
     },
-    component: {
-      edit_button: true,
-      publish_button: false
-    }
+    component: {}
   }
 }

@@ -2,8 +2,11 @@
   <Row class="vertical-center">
     <i-col :xs="{ span: 22, offset: 1 }" :sm="{ span: 22, offset: 1 }" :md="{ span: 12, offset: 6 }" :lg="{ span: 8, offset: 8 }">
       <Card>
-        <div style="text-align: center">
-          <img src="@/assets/img/openstack.png" alt="Openstack" class="openstack-img" />
+        <div class="horizontal-center">
+          <img src="@/assets/img/logo.jpg" alt="Logo" class="logo-img" />
+        </div>
+        <div class="horizontal-center">
+          <img src="@/assets/img/openstack.jpg" alt="Openstack" class="openstack-img" />
         </div>
         <Form ref="loginForm" :model="formVals" :rules="rules" @keydown.native.enter.prevent="handleLogin">
           <Form-item prop="user" label="User Name">
@@ -71,11 +74,20 @@
 
 <style lang="less">
   .vertical-center {
-    padding-top: ~"calc((100vh - 457.266px) * 0.4)";
+    padding-top: ~"calc((100vh - 509.656px) * 0.4)";
 
-    .openstack-img {
-      max-width: 65%;
-      margin: 16px 10px;
+    .horizontal-center {
+      text-align: center;
+
+      .logo-img {
+        border-radius: 50%;
+        max-width: 30%;
+      }
+
+      .openstack-img {
+        max-width: 65%;
+        margin: 16px 10px;
+      }
     }
   }
 </style>

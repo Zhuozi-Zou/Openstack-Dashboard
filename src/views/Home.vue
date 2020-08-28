@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Openstack logo" src="../assets/img/openstack.png"/>
+    <img alt="Logo" src="@/assets/img/logo.jpg" style="border-radius: 50%" />
   </div>
 </template>
 

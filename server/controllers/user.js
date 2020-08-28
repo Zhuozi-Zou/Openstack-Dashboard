@@ -24,5 +24,15 @@ exports.login = (req, res) => {
 }
 
 exports.authorization = (req, res) => {
-
+  const loginToken = req.cookies.login
+  if (!loginToken) res.status(401).send('there is no login token, please login')
+  else {
+    jwt.verify(loginToken, 'login', (error, decode) => {
+      if (error) res.status(401).send('token error')
+      else {
+        req.token = decode.name
+        next()
+      }
+    })
+  }
 }
