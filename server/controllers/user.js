@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { admin } = require('../config')
+const { admin, rules } = require('../config')
 
 const getPasswordByName = (name) => {
   if (name === 'admin') return admin.password
@@ -28,10 +28,15 @@ exports.authorization = (req, res) => {
   if (!loginToken) res.status(401).send('there is no login token, please login')
   else {
     jwt.verify(loginToken, 'login', (error, decode) => {
-      if (error) res.status(401).send('token error')
+      if (error) res.status(401).send('login token error')
       else {
-        req.token = decode.name
-        next()
+        const userName = decode.name
+        const userRules = userName === 'admin' ? rules.admin : rules.user
+        res.send(
+          {
+            token: jwt.sign({ name: userName }, 'login', { expiresIn: '1d' }),
+            rules: userRules
+          })
       }
     })
   }

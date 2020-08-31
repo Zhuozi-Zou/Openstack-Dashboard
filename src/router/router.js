@@ -1,6 +1,7 @@
 import Layout from '../views/Layout'
+import Navigator from '@/views/Navigator'
 
-export default [
+export const routerMap = [
   {
     path: '/',
     name: 'Index',
@@ -20,78 +21,98 @@ export default [
     ]
   },
   {
-    path: '/network',
-    name: 'Network',
+    path: '/project',
+    name: 'Project',
     component: Layout,
     meta: {
-      title: 'Network'
+      title: 'Project',
+      icon: 'md-filing'
     },
     children: [
       {
-        path: 'networks',
-        name: 'Networks',
-        component: () => import('../views/Networks'),
+        path: '/compute',
+        name: 'Compute',
+        component: Navigator,
         meta: {
-          title: 'Networks'
-        }
+          title: 'Compute',
+          icon: 'md-analytics'
+        },
+        children: [
+          {
+            path: 'instances',
+            name: 'Instances',
+            component: () => import('../views/Instances'),
+            meta: {
+              title: 'Instances',
+              icon: 'md-desktop'
+            }
+          },
+          {
+            path: 'images',
+            name: 'Images',
+            component: () => import('../views/Images'),
+            meta: {
+              title: 'Images',
+              icon: 'md-copy'
+            }
+          },
+          {
+            path: 'key_pairs',
+            name: 'Key_Pairs',
+            component: () => import('../views/Key_Pairs'),
+            meta: {
+              title: 'Key Pairs',
+              icon: 'md-key'
+            }
+          }
+        ]
       },
       {
-        path: 'routers',
-        name: 'Routers',
-        component: () => import('../views/Routers'),
+        path: '/network',
+        name: 'Network',
+        component: Navigator,
         meta: {
-          title: 'Routers'
-        }
-      },
-      {
-        path: 'security_groups',
-        name: 'Security_Groups',
-        component: () => import('../views/Security_Groups'),
-        meta: {
-          title: 'Security Groups'
-        }
-      },
-      {
-        path: 'floating_ips',
-        name: 'Floating_Ips',
-        component: () => import('../views/Floating_IPs'),
-        meta: {
-          title: 'Floating IPs'
-        }
-      }
-    ]
-  },
-  {
-    path: '/compute',
-    name: 'Compute',
-    component: Layout,
-    meta: {
-      title: 'Compute'
-    },
-    children: [
-      {
-        path: 'instances',
-        name: 'Instances',
-        component: () => import('../views/Instances'),
-        meta: {
-          title: 'Instances'
-        }
-      },
-      {
-        path: 'images',
-        name: 'Images',
-        component: () => import('../views/Images'),
-        meta: {
-          title: 'Images'
-        }
-      },
-      {
-        path: 'key_pairs',
-        name: 'Key_Pairs',
-        component: () => import('../views/Key_Pairs'),
-        meta: {
-          title: 'Key Pairs'
-        }
+          title: 'Network',
+          icon: 'md-globe'
+        },
+        children: [
+          {
+            path: 'networks',
+            name: 'Networks',
+            component: () => import('../views/Networks'),
+            meta: {
+              title: 'Networks',
+              icon: 'md-pulse'
+            }
+          },
+          {
+            path: 'routers',
+            name: 'Routers',
+            component: () => import('../views/Routers'),
+            meta: {
+              title: 'Routers',
+              icon: 'md-shuffle'
+            }
+          },
+          {
+            path: 'security_groups',
+            name: 'Security_Groups',
+            component: () => import('../views/Security_Groups'),
+            meta: {
+              title: 'Security Groups',
+              icon: 'md-lock'
+            }
+          },
+          {
+            path: 'floating_ips',
+            name: 'Floating_Ips',
+            component: () => import('../views/Floating_IPs'),
+            meta: {
+              title: 'Floating IPs',
+              icon: 'md-locate'
+            }
+          }
+        ]
       }
     ]
   },
@@ -100,7 +121,8 @@ export default [
     name: 'Admin',
     component: Layout,
     meta: {
-      title: 'Admin'
+      title: 'Admin',
+      icon: 'md-person'
     },
     children: [
       {
@@ -108,38 +130,23 @@ export default [
         name: 'Overview',
         component: () => import('../views/Overview'),
         meta: {
-          title: 'Overview'
+          title: 'Overview',
+          icon: 'md-map'
         }
       }
     ]
-  },
+  }
+]
+
+export const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/Login'),
-    meta: {
-      title: 'Login'
-    }
+    component: () => import('@/views/Login')
   },
   {
     path: '*',
     name: 'Error_404',
-    component: () => import('@/views/Error_404'),
-    meta: {
-      title: '404'
-    }
+    component: () => import('@/views/Error_404')
   }
 ]
-
-// export const routes = [
-//   {
-//     path: '/login',
-//     name: 'Login',
-//     component: () => import('@/views/Login')
-//   },
-//   {
-//     path: '*',
-//     name: 'Error_404',
-//     component: () => import('@/views/Error_404')
-//   }
-// ]

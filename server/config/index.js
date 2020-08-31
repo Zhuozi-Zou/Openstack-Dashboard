@@ -11,10 +11,12 @@ exports.apiAccess = {
   image: 'http://10.199.32.243:9292/v2'
 }
 
-exports.auth = {
+exports.rules = {
   admin: {
     page: {
+      Index: true,
       Home: true,
+      Project: true,
       Network: true,
       Networks: true,
       Routers: true,
@@ -33,7 +35,9 @@ exports.auth = {
   },
   user: {
     page: {
+      Index: true,
       Home: true,
+      Project: true,
       Network: true,
       Networks: true,
       Routers: true,

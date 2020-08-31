@@ -50,7 +50,7 @@ const actions = {
     try {
       await getToken()
       const res = await getFloatingIpPools()
-      return res.data.data.floatingip_pools
+      return res.data.floatingip_pools
     } catch (e) {
       throw new Error('getFloatingIpPools: ' + e)
     }

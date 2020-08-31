@@ -11,8 +11,8 @@
         >
         </re-submenu>
         <menu-item v-else :key="`menu_${item.name}`" :name="item.name">
-          <Icon :type="item.icon" />
-          {{ item.title }}
+          <Icon :type="item.meta.icon" />
+          {{ item.meta.title }}
         </menu-item>
       </template>
     </Menu>

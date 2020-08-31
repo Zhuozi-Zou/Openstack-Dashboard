@@ -9,7 +9,7 @@
         class="sider-outer"
         :style="{ 'min-width': collapsed ? '0' : '220px' }"
       >
-        <side-menu :collapsed="collapsed" :list="list"></side-menu>
+        <side-menu :collapsed="collapsed" :list="menus"></side-menu>
       </Sider>
       <Layout>
         <Header class="header-wrapper">
@@ -39,7 +39,7 @@
 
 <script>
   import SideMenu from '../components/side-menu'
-  // import { mapState, mapMutations, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
   // import { getTabNameByRoute, getRouteById } from '@/lib/util';
 
   export default {
@@ -48,90 +48,21 @@
     },
     data () {
       return {
-        collapsed: false,
+        collapsed: false
         // getTabNameByRoute
-        list: [
-          {
-            title: 'Project',
-            name: 'Project',
-            icon: 'md-filing',
-            children: [
-              {
-                title: 'Compute',
-                name: 'Compute',
-                icon: 'md-analytics',
-                children: [
-                  {
-                    title: 'Instances',
-                    name: 'Instances',
-                    icon: 'md-desktop'
-                  },
-                  {
-                    title: 'Images',
-                    name: 'Images',
-                    icon: 'md-copy'
-                  },
-                  {
-                    title: 'Key Pairs',
-                    name: 'Key_Pairs',
-                    icon: 'md-key'
-                  }
-                ]
-              },
-              {
-                title: 'Network',
-                name: 'Network',
-                icon: 'md-globe',
-                children: [
-                  {
-                    title: 'Networks',
-                    name: 'Networks',
-                    icon: 'md-pulse'
-                  },
-                  {
-                    title: 'Routers',
-                    name: 'Routers',
-                    icon: 'md-shuffle'
-                  },
-                  {
-                    title: 'Security Groups',
-                    name: 'Security_Groups',
-                    icon: 'md-lock'
-                  },
-                  {
-                    title: 'Floating IPs',
-                    name: 'Floating_Ips',
-                    icon: 'md-locate'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            title: 'Admin',
-            name: 'Admin',
-            icon: 'md-person',
-            children: [
-              {
-                title: 'Overview',
-                name: 'Overview',
-                icon: 'md-map'
-              }
-            ]
-          }
-        ]
       }
     },
     computed: {
       triggerClasses () {
         return ['trigger-icon', this.collapsed ? 'rotate' : '']
-      }
-      // ...mapState({
-      //   tabList: state => state.tabNav.tabList,
-      //   routers: state => state.router.routers.filter(item => {
-      //     return item.path !== '*' && item.name !== 'login'
-      //   })
-      // })
+      },
+      ...mapState({
+        // tabList: state => state.tabNav.tabList,
+        menus: state => state.router.routers.filter(item => {
+          console.log(item.name)
+          return item.path !== '*' && item.name !== 'Login' && item.name !== 'Index'
+        })
+      })
     },
     methods: {
       // ...mapActions([

@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import keystone from '../store/module/keystone/auth'
+import store from '@/store'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
   const params = {}
@@ -17,7 +17,7 @@ export const getTokenFromCookie = (tokenName = 'token') => {
 
 export const getNewToken = async () => {
   try {
-    await keystone.actions.getAdminToken()
+    await store.dispatch('getAdminToken')
   } catch (e) {
     console.log('getNewToken: ' + e)
   }

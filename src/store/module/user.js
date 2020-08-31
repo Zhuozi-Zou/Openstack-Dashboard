@@ -1,5 +1,5 @@
 import { setTokenToCookie } from '@/lib/util'
-import { login } from '@/api/user'
+import { login, authorization } from '@/api/user'
 
 const state = {
   userName: '',
@@ -26,20 +26,16 @@ const actions = {
       throw new Error('login: ' + e)
     }
   },
-  authorization ({ commit }, token) {
-    // return new Promise((resolve, reject) => {
-    //   authorization().then(res => {
-    //     if (parseInt(res.code) === 401) {
-    //       reject(new Error('token error'))
-    //     } else {
-    //       setToken(res.data.token)
-    //       resolve(res.data.rules.page)
-    //       commit('SET_RULES', res.data.rules.component)
-    //     }
-    //   }).catch(error => {
-    //     reject(error)
-    //   })
-    // })
+  async authorization ({ commit }) {
+    return new Promise((resolve, reject) => {
+      authorization().then(res => {
+        setTokenToCookie(res.data.token, 'login')
+        resolve(res.data.rules.page)
+        commit('SET_RULES', res.data.rules.component)
+      }).catch(error => {
+        reject(error)
+      })
+    })
   }
 }
 

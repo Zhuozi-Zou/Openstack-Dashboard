@@ -44,7 +44,8 @@ app.all('*', function (req, res, next) {
 
 const whiteListUrl = {
   get: [
-    '/keystone/getAdminToken'
+    '/keystone/getAdminToken',
+    '/user/authorization'
   ],
   post: [
     '/user/login'

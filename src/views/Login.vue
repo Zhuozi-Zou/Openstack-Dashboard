@@ -31,6 +31,8 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import { setTokenToCookie } from '@/lib/util'
+
   export default {
     name: 'Login',
     data () {
@@ -68,6 +70,10 @@
           console.log(e)
         }
       }
+    },
+    mounted () {
+      setTokenToCookie('')
+      setTokenToCookie('', 'login')
     }
   }
 </script>
