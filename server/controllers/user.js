@@ -32,11 +32,10 @@ exports.authorization = (req, res) => {
       else {
         const userName = decode.name
         const userRules = userName === 'admin' ? rules.admin : rules.user
-        res.send(
-          {
-            token: jwt.sign({ name: userName }, 'login', { expiresIn: '1d' }),
-            rules: userRules
-          })
+        res.send({
+          token: jwt.sign({ name: userName }, 'login', { expiresIn: '1d' }),
+          rules: userRules
+        })
       }
     })
   }

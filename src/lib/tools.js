@@ -28,3 +28,11 @@ export const getAgeStr = (createdTimeStr) => {
   if (min) return `${min} minute(s)`
   if (sec) return `${sec} second(s)`
 }
+
+export const localSave = (name, value) => {
+  localStorage.setItem(name, JSON.stringify(value))
+}
+
+export const localRead = (name) => {
+  return JSON.parse(localStorage.getItem(name))
+}

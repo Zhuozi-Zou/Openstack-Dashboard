@@ -16,10 +16,8 @@ const getAccesRouterList = (routes, rules) => {
   return routes.filter(item => {
     if (rules[item.name]) {
       if (item.children) item.children = getAccesRouterList(item.children, rules)
-      console.log('true ' + item.name)
       return true
     }
-    console.log('false ' + item.name)
     return false
   })
 }

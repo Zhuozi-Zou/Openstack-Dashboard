@@ -27,7 +27,7 @@
 <!--            </Tabs>-->
 <!--          </div>-->
           <div class="view-box">
-            <Card shadow class="page-card">
+            <Card shadow class="page-card" style="background-color: mintcream">
               <router-view />
             </Card>
           </div>
@@ -59,7 +59,6 @@
       ...mapState({
         // tabList: state => state.tabNav.tabList,
         menus: state => state.router.routers.filter(item => {
-          console.log(item.name)
           return item.path !== '*' && item.name !== 'Login' && item.name !== 'Index'
         })
       })
@@ -104,7 +103,7 @@
     height: 100%;
 
     .header-wrapper {
-      background: #fff;
+      background: rgba(248, 248, 248);
       box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
       padding: 16px 23px;
 
@@ -123,6 +122,7 @@
     .sider-outer {
       height: 100%;
       overflow: hidden;
+      background-color: #fff;
       .ivu-layout-sider-children {
         margin-right: -20px;
         overflow-y: scroll;
