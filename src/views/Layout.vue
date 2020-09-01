@@ -7,11 +7,11 @@
         v-model="collapsed"
         breakpoint="sm"
         class="sider-outer"
-        :style="{ 'min-width': collapsed ? '0' : '220px' }"
+        :style="{ 'min-width': collapsed ? '0' : '220px', position: 'fixed' }"
       >
         <side-menu :collapsed="collapsed" :list="menus"></side-menu>
       </Sider>
-      <Layout>
+      <Layout :style="{ marginLeft: collapsed ? '64px' : '220px' }">
         <Header class="header-wrapper">
           <Icon
             :class="triggerClasses"
@@ -103,7 +103,7 @@
     height: 100%;
 
     .header-wrapper {
-      background: rgba(248, 248, 248);
+      background: rgba(250, 250, 250);
       box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
       padding: 16px 23px;
 
@@ -124,7 +124,7 @@
       overflow: hidden;
       background-color: #fff;
       .ivu-layout-sider-children {
-        margin-right: -20px;
+        margin-right: -15px;
         overflow-y: scroll;
         overflow-x: hidden;
       }

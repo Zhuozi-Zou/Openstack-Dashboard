@@ -1,7 +1,7 @@
 <template>
   <div class="side-menu-wrapper">
     <slot></slot>
-    <Menu v-show="!collapsed" width="auto" @on-select="handleSelect">
+    <Menu ref="menu" v-show="!collapsed" :active-name="$route.name" :open-names="openNames" width="auto" @on-select="handleSelect">
       <template v-for="item in list">
         <re-submenu
           v-if="item.children"
@@ -21,8 +21,9 @@
 
 <script>
   import ReSubmenu from './re-submenu.vue'
-  // import { mapState } from "vuex";
-  // import { getOpenArrByName } from "@/lib/util";
+  import { mapState } from 'vuex'
+  import { getOpenArrByName } from '@/lib/util'
+
   export default {
     name: 'SideMenu',
     components: {
@@ -38,21 +39,21 @@
         default: () => []
       }
     },
-    // computed: {
-    //   ...mapState({
-    //     routers: state => state.router.routers
-    //   }),
-    //   openNames() {
-    //     return getOpenArrByName(this.$route.name, this.routers);
-    //   }
-    // },
-    // watch: {
-    //   openNames() {
-    //     this.$nextTick(() => {
-    //       this.$refs.menu.updateOpened();
-    //     });
-    //   }
-    // },
+    computed: {
+      ...mapState({
+        routers: state => state.router.routers
+      }),
+      openNames () {
+        return getOpenArrByName(this.$route.name, this.routers)
+      }
+    },
+    watch: {
+      openNames () {
+        this.$nextTick(() => {
+          this.$refs.menu.updateOpened()
+        })
+      }
+    },
     methods: {
       handleSelect (name) {
         this.$router.push({
@@ -85,7 +86,11 @@
     }
 
     .ivu-menu-submenu-title > i {
-      margin-right: 6px;
+      margin-right: 0;
+    }
+
+    .ivu-menu-item > i {
+      margin-right: 0;
     }
 
     .ivu-icon {
