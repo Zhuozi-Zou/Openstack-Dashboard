@@ -6,8 +6,10 @@
         <Button type="error" class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
       </div>
     </div>
-    <br>
-    <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
+    <div style="clear: both">
+      <br>
+    </div>
+    <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data" />
     <modal-form
       :modal-visible="editModalVisible"
       :editable-values="editableValues"
@@ -56,6 +58,7 @@
       return {
         editModalVisible: false,
         createModalVisible: false,
+        deleteLoading: false,
         deleteModalVisible: false,
         networks: [],
         tableValues: [],
@@ -63,10 +66,9 @@
         columns: networksCol,
         editableValList: createNetworkValues,
         editIndex: -1,
-        loading: false,
         selection: [],
-        deleteLoading: false,
-        selectedNetNames: ''
+        selectedNetNames: '',
+        callback: () => {}
       }
     },
     computed: {
@@ -74,40 +76,8 @@
         return !this.selection.length > 0
       }
     },
-    methods: {
-      ...mapActions([
-        'getNetworks',
-        'getSubnetById',
-        'updateNetworkById',
-        'createNetworkWithSubnet',
-        'createNetwork',
-        'deleteNetworks'
-      ]),
-      async refreshData () {
-        try {
-          this.networks = await this.getNetworks()
-          await this.formTableValues()
-        } catch (e) {
-          log(e)
-        }
-      },
-      async handleDeleteNetworks () {
-        this.deleteLoading = true
-        try {
-          await this.deleteNetworks(this.selection)
-          await this.refreshData()
-          this.selection = []
-          this.deleteLoading = false
-          this.deleteModalVisible = false
-        } catch (e) {
-          log(e)
-        }
-      },
-      handleClickDeleteNetworks () {
-        this.selectedNetNames = joinSelections(this.selection, 'name')
-        this.deleteModalVisible = true
-      },
-      async formTableValues () {
+    watch: {
+      async networks () {
         this.tableValues = await Promise.all(this.networks.map(async item => {
           const subnets = await Promise.all(item.subnets.map(async id => {
             try {
@@ -129,6 +99,37 @@
             availability_zones: item.availability_zones
           }
         }))
+
+        this.editModalVisible = false
+        this.createModalVisible = false
+        this.deleteModalVisible = false
+        this.callback()
+        this.callback = () => {}
+        this.deleteLoading = false
+      }
+    },
+    methods: {
+      ...mapActions([
+        'getNetworks',
+        'getSubnetById',
+        'updateNetworkById',
+        'createNetworkWithSubnet',
+        'createNetwork',
+        'deleteNetworks'
+      ]),
+      async handleDeleteNetworks () {
+        this.deleteLoading = true
+        try {
+          await this.deleteNetworks(this.selection)
+          this.networks = await this.getNetworks()
+          this.selection = []
+        } catch (e) {
+          log(e)
+        }
+      },
+      handleClickDeleteNetworks () {
+        this.selectedNetNames = joinSelections(this.selection, 'name')
+        this.deleteModalVisible = true
       },
       handleClickEdit (index) {
         this.editableValues = editableValues(this.networks[index])
@@ -142,23 +143,23 @@
         this.createModalVisible = true
       },
       async hanldeSubmitEdit (network, cb) {
+        this.callback = cb
         const data = {
           id: this.networks[this.editIndex].id,
           network
         }
         if (this.editIndex !== -1) {
           try {
-            this.networks[this.editIndex] = await this.updateNetworkById(data)
-            await this.formTableValues()
+            await this.updateNetworkById(data)
+            this.networks = await this.getNetworks()
           } catch (e) {
             log(e)
           }
         }
         this.editIndex = -1
-        this.editModalVisible = false
-        cb()
       },
       async hanldeSubmitEditSteps (filledValues, cb) {
+        this.callback = cb
         const valueList = clonedeep(filledValues)
         const network = {}
         newNetworkValues.forEach(item => {
@@ -186,10 +187,7 @@
             }
             await this.createNetworkWithSubnet({ network, subnet: valueList })
           }
-
-          await this.refreshData()
-          this.createModalVisible = false
-          cb()
+          this.networks = await this.getNetworks()
         } catch (e) {
           log(e)
         }
@@ -197,7 +195,7 @@
     },
     async mounted () {
       try {
-        await this.refreshData()
+        this.networks = await this.getNetworks()
         this.$bus.$on('on-networks-edit-open', index => {
           this.handleClickEdit(index)
         })
@@ -219,6 +217,8 @@
 <style lang="less">
   .networks-header {
     .buttons {
+      float: right;
+
       .del-button {
         margin-left: 5px;
       }

@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import { routes } from './router'
 import store from '@/store'
 import { setTitle, getTokenFromCookie } from '@/lib/util'
-import { localRead, localSave } from '@/lib/tools'
 
 Vue.use(Router)
 
@@ -34,17 +33,12 @@ const refreshRouters = async (next, to) => {
 
 router.beforeEach(async (to, from, next) => {
   to.meta && setTitle(to.meta.title)
-  if (to.name === 'Login') next()
-  else {
-    if (!getTokenFromCookie('login')) next({ name: 'Login' })
-    else {
-      if (store.state.router.hasGetRules) {
-        next()
-      } else {
-        await refreshRouters(next, to)
-      }
-    }
-  }
+  if (!getTokenFromCookie('login')) {
+    if (to.name === 'Login') next()
+    else next({ name: 'Login' })
+  } else if (to.name === 'Login') next({ name: 'Home' })
+  else if (store.state.router.hasGetRules) next()
+  else await refreshRouters(next, to)
 })
 
 export default router

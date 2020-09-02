@@ -8,7 +8,9 @@
         </Button>
       </div>
     </div>
-    <br>
+    <div style="clear: both">
+      <br>
+    </div>
     <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s"
            no-data-text="No data"/>
     <modal-form
@@ -58,9 +60,9 @@
         floatingIps: [],
         tableValues: [],
         formValues: [],
-        editIndex: -1,
         selection: [],
-        selectedRow: -1
+        selectedRow: -1,
+        callback: () => {}
       }
     },
     computed: {
@@ -68,28 +70,8 @@
         return !this.selection.length > 0
       }
     },
-    methods: {
-      ...mapActions([
-        'getNetworkById',
-        'getInstanceById',
-        'getFloatingIps',
-        'getFloatingIpById',
-        'getFloatingIpPools',
-        'createFloatingIp',
-        'getFloatingIpPorts',
-        'deleteFloatingIps',
-        'disassociateFloatingIp',
-        'associateFloatingIp'
-      ]),
-      async refreshData () {
-        try {
-          this.floatingIps = await this.getFloatingIps()
-          await this.formTableValues()
-        } catch (e) {
-          log(e)
-        }
-      },
-      async formTableValues () {
+    watch: {
+      async floatingIps () {
         this.tableValues = await Promise.all(this.floatingIps.map(async item => {
           try {
             const floatingNetworkPro = this.getNetworkById(item.floating_network_id)
@@ -112,7 +94,26 @@
             log(e)
           }
         }))
-      },
+        this.formModalVisible = false
+        this.callback()
+        this.callback = () => {}
+        this.confirmModalVisible = false
+        this.comfirmLoading = false
+      }
+    },
+    methods: {
+      ...mapActions([
+        'getNetworkById',
+        'getInstanceById',
+        'getFloatingIps',
+        'getFloatingIpById',
+        'getFloatingIpPools',
+        'createFloatingIp',
+        'getFloatingIpPorts',
+        'deleteFloatingIps',
+        'disassociateFloatingIp',
+        'associateFloatingIp'
+      ]),
       setConfirmModal (title, text, confirmText, type) {
         this.confirmModalTitle = title
         this.confirmModalText = text
@@ -142,9 +143,7 @@
               ip = await this.getFloatingIpById(this.selectedRow.id)
               if (ip.status !== 'ACTIVE') {
                 clearInterval(int)
-                await this.refreshData()
-                this.comfirmLoading = false
-                this.confirmModalVisible = false
+                this.floatingIps = await this.getFloatingIps()
               }
             }, 1000)
           }, 5000)
@@ -161,10 +160,8 @@
         this.comfirmLoading = true
         try {
           await this.deleteFloatingIps(this.selection)
-          await this.refreshData()
           this.selection = []
-          this.comfirmLoading = false
-          this.confirmModalVisible = false
+          this.floatingIps = await this.getFloatingIps()
         } catch (e) {
           log(e)
         }
@@ -186,7 +183,7 @@
           log(e)
         }
       },
-      async handleAssociate (port, cb) {
+      async handleAssociate (port) {
         try {
           await this.associateFloatingIp({
             ipId: this.selectedRow.id,
@@ -199,9 +196,7 @@
               ip = await this.getFloatingIpById(this.selectedRow.id)
               if (ip.status !== 'DOWN') {
                 clearInterval(int)
-                await this.refreshData()
-                this.formModalVisible = false
-                cb()
+                this.floatingIps = await this.getFloatingIps()
               }
             }, 1000)
           }, 5000)
@@ -225,30 +220,27 @@
           log(e)
         }
       },
-      async hanldeAllocate (floatingip, cb) {
+      async hanldeAllocate (floatingip) {
         try {
           await this.createFloatingIp(floatingip)
-          await this.refreshData()
+          this.floatingIps = await this.getFloatingIps()
         } catch (e) {
           log(e)
         }
-        this.formModalVisible = false
-        cb()
       },
       async hanldeSubmitForm (values, cb) {
-        if (this.formModalType === 'allocate') {
-          await this.hanldeAllocate(values, cb)
-        } else if (this.formModalType === 'associate') await this.handleAssociate(values, cb)
+        this.callback = cb
+        if (this.formModalType === 'allocate') await this.hanldeAllocate(values)
+        else if (this.formModalType === 'associate') await this.handleAssociate(values)
       },
       async handleConfirm () {
-        if (this.confirmModalType === 'release') {
-          await this.handleRelease()
-        } else if (this.confirmModalType === 'disassociate') await this.handleDisassociate()
+        if (this.confirmModalType === 'release') await this.handleRelease()
+        else if (this.confirmModalType === 'disassociate') await this.handleDisassociate()
       }
     },
     async mounted () {
       try {
-        await this.refreshData()
+        this.floatingIps = await this.getFloatingIps()
         this.$bus.$on('on-floatingIps-disassociate-open', row => {
           this.handleClickDisassociate(row)
         })
@@ -269,6 +261,8 @@
 <style lang="less">
   .floatingIps-header {
     .buttons {
+      float: right;
+
       .release-button {
         margin-left: 5px;
       }

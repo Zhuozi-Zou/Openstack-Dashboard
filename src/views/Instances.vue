@@ -9,8 +9,6 @@
   import { instancesCol } from '@/mock/response/instances'
   import { getAgeStr } from '@/lib/tools'
 
-  const log = console.log
-
   export default {
     name: 'Instances',
     data () {
@@ -20,23 +18,8 @@
         columns: instancesCol
       }
     },
-    methods: {
-      ...mapActions([
-        'getInstances',
-        'getPowerStateStr',
-        'getInstanceById',
-        'getImageById',
-        'getFlavorById'
-      ]),
-      async refreshData () {
-        try {
-          this.instances = await this.getInstances()
-          await this.formTableValues()
-        } catch (e) {
-          log(e)
-        }
-      },
-      async formTableValues () {
+    watch: {
+      async instances () {
         this.tableValues = await Promise.all(this.instances.map(async item => {
           const imagePro = this.getImageById(item.image.id)
           const flavorPro = this.getFlavorById(item.flavor.id)
@@ -57,14 +40,23 @@
         }))
       }
     },
+    methods: {
+      ...mapActions([
+        'getInstances',
+        'getPowerStateStr',
+        'getInstanceById',
+        'getImageById',
+        'getFlavorById'
+      ])
+    },
     async mounted () {
       try {
-        await this.refreshData()
+        this.instances = await this.getInstances()
         this.$bus.$on('on-instances-dropdown-click', (name) => {
           console.log(name)
         })
       } catch (e) {
-        log(e)
+        console.log(e)
       }
     },
     destroyed () {

@@ -15,10 +15,11 @@
         <Header class="header-wrapper">
           <Icon
             :class="triggerClasses"
-            @click.native="handleCollapsed"
+            @click.native="handleCollapse"
             type="md-menu"
             :size="32"
           />
+          <Button type="error" class="logout-button" @click="handleLogout">Logout</Button>
         </Header>
         <Content class="content-con">
 <!--          <div>-->
@@ -40,7 +41,7 @@
 <script>
   import SideMenu from '../components/side-menu'
   import { mapState } from 'vuex'
-  // import { getTabNameByRoute, getRouteById } from '@/lib/util';
+  import { setTokenToCookie } from '@/lib/util'
 
   export default {
     components: {
@@ -67,8 +68,13 @@
       // ...mapActions([
       //   'handleRemove'
       // ]),
-      handleCollapsed () {
+      handleCollapse () {
         this.collapsed = !this.collapsed
+      },
+      handleLogout () {
+        setTokenToCookie('')
+        setTokenToCookie('', 'login')
+        this.$router.push({ name: 'Login' })
       }
       // handleClickTab(id) {
       //   let route = getRouteById(id);
@@ -116,6 +122,10 @@
           transform: rotateZ(-90deg);
           transition: transform 0.3s ease;
         }
+      }
+
+      .logout-button {
+        float: right;
       }
     }
 
