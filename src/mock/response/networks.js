@@ -9,7 +9,7 @@ export const networksCol = [
   {
     key: 'name',
     title: 'Name',
-    minWidth: 88,
+    minWidth: 120,
     sortable: true
   },
   {

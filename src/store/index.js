@@ -25,6 +25,7 @@ export default new Vuex.Store({
     networks: neutron.networks,
     floatingIps: neutron.floatingIps,
     auth: keystone.auth,
+    projects: keystone.projects,
     instances: nova.instances,
     flavors: nova.flavors,
     images: glance.images

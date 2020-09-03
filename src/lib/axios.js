@@ -8,16 +8,21 @@ class HttpRequest {
   }
 
   getInsideConfig () {
-    const config = {
+    return {
       baseUrl: this.baseUrl,
       withCredentials: true,
       headers: {
         //
       }
     }
-
-    return config
   }
+
+  // distroy (url) {
+  //   delete this.queue[url]
+  //   if (!Object.keys(this.queue).length) {
+  //     Spin.show()
+  //   }
+  // }
 
   interceptors (instance) {
     instance.interceptors.request.use(
@@ -28,8 +33,7 @@ class HttpRequest {
       },
       error => {
         return Promise.reject(error)
-      }
-    )
+      })
 
     instance.interceptors.response.use(
       res => {

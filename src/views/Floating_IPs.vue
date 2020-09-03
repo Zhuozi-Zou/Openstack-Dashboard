@@ -11,8 +11,7 @@
     <div style="clear: both">
       <br>
     </div>
-    <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s"
-           no-data-text="No data"/>
+    <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
     <modal-form
       :modal-visible="formModalVisible"
       :editable-values="formValues"

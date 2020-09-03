@@ -29,10 +29,24 @@ export const getAgeStr = (createdTimeStr) => {
   if (sec) return `${sec} second(s)`
 }
 
+export const bytesToSize = (bytes) => {
+  const bytesNum = Number(bytes)
+  if (!bytesNum || bytesNum === 0) return '0 B'
+
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const i = Math.floor(Math.log(bytesNum) / Math.log(k))
+  return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i]
+}
+
 export const localSave = (name, value) => {
   localStorage.setItem(name, JSON.stringify(value))
 }
 
 export const localRead = (name) => {
   return JSON.parse(localStorage.getItem(name))
+}
+
+export const firstLetterUpper = (s) => {
+  return s.charAt(0).toUpperCase() + s.substring(1)
 }
