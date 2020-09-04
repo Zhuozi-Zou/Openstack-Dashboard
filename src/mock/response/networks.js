@@ -9,7 +9,7 @@ export const networksCol = [
   {
     key: 'name',
     title: 'Name',
-    minWidth: 120,
+    minWidth: 130,
     sortable: true
   },
   {
@@ -20,7 +20,8 @@ export const networksCol = [
     render: (h, { row }) => {
       return h('ul', {
         style: {
-          'list-style-type': 'none'
+          'list-style-type': 'none',
+          'margin-bottom': 0
         }
       }, row.subnets_associated.map(item => {
         return h('li', item)
