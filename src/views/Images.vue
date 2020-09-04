@@ -24,6 +24,7 @@
         this.tableValues = await Promise.all(this.images.map(async item => {
           try {
             return {
+              id: item.id,
               owner_project_name: item.owner_project_name || (await this.getProjectById(item.owner)).name,
               name: item.name,
               image_type: item.image_type ? firstLetterUpper(item.image_type) : 'Image',
@@ -31,7 +32,9 @@
               visibility: firstLetterUpper(item.visibility),
               protected: item.protected ? 'Yes' : 'No',
               disk_format: item.disk_format.toUpperCase(),
-              size: item.size ? bytesToSize(item.size) : ''
+              size: item.size ? bytesToSize(item.size) : '',
+              min_disk: item.min_disk,
+              min_ram: item.min_ram
             }
           } catch (e) {
             console.log(e)
