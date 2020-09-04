@@ -13,6 +13,7 @@ export const imagesCol = [
     render: (h, { row }) => {
       return h(ExpandRow, {
         props: {
+          numColPerRow: 3,
           row: [
             {
               title: 'Name',

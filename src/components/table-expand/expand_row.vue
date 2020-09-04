@@ -5,7 +5,7 @@
         class="expand-col"
         v-for="(col, index) in cols"
         :key="`${_uid}_${index}`"
-        span="8"
+        :span="Math.ceil(24 / numColPerRow)"
       >
         <span class="expand-key">{{ col.title }}</span>
         <br>
@@ -27,12 +27,17 @@
       row: {
         type: Array,
         default: () => []
+      },
+      numColPerRow: {
+        type: Number,
+        default: 3
       }
     },
     methods: {
       setInitValue () {
-        for (let i = 0; i < this.row.length; i = i + 3) {
-          this.valueList.push(this.row.slice(i, i + 3))
+        const k = this.numColPerRow
+        for (let i = 0; i < this.row.length; i = i + k) {
+          this.valueList.push(this.row.slice(i, i + k))
         }
       }
     },
