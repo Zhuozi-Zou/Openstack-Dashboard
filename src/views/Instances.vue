@@ -1,5 +1,25 @@
 <template>
   <div>
+    <div class="instances-header">
+      <div class="buttons">
+        <Button class="button" @click="handleClickCreate">Launch Instance</Button>
+        <Button type="error" class="button" :disabled="deleteButtonDisabled" @click="handleClickDeleteInstances">Delete Instances</Button>
+        <Dropdown trigger="click" :transfer="true" @on-click="handleClickMoreActions">
+          <Button style="margin: 0 3px">
+            More Actions
+            <Icon type="md-arrow-dropdown" />
+          </Button>
+          <Dropdown-menu slot="list">
+            <Dropdown-item name="start_instance">Start Instance</Dropdown-item>
+            <Dropdown-item style="color: red" name="shut_off_instance">Shut Off Instance</Dropdown-item>
+            <Dropdown-item style="color: red" name="soft_reboot_instance">Soft Reboot Instance</Dropdown-item>
+          </Dropdown-menu>
+        </Dropdown>
+      </div>
+    </div>
+    <div style="clear: both">
+      <br>
+    </div>
     <Table border :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
   </div>
 </template>
@@ -15,7 +35,13 @@
       return {
         instances: [],
         tableValues: [],
-        columns: instancesCol
+        columns: instancesCol,
+        selection: []
+      }
+    },
+    computed: {
+      deleteButtonDisabled () {
+        return !this.selection.length > 0
       }
     },
     watch: {
@@ -47,7 +73,16 @@
         'getInstanceById',
         'getImageById',
         'getFlavorById'
-      ])
+      ]),
+      handleClickCreate () {
+        //
+      },
+      handleClickDeleteInstances () {
+        //
+      },
+      handleClickMoreActions (name) {
+        console.log(name)
+      }
     },
     async mounted () {
       try {
@@ -65,6 +100,14 @@
   }
 </script>
 
-<style scoped>
+<style lang="less">
+  .instances-header {
+    .buttons {
+      float: right;
 
+      .button {
+        margin: 0 3px;
+      }
+    }
+  }
 </style>
