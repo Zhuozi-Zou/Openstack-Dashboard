@@ -64,7 +64,7 @@ export const networksCol = [
   {
     key: 'actions',
     title: 'Actions',
-    width: 130,
+    width: 135,
     align: 'center',
     render: (h, { index }) => {
       return h('div', [

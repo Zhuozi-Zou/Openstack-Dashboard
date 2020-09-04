@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '@/config'
+import { Spin } from 'iview'
 
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -17,18 +18,37 @@ class HttpRequest {
     }
   }
 
-  // distroy (url) {
-  //   delete this.queue[url]
-  //   if (!Object.keys(this.queue).length) {
-  //     Spin.show()
-  //   }
-  // }
+  distroy (url) {
+    delete this.queue[url]
+    setTimeout(() => {
+      if (!Object.keys(this.queue).length) {
+        Spin.hide()
+      }
+    }, 1000)
+  }
 
-  interceptors (instance) {
+  interceptors (instance, url) {
     instance.interceptors.request.use(
       config => {
-        // 添加全局的loading...
-        // Spin.show()
+        // Add global loading...
+        if (config.method === 'get') {
+          if (!Object.keys(this.queue).length) {
+            Spin.show({
+              render: (h) => {
+                return h('div', [
+                  h('Icon', {
+                    style: { animation: 'ani-demo-spin 1s linear infinite' },
+                    props: {
+                      type: 'ios-loading',
+                      size: 30
+                    }
+                  }), h('div', 'Loading')
+                ])
+              }
+            })
+          }
+          this.queue[url] = true
+        }
         return config
       },
       error => {
@@ -37,9 +57,11 @@ class HttpRequest {
 
     instance.interceptors.response.use(
       res => {
+        if (res.config.method === 'get') this.distroy(url)
         return res
       },
       error => {
+        this.distroy(url)
         return Promise.reject(error)
       }
     )
@@ -48,7 +70,7 @@ class HttpRequest {
   request (options) {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
-    this.interceptors(instance)
+    this.interceptors(instance, options.url)
     return instance(options)
   }
 }

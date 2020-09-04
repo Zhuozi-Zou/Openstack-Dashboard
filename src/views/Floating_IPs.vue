@@ -2,8 +2,8 @@
   <div>
     <div class="floatingIps-header">
       <div class="buttons">
-        <Button @click="handleClickAllocate">Allocate IP To Project</Button>
-        <Button type="error" class="release-button" :disabled="releaseButtonDisabled" @click="handleClickRelease">
+        <Button class="button" @click="handleClickAllocate">Allocate IP To Project</Button>
+        <Button type="error" class="button" :disabled="releaseButtonDisabled" @click="handleClickRelease">
           Release Floating IPs
         </Button>
       </div>
@@ -262,8 +262,8 @@
     .buttons {
       float: right;
 
-      .release-button {
-        margin-left: 5px;
+      .button {
+        margin: 0 3px;
       }
     }
   }

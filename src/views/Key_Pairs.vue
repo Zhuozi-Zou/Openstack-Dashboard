@@ -4,7 +4,10 @@
 
 <script>
   export default {
-    name: 'Key_Pairs'
+    name: 'Key_Pairs',
+    mounted () {
+      //
+    }
   }
 </script>
 

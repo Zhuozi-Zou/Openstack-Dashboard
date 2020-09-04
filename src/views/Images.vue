@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="images-header">
+      <div class="buttons">
+        <Button class="button" @click="handleClickCreate">Create Image</Button>
+        <Button type="error" class="button" :disabled="deleteButtonDisabled" @click="handleClickDeleteImages">Delete Images</Button>
+      </div>
+    </div>
+    <div style="clear: both">
+      <br>
+    </div>
     <Table :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
   </div>
 </template>
@@ -17,6 +26,11 @@
         images: [],
         tableValues: [],
         selection: []
+      }
+    },
+    computed: {
+      deleteButtonDisabled () {
+        return !this.selection.length > 0
       }
     },
     watch: {
@@ -46,7 +60,13 @@
       ...mapActions([
         'getImages',
         'getProjectById'
-      ])
+      ]),
+      handleClickCreate () {
+        //
+      },
+      handleClickDeleteImages () {
+        //
+      }
     },
     async mounted () {
       try {
@@ -64,6 +84,14 @@
   }
 </script>
 
-<style scoped>
+<style lang="less">
+  .images-header {
+    .buttons {
+      float: right;
 
+      .button {
+        margin: 0 3px;
+      }
+    }
+  }
 </style>

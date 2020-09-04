@@ -2,8 +2,8 @@
   <div>
     <div class="networks-header">
       <div class="buttons">
-        <Button @click="handleClickCreate">Create Network</Button>
-        <Button type="error" class="del-button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
+        <Button class="button" @click="handleClickCreate">Create Network</Button>
+        <Button type="error" class="button" :disabled="deleteButtonDisabled" @click="handleClickDeleteNetworks">Delete Networks</Button>
       </div>
     </div>
     <div style="clear: both">
@@ -219,8 +219,8 @@
     .buttons {
       float: right;
 
-      .del-button {
-        margin-left: 5px;
+      .button {
+        margin: 0 3px;
       }
     }
   }

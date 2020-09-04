@@ -49,7 +49,7 @@
 
 <style lang="less">
   .expand-row{
-    margin-bottom: 16px;
+    padding: 6px 0;
 
     .expand-col {
       padding: 0 10px;

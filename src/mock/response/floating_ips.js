@@ -39,7 +39,7 @@ export const floatingIpsCol = [
   {
     key: 'actions',
     title: 'Actions',
-    width: 130,
+    width: 136,
     align: 'center',
     render: (h, { row }) => {
       const active = row.status === 'Active'
