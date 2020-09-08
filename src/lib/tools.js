@@ -29,14 +29,14 @@ export const getAgeStr = (createdTimeStr) => {
   if (sec) return `${sec} second(s)`
 }
 
-export const bytesToSize = (bytes) => {
+export const bytesToSize = (bytes, fracDigits = 2) => {
   const bytesNum = Number(bytes)
   if (!bytesNum || bytesNum === 0) return '0 B'
 
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytesNum) / Math.log(k))
-  return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i]
+  return (bytes / Math.pow(k, i)).toFixed(fracDigits) + ' ' + sizes[i]
 }
 
 export const localSave = (name, value) => {

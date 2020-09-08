@@ -9,3 +9,8 @@ exports.getFlavorById = (req, res) => {
     nova.getFlavor(id, callBack(res))
   }
 }
+
+exports.getFlavors = (req, res) => {
+  const nova = initNova(req)
+  nova.listFlavors(callBack(res))
+}

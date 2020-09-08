@@ -39,6 +39,15 @@ export const routerMap = [
         },
         children: [
           {
+            path: 'compute_overview',
+            name: 'Compute_Overview',
+            component: () => import(/* webpackChunkname: "Compute_Overview" */ '../views/Compute_Overview'),
+            meta: {
+              title: 'Overview',
+              icon: 'md-book'
+            }
+          },
+          {
             path: 'instances',
             name: 'Instances',
             component: () => import(/* webpackChunkName: "Instances" */ '../views/Instances'),
@@ -126,9 +135,9 @@ export const routerMap = [
     },
     children: [
       {
-        path: 'overview',
-        name: 'Overview',
-        component: () => import(/* webpackChunkName: "Overview" */ '../views/Overview'),
+        path: 'admin_overview',
+        name: 'Admin_Overview',
+        component: () => import(/* webpackChunkName: "Admin_Overview" */ '../views/Admin_Overview'),
         meta: {
           title: 'Overview',
           icon: 'md-map'

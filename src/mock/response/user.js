@@ -21,7 +21,7 @@ export const authorization = () => {
         Images: true,
         Key_Pairs: true,
         Admin: true,
-        Overview: true,
+        Admin_Overview: true,
         Login: true,
         Error_404: true
       },

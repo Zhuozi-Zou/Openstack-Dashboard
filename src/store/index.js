@@ -28,6 +28,7 @@ export default new Vuex.Store({
     projects: keystone.projects,
     instances: nova.instances,
     flavors: nova.flavors,
+    stats: nova.stats,
     images: glance.images
   },
   plugins: [saveInLocal]
