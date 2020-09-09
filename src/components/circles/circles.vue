@@ -4,7 +4,7 @@
       v-for="(item, index) in circleStats"
       :key="`${_uid}_${index}`"
       class="circle-custom"
-      :size="130"
+      :size="size"
       :trail-width="4"
       :stroke-width="5"
       :percent="item.percent"
@@ -34,6 +34,10 @@
       splitStr: {
         type: String,
         default: 'of'
+      },
+      size: {
+        type: Number,
+        default: 130
       }
     }
   }

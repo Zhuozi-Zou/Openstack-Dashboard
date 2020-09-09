@@ -5,6 +5,7 @@
     <h4>Compute</h4>
     <circles :circle-stats="computeVal" />
     <h4>Network</h4>
+    <circles :circle-stats="networkVal" />
   </div>
 </template>
 
@@ -21,7 +22,8 @@
     data () {
       return {
         computeUsage: {},
-        computeQuota: {}
+        computeQuota: {},
+        networkQuotaUsage: {}
       }
     },
     computed: {
@@ -42,12 +44,23 @@
             multiLines: key === 'RAM'
           }
         })
+      },
+      networkVal () {
+        return Object.entries(this.networkQuotaUsage).map(([key, value]) => {
+          return {
+            title: key,
+            usage: `Used ${value.used} of ${value.limit}`,
+            percent: Number(value.used) / Number(value.limit) * 100,
+            multiLines: false
+          }
+        })
       }
     },
     methods: {
       ...mapActions([
         'getUsageByProjectId',
-        'getQuotaByProjectId'
+        'getQuotaByProjectId',
+        'getQuotaDetailsByProjectId'
       ]),
       async initComputeStats () {
         try {
@@ -80,11 +93,29 @@
         } catch (e) {
           console.log(e)
         }
+      },
+      async initNetworkStats () {
+        try {
+          const networkUsage = await this.getQuotaDetailsByProjectId(this.projectId)
+          this.networkQuotaUsage = {
+            'Floating IPs': networkUsage.floatingip,
+            'Security Groups': networkUsage.security_group,
+            'Security Group Rules': networkUsage.security_group_rule,
+            Networks: networkUsage.network,
+            Ports: networkUsage.port,
+            Routers: networkUsage.router
+          }
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
     async mounted () {
       try {
-        await this.initComputeStats()
+        const initCS = this.initComputeStats()
+        const initNS = this.initNetworkStats()
+        await initCS
+        await initNS
       } catch (e) {
         console.log(e)
       }

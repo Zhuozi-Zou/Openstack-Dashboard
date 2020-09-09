@@ -24,11 +24,12 @@ export default new Vuex.Store({
     user,
     networks: neutron.networks,
     floatingIps: neutron.floatingIps,
+    statsNeutron: neutron.stats,
     auth: keystone.auth,
     projects: keystone.projects,
     instances: nova.instances,
     flavors: nova.flavors,
-    stats: nova.stats,
+    statsNova: nova.stats,
     images: glance.images
   },
   plugins: [saveInLocal]
