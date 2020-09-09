@@ -98,7 +98,10 @@
         }
       },
       handleSubmitInvalid () {
-        this.$Message.error('Info filled not valid')
+        this.$Notice.error({
+          title: 'Error:',
+          desc: 'Info filled not valid'
+        })
         this.remainFormToCheck = -10
       },
       handleClickSubmit () {

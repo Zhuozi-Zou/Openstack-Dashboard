@@ -50,3 +50,19 @@ export const localRead = (name) => {
 export const firstLetterUpper = (s) => {
   return s.charAt(0).toUpperCase() + s.substring(1)
 }
+
+export const getCurrentYMD = () => {
+  const date = new Date()
+  const Y = date.getFullYear()
+  let M = date.getMonth() + 1
+  let D = date.getDate()
+
+  if (M < 10) M = '0' + M
+  if (D < 10) D = '0' + D
+
+  return Y + '-' + M + '-' + D
+}
+
+export const addADay = (curDate) => {
+  return new Date(curDate.getTime() + 24 * 60 * 60 * 1000 - 1)
+}

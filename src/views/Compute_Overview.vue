@@ -1,17 +1,31 @@
 <template>
-  <div>
+  <div class="compute-overview">
     <h2>Limit Summary</h2>
-    <br>
-    <h4>Compute</h4>
+    <h3>Compute</h3>
     <circles :circle-stats="computeVal" />
-    <h4>Network</h4>
+    <h3>Network</h3>
     <circles :circle-stats="networkVal" />
+    <br>
+    <h2>Usage Summary</h2>
+    <h3>
+      Select a period of time to query its usage:
+      <span class="small help-block">The date should be in YYYY-MM-DD, YYYY-MM-DD format.</span>
+    </h3>
+    <div style="margin-bottom: 5px">
+      <DatePicker type="daterange" separator=", " @on-change="handleDatePickerOnChange"></DatePicker>
+      <Button @click="handleSubmitDateRange" style="margin-left: 10px">Submit</Button>
+    </div>
+    <List size="small">
+      <ListItem v-for="(item, index) in usageListVal" :key="`${_uid}_${index}`">
+        <ListItemMeta :title="item.title" :description="item.description" />
+      </ListItem>
+    </List>
   </div>
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex'
-  import { bytesToSize } from '@/lib/tools'
+  import { addADay, bytesToSize, getCurrentYMD } from '@/lib/tools'
   import circles from '_c/circles/circles'
 
   export default {
@@ -23,7 +37,9 @@
       return {
         computeUsage: {},
         computeQuota: {},
-        networkQuotaUsage: {}
+        networkQuotaUsage: {},
+        dateRange: ['', ''],
+        computeUsageFull: {}
       }
     },
     computed: {
@@ -32,11 +48,13 @@
       }),
       computeVal () {
         return Object.entries(this.computeUsage).map(([key, value]) => {
-          const k = 1024 * 1024
-          const usage = (key === 'RAM'
-            ? `Used ${bytesToSize(value * k, 0)} of ${bytesToSize(this.computeQuota[key] * k, 1)}`
-            : `Used ${value} of ${this.computeQuota[key]}`
-          )
+          let usage
+          if (key !== 'RAM') usage = `Used ${value} of ${this.computeQuota[key]}`
+          else {
+            const k = 1024 * 1024
+            const ramUsage = value > 1024 ? bytesToSize(value * k, 2) : value + ' MB'
+            usage = `Used ${ramUsage} of ${bytesToSize(this.computeQuota[key] * k, 1)}`
+          }
           return {
             title: key,
             usage,
@@ -52,6 +70,41 @@
             usage: `Used ${value.used} of ${value.limit}`,
             percent: Number(value.used) / Number(value.limit) * 100,
             multiLines: false
+          }
+        })
+      },
+      startDate () {
+        const selectedDate = this.dateRange[0]
+        return selectedDate ? new Date(selectedDate) : new Date(getCurrentYMD())
+      },
+      endDate () {
+        const selectedDate = this.dateRange[1]
+        return selectedDate ? addADay(new Date(selectedDate)) : addADay(new Date(getCurrentYMD()))
+      },
+      usageListVal () {
+        if (!Object.keys(this.computeUsageFull).length) return []
+
+        const partialUsage = {
+          'Active Instances:': 0,
+          'Active RAM:': 0,
+          "This Period's VCPU-Hours:": (this.computeUsageFull.total_vcpus_usage).toFixed(2),
+          "This Period's GB-Hours:": (this.computeUsageFull.total_local_gb_usage).toFixed(2),
+          "This Period's RAM-Hours:": (this.computeUsageFull.total_memory_mb_usage).toFixed(2)
+        }
+
+        this.computeUsageFull.server_usages.forEach(item => {
+          partialUsage['Active Instances:'] += 1
+          partialUsage['Active RAM:'] += item.memory_mb
+        })
+        partialUsage['Active Instances:'] = partialUsage['Active Instances:'].toString()
+        partialUsage['Active RAM:'] = (partialUsage['Active RAM:'] > 1024
+          ? bytesToSize(partialUsage['Active RAM:'] * 1024 * 1024, 2)
+          : partialUsage['Active RAM:']) + ' MB'
+
+        return Object.entries(partialUsage).map(([key, value]) => {
+          return {
+            title: key,
+            description: value
           }
         })
       }
@@ -108,14 +161,37 @@
         } catch (e) {
           console.log(e)
         }
+      },
+      handleDatePickerOnChange (date, type) {
+        this.dateRange = date
+      },
+      async handleSubmitDateRange () {
+        if (this.startDate > new Date()) {
+          this.$Notice.error({
+            title: 'Error:',
+            desc: 'Invalid time period. You are requesting data from the future which may not exist.'
+          })
+        } else {
+          try {
+            this.computeUsageFull = await this.getUsageByProjectId({
+              id: this.projectId,
+              start: this.startDate,
+              end: this.endDate
+            })
+          } catch (e) {
+            console.log(e)
+          }
+        }
       }
     },
     async mounted () {
       try {
         const initCS = this.initComputeStats()
         const initNS = this.initNetworkStats()
+        const initUL = this.handleSubmitDateRange()
         await initCS
         await initNS
+        await initUL
       } catch (e) {
         console.log(e)
       }
@@ -124,5 +200,19 @@
 </script>
 
 <style lang="less">
+  .compute-overview {
+    & h2 {
+      margin-bottom: 20px;
+    }
 
+    .small {
+      font-size: 75%;
+      color: #BBB;
+    }
+
+    .help-block {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
 </style>
