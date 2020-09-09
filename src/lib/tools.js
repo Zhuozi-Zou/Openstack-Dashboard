@@ -63,6 +63,10 @@ export const getCurrentYMD = () => {
   return Y + '-' + M + '-' + D
 }
 
+export const getCurrentYMDDate = () => {
+  return new Date(getCurrentYMD())
+}
+
 export const addADay = (curDate) => {
   return new Date(curDate.getTime() + 24 * 60 * 60 * 1000 - 1)
 }

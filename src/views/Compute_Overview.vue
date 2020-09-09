@@ -9,10 +9,10 @@
     <h2>Usage Summary</h2>
     <h3>
       Select a period of time to query its usage:
-      <span class="small help-block">The date should be in YYYY-MM-DD, YYYY-MM-DD format.</span>
+      <span class="small help-block">The date should be in YYYY-MM-DD - YYYY-MM-DD format.</span>
     </h3>
     <div style="margin-bottom: 5px">
-      <DatePicker type="daterange" separator=", " @on-change="handleDatePickerOnChange"></DatePicker>
+      <DatePicker type="daterange" :value="dateRangeVal" @on-change="handleDatePickerOnChange"></DatePicker>
       <Button @click="handleSubmitDateRange" style="margin-left: 10px">Submit</Button>
     </div>
     <List size="small">
@@ -25,7 +25,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
-  import { addADay, bytesToSize, getCurrentYMD } from '@/lib/tools'
+  import { addADay, bytesToSize, getCurrentYMD, getCurrentYMDDate } from '@/lib/tools'
   import circles from '_c/circles/circles'
 
   export default {
@@ -39,6 +39,7 @@
         computeQuota: {},
         networkQuotaUsage: {},
         dateRange: ['', ''],
+        dateRangeVal: [getCurrentYMD(), getCurrentYMD()],
         computeUsageFull: {}
       }
     },
@@ -75,11 +76,11 @@
       },
       startDate () {
         const selectedDate = this.dateRange[0]
-        return selectedDate ? new Date(selectedDate) : new Date(getCurrentYMD())
+        return selectedDate ? new Date(selectedDate) : getCurrentYMDDate()
       },
       endDate () {
         const selectedDate = this.dateRange[1]
-        return selectedDate ? addADay(new Date(selectedDate)) : addADay(new Date(getCurrentYMD()))
+        return selectedDate ? addADay(new Date(selectedDate)) : addADay(getCurrentYMDDate())
       },
       usageListVal () {
         if (!Object.keys(this.computeUsageFull).length) return []
@@ -162,7 +163,7 @@
           console.log(e)
         }
       },
-      handleDatePickerOnChange (date, type) {
+      handleDatePickerOnChange (date) {
         this.dateRange = date
       },
       async handleSubmitDateRange () {
