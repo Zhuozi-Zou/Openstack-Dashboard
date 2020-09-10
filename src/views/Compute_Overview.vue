@@ -187,12 +187,9 @@
     },
     async mounted () {
       try {
-        const initCS = this.initComputeStats()
-        const initNS = this.initNetworkStats()
-        const initUL = this.handleSubmitDateRange()
-        await initCS
-        await initNS
-        await initUL
+        await this.initComputeStats()
+        await this.initNetworkStats()
+        await this.handleSubmitDateRange()
       } catch (e) {
         console.log(e)
       }

@@ -10,6 +10,13 @@
       <br>
     </div>
     <Table :columns="columns" :data="tableValues" @on-selection-change="s => this.selection = s" no-data-text="No data"/>
+    <Modal v-model="confirmModalVisible" :title="confirmModalTitle" :mask-closable="false">
+      {{ confirmModalText }}
+      <div slot="footer">
+        <Button @click="() => this.confirmModalVisible = false">Cancel</Button>
+        <Button type="error" :loading="comfirmLoading" @click="handleConfirm">{{ confirmModalConfirmText }}</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -17,6 +24,8 @@
   import { mapActions } from 'vuex'
   import { imagesCol } from '@/mock/response/images'
   import { firstLetterUpper, bytesToSize } from '@/lib/tools'
+  import { joinSelections } from '@/lib/util'
+  import { confirmModalTexts } from '@/mock/response/floating_ips'
 
   export default {
     name: 'Images',
@@ -25,7 +34,12 @@
         columns: imagesCol,
         images: [],
         tableValues: [],
-        selection: []
+        selection: [],
+        confirmModalVisible: false,
+        confirmModalTitle: 'Confirm Delete Image',
+        confirmModalText: '',
+        comfirmLoading: false,
+        confirmModalConfirmText: 'Delete Image'
       }
     },
     computed: {
@@ -65,6 +79,11 @@
         //
       },
       handleClickDeleteImages () {
+        const selectedImageNames = joinSelections(this.selection, 'name')
+        this.confirmModalText = `You have selected ${selectedImageNames}. Deleted image is not recoverable.`
+        this.confirmModalVisible = true
+      },
+      handleConfirm () {
         //
       }
     },
