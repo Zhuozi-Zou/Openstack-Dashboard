@@ -14,3 +14,12 @@ exports.getImages = (req, res) => {
   const glance = initGlance(req)
   glance.listImages(callBack(res))
 }
+
+exports.deleteImage = (req, res) => {
+  const { id } = req.body
+  if (!id) res.status(400).send()
+  else {
+    const glance = initGlance(req)
+    glance.removeImage(id, callBack(res))
+  }
+}

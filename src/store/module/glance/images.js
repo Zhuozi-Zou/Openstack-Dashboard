@@ -1,5 +1,5 @@
 import { getToken } from '@/lib/util'
-import { getImageById, getImages } from '@/api/glance/images'
+import { getImageById, getImages, deleteImage } from '@/api/glance/images'
 
 const state = {
   //
@@ -27,6 +27,20 @@ const actions = {
     } catch (e) {
       throw new Error('getImages: ' + e)
     }
+  },
+  async deleteImages (params, images) {
+    for (const item of images) {
+      await deleteImageHelper(item.id)
+    }
+  }
+}
+
+const deleteImageHelper = async (id) => {
+  try {
+    await getToken()
+    await deleteImage(id)
+  } catch (e) {
+    throw new Error('deleteImageHelper: ' + e)
   }
 }
 

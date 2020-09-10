@@ -14,3 +14,11 @@ export const getImages = () => {
     method: 'get'
   })
 }
+
+export const deleteImage = (id) => {
+  return axios.request({
+    url: '/glance/deleteImage',
+    method: 'delete',
+    data: { id }
+  })
+}

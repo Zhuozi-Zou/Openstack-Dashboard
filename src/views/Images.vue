@@ -25,7 +25,6 @@
   import { imagesCol } from '@/mock/response/images'
   import { firstLetterUpper, bytesToSize } from '@/lib/tools'
   import { joinSelections } from '@/lib/util'
-  import { confirmModalTexts } from '@/mock/response/floating_ips'
 
   export default {
     name: 'Images',
@@ -68,12 +67,15 @@
             console.log(e)
           }
         }))
+        this.confirmModalVisible = false
+        this.comfirmLoading = false
       }
     },
     methods: {
       ...mapActions([
         'getImages',
-        'getProjectById'
+        'getProjectById',
+        'deleteImages'
       ]),
       handleClickCreate () {
         //
@@ -83,8 +85,15 @@
         this.confirmModalText = `You have selected ${selectedImageNames}. Deleted image is not recoverable.`
         this.confirmModalVisible = true
       },
-      handleConfirm () {
-        //
+      async handleConfirm () {
+        this.comfirmLoading = true
+        try {
+          await this.deleteImages(this.selection)
+          this.images = await this.getImages()
+          this.selection = []
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
     async mounted () {
