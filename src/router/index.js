@@ -27,16 +27,16 @@ const refreshRouters = async (next, to) => {
     router.addRoutes(routers)
     next({ ...to, replace: true })
   } catch (e) {
-    next({ name: 'Login' })
+    next({ name: 'login' })
   }
 }
 
 router.beforeEach(async (to, from, next) => {
   to.meta && setTitle(to.meta.title)
   if (!getTokenFromCookie('login')) {
-    if (to.name === 'Login') next()
-    else next({ name: 'Login' })
-  } else if (to.name === 'Login') next({ name: 'Home' })
+    if (to.name === 'login') next()
+    else next({ name: 'login' })
+  } else if (to.name === 'login') next({ name: 'home' })
   else if (store.state.router.hasGetRules) next()
   else await refreshRouters(next, to)
 })

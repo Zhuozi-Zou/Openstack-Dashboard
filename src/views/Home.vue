@@ -1,53 +1,26 @@
 <template>
   <div class="home">
-    <img alt="Logo" src="@/assets/img/logo.jpg" style="border-radius: 50%" />
+    <img alt="Logo" src="@/assets/img/logo.jpg" class="image" />
+    <h1>Welcome to Fillis's OpenStack world!</h1>
+    <br>
+    <h2>Have fun and enjoy it~</h2>
   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
-  // import { getUserInfo } from "../api/user";
-
   export default {
-    name: 'Home',
-    data () {
-      return {
-        url: '',
-        bgColor: ''
-      }
-    },
-    // components: {
-    //   HelloWorld
-    // },
-    methods: {
-      handleClick (type) {
-        if (type === 'back') {
-          // this.$router.back();
-          this.$router.go(-1)
-        } else if (type === 'push') {
-          const name = 'Nicole'
-          this.$router.push({
-            path: `/argu/${name}`
-
-            // name: "Argu",
-            // params: {
-            //   name: "fillis"
-            // }
-
-            // path: "/argu",
-            // query: {
-            //   name: "fillis"
-            // }
-          })
-        } else if (type === 'replace') this.$router.replace('./parent')
-      }
-      // getInfo() {
-      //   getUserInfo({ userId: 21 }).then(res => {
-      //     console.log("res: ", res);
-      //     this.url = res.img;
-      //     this.bgColor = res.color;
-      //   });
-      // }
-    }
+    name: 'home'
   }
 </script>
+
+<style lang="less">
+  .home {
+    text-align: center;
+
+    .image {
+      border-radius: 50%;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  }
+</style>

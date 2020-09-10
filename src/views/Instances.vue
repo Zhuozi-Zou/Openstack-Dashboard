@@ -30,7 +30,7 @@
   import { getAgeStr } from '@/lib/tools'
 
   export default {
-    name: 'Instances',
+    name: 'instances',
     data () {
       return {
         instances: [],

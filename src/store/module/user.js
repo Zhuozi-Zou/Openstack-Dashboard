@@ -20,7 +20,7 @@ const actions = {
     try {
       const res = await login({ userName, password })
       setTokenToCookie(res.data.token, 'login')
-      await loginView.$router.push({ name: 'Home' })
+      await loginView.$router.push({ name: 'home' })
     } catch (e) {
       loginView.$Message.error('Invalid user name or password')
       throw new Error('login: ' + e)

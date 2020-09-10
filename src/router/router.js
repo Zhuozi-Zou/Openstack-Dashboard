@@ -4,7 +4,7 @@ import Navigator from '@/views/Navigator'
 export const routerMap = [
   {
     path: '/',
-    name: 'Index',
+    name: 'index',
     component: Layout,
     meta: {
       title: 'Home'
@@ -12,7 +12,7 @@ export const routerMap = [
     children: [
       {
         path: 'home',
-        name: 'Home',
+        name: 'home',
         component: () => import('../views/Home'),
         meta: {
           title: 'Home'
@@ -22,7 +22,7 @@ export const routerMap = [
   },
   {
     path: '/project',
-    name: 'Project',
+    name: 'project',
     component: Layout,
     meta: {
       title: 'Project',
@@ -31,7 +31,7 @@ export const routerMap = [
     children: [
       {
         path: '/compute',
-        name: 'Compute',
+        name: 'compute',
         component: Navigator,
         meta: {
           title: 'Compute',
@@ -40,8 +40,8 @@ export const routerMap = [
         children: [
           {
             path: 'compute_overview',
-            name: 'Compute_Overview',
-            component: () => import(/* webpackChunkname: "Compute_Overview" */ '../views/Compute_Overview'),
+            name: 'compute_overview',
+            component: () => import(/* webpackChunkname: "compute_overview" */ '../views/Compute_Overview'),
             meta: {
               title: 'Overview',
               icon: 'md-book'
@@ -49,8 +49,8 @@ export const routerMap = [
           },
           {
             path: 'instances',
-            name: 'Instances',
-            component: () => import(/* webpackChunkName: "Instances" */ '../views/Instances'),
+            name: 'instances',
+            component: () => import(/* webpackChunkName: "instances" */ '../views/Instances'),
             meta: {
               title: 'Instances',
               icon: 'md-desktop'
@@ -58,8 +58,8 @@ export const routerMap = [
           },
           {
             path: 'images',
-            name: 'Images',
-            component: () => import(/* webpackChunkName: "Images" */ '../views/Images'),
+            name: 'images',
+            component: () => import(/* webpackChunkName: "images" */ '../views/Images'),
             meta: {
               title: 'Images',
               icon: 'md-copy'
@@ -67,8 +67,8 @@ export const routerMap = [
           },
           {
             path: 'key_pairs',
-            name: 'Key_Pairs',
-            component: () => import(/* webpackChunkName: "Key_Pairs" */ '../views/Key_Pairs'),
+            name: 'key_pairs',
+            component: () => import(/* webpackChunkName: "key_pairs" */ '../views/Key_Pairs'),
             meta: {
               title: 'Key Pairs',
               icon: 'md-key'
@@ -78,7 +78,7 @@ export const routerMap = [
       },
       {
         path: '/network',
-        name: 'Network',
+        name: 'network',
         component: Navigator,
         meta: {
           title: 'Network',
@@ -87,8 +87,8 @@ export const routerMap = [
         children: [
           {
             path: 'networks',
-            name: 'Networks',
-            component: () => import(/* webpackChunkName: "Networks" */ '../views/Networks'),
+            name: 'networks',
+            component: () => import(/* webpackChunkName: "networks" */ '../views/Networks'),
             meta: {
               title: 'Networks',
               icon: 'md-pulse'
@@ -96,8 +96,8 @@ export const routerMap = [
           },
           {
             path: 'routers',
-            name: 'Routers',
-            component: () => import(/* webpackChunkName: "Routers" */ '../views/Routers'),
+            name: 'routers',
+            component: () => import(/* webpackChunkName: "routers" */ '../views/Routers'),
             meta: {
               title: 'Routers',
               icon: 'md-shuffle'
@@ -105,8 +105,8 @@ export const routerMap = [
           },
           {
             path: 'security_groups',
-            name: 'Security_Groups',
-            component: () => import(/* webpackChunkName: "Security_Groups" */ '../views/Security_Groups'),
+            name: 'security_groups',
+            component: () => import(/* webpackChunkName: "security_groups" */ '../views/Security_Groups'),
             meta: {
               title: 'Security Groups',
               icon: 'md-lock'
@@ -114,7 +114,7 @@ export const routerMap = [
           },
           {
             path: 'floating_ips',
-            name: 'Floating_Ips',
+            name: 'floating_ips',
             component: () => import(/* webpackChunkName: "Floating_IPs" */ '../views/Floating_IPs'),
             meta: {
               title: 'Floating IPs',
@@ -127,7 +127,7 @@ export const routerMap = [
   },
   {
     path: '/admin',
-    name: 'Admin',
+    name: 'admin',
     component: Layout,
     meta: {
       title: 'Admin',
@@ -136,8 +136,8 @@ export const routerMap = [
     children: [
       {
         path: 'admin_overview',
-        name: 'Admin_Overview',
-        component: () => import(/* webpackChunkName: "Admin_Overview" */ '../views/Admin_Overview'),
+        name: 'admin_overview',
+        component: () => import(/* webpackChunkName: "admin_overview" */ '../views/Admin_Overview'),
         meta: {
           title: 'Overview',
           icon: 'md-map'
@@ -150,11 +150,11 @@ export const routerMap = [
 export const routes = [
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import('@/views/Login')
   },
   {
     path: '*',
-    component: () => import(/* webpackChunkName: "Error_404" */ '@/views/Error_404')
+    component: () => import(/* webpackChunkName: "error_404" */ '@/views/Error_404')
   }
 ]

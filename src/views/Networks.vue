@@ -49,7 +49,7 @@
   const log = console.log
 
   export default {
-    name: 'Networks',
+    name: 'networks',
     components: {
       ModalFormSteps,
       ModalForm

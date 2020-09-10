@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: 'Security_Groups'
+    name: 'security_groups'
   }
 </script>
 

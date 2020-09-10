@@ -29,7 +29,7 @@
   import circles from '_c/circles/circles'
 
   export default {
-    name: 'Compute_Overview',
+    name: 'compute_overview',
     components: {
       circles
     },

@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: 'Routers'
+    name: 'routers'
   }
 </script>
 

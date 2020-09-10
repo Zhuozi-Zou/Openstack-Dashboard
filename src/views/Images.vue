@@ -27,7 +27,7 @@
   import { joinSelections } from '@/lib/util'
 
   export default {
-    name: 'Images',
+    name: 'images',
     data () {
       return {
         columns: imagesCol,

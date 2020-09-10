@@ -19,6 +19,11 @@
             type="md-menu"
             :size="32"
           />
+          <Breadcrumb class="header-breadcrumb">
+            <BreadcrumbItem v-for="(item, index) in breadcrumbVals" :key="`${_uid}_${index}`" :to="{ name: item.to }">
+              {{ item.text }}
+            </BreadcrumbItem>
+          </Breadcrumb>
           <Button type="error" class="logout-button" @click="handleLogout">Logout</Button>
         </Header>
         <Content class="content-con">
@@ -41,7 +46,7 @@
 <script>
   import SideMenu from '../components/side-menu'
   import { mapState } from 'vuex'
-  import { setTokenToCookie } from '@/lib/util'
+  import { setTokenToCookie, pathToText } from '@/lib/util'
 
   export default {
     components: {
@@ -54,15 +59,25 @@
       }
     },
     computed: {
-      triggerClasses () {
-        return ['trigger-icon', this.collapsed ? 'rotate' : '']
-      },
       ...mapState({
         // tabList: state => state.tabNav.tabList,
         menus: state => state.router.routers.filter(item => {
-          return item.path !== '*' && item.name !== 'Login' && item.name !== 'Index'
+          return item.path !== '*' && item.name !== 'login' && item.name !== 'index'
         })
-      })
+      }),
+      triggerClasses () {
+        return ['trigger-icon', this.collapsed ? 'rotate' : '']
+      },
+      breadcrumbVals () {
+        let path = this.$route.fullPath
+        if (path !== '/home' && path !== '/') path = '/home' + path
+        return path.split('/').map(item => {
+          return {
+            text: pathToText(item),
+            to: item
+          }
+        })
+      }
     },
     methods: {
       // ...mapActions([
@@ -74,7 +89,7 @@
       handleLogout () {
         setTokenToCookie('')
         setTokenToCookie('', 'login')
-        this.$router.push({ name: 'Login' })
+        this.$router.push({ name: 'login' })
       }
       // handleClickTab(id) {
       //   let route = getRouteById(id);
@@ -111,12 +126,14 @@
     .header-wrapper {
       background: rgba(250, 250, 250);
       box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
-      padding: 16px 23px;
+      padding: 0 23px;
 
       .trigger-icon {
         cursor: pointer;
         transition: transform 0.3s ease;
         float: left;
+        margin-top: 16px;
+        margin-right: 10px;
 
         &.rotate {
           transform: rotateZ(-90deg);
@@ -124,8 +141,14 @@
         }
       }
 
+      .header-breadcrumb {
+        display: inline;
+        font-size: 15px;
+      }
+
       .logout-button {
         float: right;
+        margin-top: 16px;
       }
     }
 

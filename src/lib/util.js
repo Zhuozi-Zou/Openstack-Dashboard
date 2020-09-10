@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import store from '@/store'
+import { firstLetterUpper } from '@/lib/tools'
 
 export const setTokenToCookie = (token, tokenName = 'token') => {
   const params = {}
@@ -55,4 +56,10 @@ export const getOpenArrByName = (name, routerList) => {
 
 export const setTitle = (title) => {
   window.document.title = title || 'openstack dashboard'
+}
+
+export const pathToText = (path) => {
+  return path.split('_').map(item => {
+    return firstLetterUpper(item)
+  }).join(' ')
 }

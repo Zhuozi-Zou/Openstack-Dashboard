@@ -39,7 +39,7 @@
   const log = console.log
 
   export default {
-    name: 'Floating_IPs',
+    name: 'floating_ips',
     components: {
       ModalForm
     },
