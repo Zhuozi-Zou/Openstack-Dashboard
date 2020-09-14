@@ -4,7 +4,7 @@ import ExpandRow from '_c/table-expand'
 export const imagesCol = [
   {
     type: 'selection',
-    width: 50,
+    width: 51,
     align: 'center'
   },
   {

@@ -3,7 +3,7 @@ import bus from '@/lib/bus'
 export const floatingIpsCol = [
   {
     type: 'selection',
-    width: 50,
+    width: 52,
     align: 'center'
   },
   {
