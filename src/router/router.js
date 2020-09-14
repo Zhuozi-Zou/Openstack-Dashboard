@@ -86,6 +86,15 @@ export const routerMap = [
         },
         children: [
           {
+            path: 'network_topology',
+            name: 'network_topology',
+            component: () => import(/* webpackChunkName: "network_topology" */ '../views/Network_Topology'),
+            meta: {
+              title: 'Topology',
+              icon: 'md-barcode'
+            }
+          },
+          {
             path: 'networks',
             name: 'networks',
             component: () => import(/* webpackChunkName: "networks" */ '../views/Networks'),
