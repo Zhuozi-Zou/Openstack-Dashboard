@@ -144,6 +144,10 @@
       .header-breadcrumb {
         display: inline;
         font-size: 15px;
+
+        .ivu-breadcrumb-item-separator {
+          color: #657180;
+        }
       }
 
       .logout-button {

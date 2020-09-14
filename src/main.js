@@ -3,14 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import bus from './lib/bus'
-import iview from 'iview'
-import 'iview/dist/styles/iview.css'
+import ViewUI from 'view-design'
+// import 'view-design/dist/styles/iview.css'
+import './styles/iview-green/index.less'
 
 if (process.env.NODE_ENV !== 'production') require('./mock/index')
 
 Vue.config.productionTip = false
 Vue.prototype.$bus = bus
-Vue.use(iview)
+Vue.use(ViewUI)
 
 new Vue({
   router,

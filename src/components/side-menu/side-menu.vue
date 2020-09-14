@@ -71,6 +71,10 @@
   .side-menu-wrapper {
     width: 100%;
 
+    .ivu-menu {
+      font-size: 14px;
+    }
+
     .ivu-tooltip,
     .drop-menu-span {
       display: block;
@@ -89,6 +93,10 @@
       margin-right: 0;
     }
 
+    .ivu-menu-item {
+      font-size: 14px;
+    }
+
     .ivu-menu-item > i {
       margin-right: 0;
     }
@@ -96,6 +104,7 @@
     .ivu-icon {
       height: 16px;
       width: 18px;
+      vertical-align: middle;
     }
   }
 </style>

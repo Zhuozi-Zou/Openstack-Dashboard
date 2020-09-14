@@ -10,7 +10,13 @@ module.exports = {
       .set('@', resolve('src'))
       .set('_c', resolve('src/components'))
   },
-
+  css: {
+    loaderOptions: {
+      less: {
+        javascriptEnabled: true
+      }
+    }
+  },
   // 打包时不生成.map文件
   productionSourceMap: false,
   devServer: {

@@ -15,7 +15,7 @@ export const networksCol = [
   {
     key: 'subnets_associated',
     title: 'Subnets Associated',
-    minWidth: 200,
+    minWidth: 220,
     sortable: true,
     render: (h, { row }) => {
       return h('ul', {
