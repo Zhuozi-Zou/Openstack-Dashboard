@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import bus from './lib/bus'
 import ViewUI from 'view-design'
+
 import './styles/iview-green/index.less'
 
 if (process.env.NODE_ENV !== 'production') require('./mock/index')

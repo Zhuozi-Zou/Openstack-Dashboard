@@ -1,10 +1,17 @@
 <template>
-  <p>network topology</p>
+  <div>
+    <div id="mountNode"></div>
+  </div>
 </template>
 
 <script>
+  import { demo } from '_c/antv-g6'
+
   export default {
-    name: 'network_topology'
+    name: 'network_topology',
+    mounted () {
+      demo()
+    }
   }
 </script>
 
