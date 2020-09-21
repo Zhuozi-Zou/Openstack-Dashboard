@@ -1,0 +1,67 @@
+<template>
+  <div class="g6-editor-wrapper">
+    <Button size="small" class="button"
+            @click="() => { this.$refs['wfd'].graph.saveXML() }">
+      导出XML
+    </Button>
+    <Button size="small" class="button"
+            @click="() => { this.$refs['wfd'].graph.saveImg() }">
+      导出图片
+    </Button>
+    <Button size="small" class="button" @click="()=>{this.modalVisible=true}">
+      查看流程图
+    </Button>
+    <wfd-vue ref="wfd" :data="demoData" :height="600" :users="candidateUsers" :groups="candidateGroups"
+             :categorys="categories" :lang="lang"/>
+    <Modal title="查看流程图" v-model="modalVisible" width="60%">
+      <wfd-vue ref="wfd" :data="demoData1" :height="300" isView/>
+    </Modal>
+  </div>
+</template>
+
+<script>
+  import WfdVue from '_c/wfd'
+  import {
+    candidateGroups,
+    candidateUsers,
+    categories,
+    demoData1Edges,
+    demoData1Nodes,
+    demoDataEdges,
+    demoDataNodes
+  } from '@/mock/response/g6-editor'
+
+  export default {
+    name: 'g6-editor',
+    components: {
+      WfdVue
+    },
+    data () {
+      return {
+        modalVisible: false,
+        lang: 'zh',
+        demoData: {
+          nodes: demoDataNodes,
+          edges: demoDataEdges
+        },
+        demoData1: {
+          nodes: demoData1Nodes,
+          edges: demoData1Edges
+        },
+        candidateUsers,
+        candidateGroups,
+        categories
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .g6-editor-wrapper {
+    .button {
+      float: right;
+      margin-top: 6px;
+      margin-right: 6px;
+    }
+  }
+</style>
