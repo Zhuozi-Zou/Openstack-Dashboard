@@ -23,8 +23,7 @@ class AddItemPanel {
     const ghost = createDom('<img alt="image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"' + ' style="opacity:0"/>')
     const children = parentNode.querySelectorAll('div > .el-collapse-item > .el-collapse-item__wrap > .el-collapse-item__content > img[data-item]')
     each(children, (child, i) => {
-      // const addModel = (new Function('return ' + child.getAttribute('data-item')))()
-      const addModel = (() => { return child.getAttribute('data-item') })()
+      const addModel = (new Function('return ' + child.getAttribute('data-item')))()
       child.addEventListener('dragstart', e => {
         e.dataTransfer.setDragImage(ghost, 0, 0)
         graph.set('addNodeDragging', true)

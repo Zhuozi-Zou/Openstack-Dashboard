@@ -1,14 +1,14 @@
 <template>
   <div class="g6-editor-wrapper">
-    <Button size="small" class="button"
+    <Button class="button"
             @click="() => { this.$refs['wfd'].graph.saveXML() }">
       导出XML
     </Button>
-    <Button size="small" class="button"
+    <Button class="button"
             @click="() => { this.$refs['wfd'].graph.saveImg() }">
       导出图片
     </Button>
-    <Button size="small" class="button" @click="()=>{this.modalVisible=true}">
+    <Button class="button" @click="()=>{this.modalVisible=true}">
       查看流程图
     </Button>
     <wfd-vue ref="wfd" :data="demoData" :height="600" :users="candidateUsers" :groups="candidateGroups"
@@ -60,7 +60,7 @@
   .g6-editor-wrapper {
     .button {
       float: right;
-      margin-top: 6px;
+      margin-top: 8px;
       margin-right: 6px;
     }
   }

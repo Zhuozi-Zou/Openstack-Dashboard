@@ -1,7 +1,7 @@
 <template>
   <div class="itemPanel" :style="{'height': height+'px'}">
-    <Collapse v-model="activeNames">
-      <Panel :title="i18n['start']" name="1">
+    <el-collapse v-model="activeNames" accordion>
+      <el-collapse-item :title="i18n['start']" name="1">
         <img alt="image" data-item="{clazz:'start',size:'30*30',label:''}"
              :src="require('../assets/flow/start.svg')" style="width:42px;height:42px"/>
         <div>{{ i18n['startEvent'] }}</div>
@@ -14,8 +14,8 @@
         <img alt="image" data-item="{clazz:'signalStart',size:'30*30',label:''}"
              :src="require('../assets/flow/signal-start.svg')" style="width:42px;height:42px"/>
         <div>{{ i18n['signalEvent'] }}</div>
-      </Panel>
-      <Panel :title="i18n['task']" name="2">
+      </el-collapse-item>
+      <el-collapse-item :title="i18n['task']" name="2">
         <img alt="image" :data-item="userTaskData"
              :src="require('../assets/flow/user-task.svg')" style="width:80px;height:44px"/>
         <div>{{ i18n['userTask'] }}</div>
@@ -31,8 +31,8 @@
         <img alt="image" :data-item="receiveTaskData"
              :src="require('../assets/flow/receive-task.svg')" style="width:80px;height:44px"/>
         <div>{{ i18n['receiveTask'] }}</div>
-      </Panel>
-      <Panel :title="i18n['gateway']" name="3">
+      </el-collapse-item>
+      <el-collapse-item :title="i18n['gateway']" name="3">
         <img alt="image" data-item="{clazz:'exclusiveGateway',size:'40*40',label:''}"
              :src="require('../assets/flow/exclusive-gateway.svg')" style="width:48px;height:48px"/>
         <div>{{ i18n['exclusiveGateway'] }}</div>
@@ -42,8 +42,8 @@
         <img alt="image" data-item="{clazz:'inclusiveGateway',size:'40*40',label:''}"
              :src="require('../assets/flow/inclusive-gateway.svg')" style="width:48px;height:48px"/>
         <div>{{ i18n['inclusiveGateway'] }}</div>
-      </Panel>
-      <Panel :title="i18n['catch']" name="4">
+      </el-collapse-item>
+      <el-collapse-item :title="i18n['catch']" name="4">
         <img alt="image" data-item="{clazz:'timerCatch',size:'50*30',label:''}"
              :src="require('../assets/flow/timer-catch.svg')" style="width:58px;height:38px"/>
         <div>{{ i18n['timerEvent'] }}</div>
@@ -53,13 +53,13 @@
         <img alt="image" data-item="{clazz:'signalCatch',size:'50*30',label:''}"
              :src="require('../assets/flow/signal-catch.svg')" style="width:58px;height:38px"/>
         <div>{{ i18n['signalEvent'] }}</div>
-      </Panel>
-      <Panel :title="i18n['end']" name="5">
+      </el-collapse-item>
+      <el-collapse-item :title="i18n['end']" name="5">
         <img alt="image" data-item="{clazz:'end',size:'30*30',label:''}"
              :src="require('../assets/flow/end.svg')" style="width:42px;height:42px"/>
         <div>{{ i18n['endEvent'] }}</div>
-      </Panel>
-    </Collapse>
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
@@ -110,7 +110,7 @@
     .el-collapse {
       border: 0;
 
-      .Panel {
+      .el-collapse-item {
         > div[role=tab] > div {
           padding-left: 10px;
           border: 1px solid #E9E9E9;
@@ -133,9 +133,13 @@
           border-top: 0;
           background: #f0f2f5;
           text-align: center;
+
+          .el-collapse-item__content {
+            padding-bottom: 3px;
+            padding-top: 5px;
+          }
         }
       }
     }
-
   }
 </style>
