@@ -1,13 +1,15 @@
 <template>
-    <div :data-clazz="model.clazz">
-        <div class="panelTitle">{{i18n['startEvent']}}</div>
-        <div class="panelBody">
-            <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly" />
-        </div>
+  <div :data-clazz="model.clazz">
+    <div class="panelTitle">{{ i18n['startEvent'] }}</div>
+    <div class="panelBody">
+      <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly"/>
     </div>
+  </div>
 </template>
+
 <script>
-  import DefaultDetail from "./DefaultDetail";
+  import DefaultDetail from './DefaultDetail'
+
   export default {
     inject: ['i18n'],
     components: {
@@ -15,17 +17,18 @@
     },
     props: {
       model: {
-        type:Object,
-        default: ()=>({}),
+        type: Object,
+        default: () => ({})
       },
       onChange: {
         type: Function,
-        default: ()=>{}
+        default: () => {
+        }
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
-        default: false,
+        default: false
       }
-    },
+    }
   }
 </script>

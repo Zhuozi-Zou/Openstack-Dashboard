@@ -1,37 +1,48 @@
 <template>
-    <div class="detailPanel" :style="{'height':height+'px'}">
-        <UserTaskDetail v-if="model.clazz === 'userTask'" :model="model" :onChange="onChange" :readOnly="readOnly" :users="users" :groups="groups" />
-        <ScriptTaskDetail v-else-if="model.clazz === 'scriptTask'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <JavaTaskDetail v-else-if="model.clazz === 'javaTask'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <ReceiveTaskDetail v-else-if="model.clazz === 'receiveTask'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <MailTaskDetail v-else-if="model.clazz === 'mailTask'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <TimerEventDetail v-else-if="model.clazz === 'timerStart' || model.clazz === 'timerCatch'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <SignalEventDetail v-else-if="model.clazz === 'signalStart' || model.clazz === 'signalCatch'" :model="model" :onChange="onChange" :readOnly="readOnly" :signalDefs="signalDefs" />
-        <MessageEventDetail v-else-if="model.clazz === 'messageStart' || model.clazz === 'messageCatch'" :model="model" :onChange="onChange" :readOnly="readOnly" :messageDefs="messageDefs" />
-        <GatewayDetail v-else-if="model.clazz === 'gateway' || model.clazz === 'exclusiveGateway' || model.clazz === 'parallelGateway' || model.clazz === 'inclusiveGateway'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <FlowDetail v-else-if="model.clazz === 'flow'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <StartEventDetail v-else-if="model.clazz === 'start'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <EndEventDetail v-else-if="model.clazz === 'end'" :model="model" :onChange="onChange" :readOnly="readOnly" />
-        <ProcessDetail v-else-if="model.clazz === 'process'" :model="model" :onChange="onChange" :readOnly="readOnly" :categorys="categorys" />
-    </div>
+  <div class="detailPanel" :style="{'height':height+'px'}">
+    <UserTaskDetail v-if="model.clazz === 'userTask'" :model="model" :onChange="onChange" :readOnly="readOnly"
+                    :users="users" :groups="groups"/>
+    <ScriptTaskDetail v-else-if="model.clazz === 'scriptTask'" :model="model" :onChange="onChange"
+                      :readOnly="readOnly"/>
+    <JavaTaskDetail v-else-if="model.clazz === 'javaTask'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <ReceiveTaskDetail v-else-if="model.clazz === 'receiveTask'" :model="model" :onChange="onChange"
+                       :readOnly="readOnly"/>
+    <MailTaskDetail v-else-if="model.clazz === 'mailTask'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <TimerEventDetail v-else-if="model.clazz === 'timerStart' || model.clazz === 'timerCatch'" :model="model"
+                      :onChange="onChange" :readOnly="readOnly"/>
+    <SignalEventDetail v-else-if="model.clazz === 'signalStart' || model.clazz === 'signalCatch'" :model="model"
+                       :onChange="onChange" :readOnly="readOnly" :signalDefs="signalDefs"/>
+    <MessageEventDetail v-else-if="model.clazz === 'messageStart' || model.clazz === 'messageCatch'" :model="model"
+                        :onChange="onChange" :readOnly="readOnly" :messageDefs="messageDefs"/>
+    <GatewayDetail
+      v-else-if="model.clazz === 'gateway' || model.clazz === 'exclusiveGateway' || model.clazz === 'parallelGateway' || model.clazz === 'inclusiveGateway'"
+      :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <FlowDetail v-else-if="model.clazz === 'flow'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <StartEventDetail v-else-if="model.clazz === 'start'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <EndEventDetail v-else-if="model.clazz === 'end'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <ProcessDetail v-else-if="model.clazz === 'process'" :model="model" :onChange="onChange" :readOnly="readOnly"
+                   :categorys="categorys"/>
+  </div>
 </template>
+
 <script>
-  import UserTaskDetail from "./UserTaskDetail"
-  import JavaTaskDetail from "./JavaTaskDetail"
-  import ScriptTaskDetail from "./ScriptTaskDetail"
-  import ReceiveTaskDetail from "./ReceiveTaskDetail"
-  import MailTaskDetail from "./MailTaskDetail"
-  import TimerEventDetail from "./TimerEventDetail"
-  import SignalEventDetail from "./SignalEventDetail"
-  import MessageEventDetail from "./MessageEventDetail"
-  import GatewayDetail from "./GatewayDetail"
-  import FlowDetail from "./FlowDetail"
-  import StartEventDetail from "./StartEventDetail"
-  import EndEventDetail from "./EndEventDetail"
-  import ProcessDetail from "./ProcessDetail"
+  import UserTaskDetail from './UserTaskDetail'
+  import JavaTaskDetail from './JavaTaskDetail'
+  import ScriptTaskDetail from './ScriptTaskDetail'
+  import ReceiveTaskDetail from './ReceiveTaskDetail'
+  import MailTaskDetail from './MailTaskDetail'
+  import TimerEventDetail from './TimerEventDetail'
+  import SignalEventDetail from './SignalEventDetail'
+  import MessageEventDetail from './MessageEventDetail'
+  import GatewayDetail from './GatewayDetail'
+  import FlowDetail from './FlowDetail'
+  import StartEventDetail from './StartEventDetail'
+  import EndEventDetail from './EndEventDetail'
+  import ProcessDetail from './ProcessDetail'
+
   export default {
     inject: ['i18n'],
-    components:{
+    components: {
       UserTaskDetail,
       ScriptTaskDetail,
       JavaTaskDetail,
@@ -44,75 +55,77 @@
       FlowDetail,
       StartEventDetail,
       EndEventDetail,
-      ProcessDetail,
+      ProcessDetail
     },
     props: {
       height: {
         type: Number,
-        default: 800,
+        default: 800
       },
       model: {
-        type:Object,
-        default: ()=>({}),
+        type: Object,
+        default: () => ({})
       },
       users: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       groups: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       categorys: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       signalDefs: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       messageDefs: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       onChange: {
         type: Function,
-        default: ()=>{}
+        default: () => {
+        }
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
-        default: false,
+        default: false
       }
-    },
+    }
   }
 </script>
 <style lang="scss">
-    .detailPanel {
-        height: 100%;
-        background: #f0f2f5;
-        flex: 0 0 auto;
-        float: left;
-        width: 20%;
-        border-right: 1px solid #E9E9E9;
-        border-bottom: 1px solid #E9E9E9;
-        .panelTitle {
-            text-align: left;
-            height: 32px;
-            padding-left: 12px;
-            color: #000;
-            line-height: 28px;
-            background: #EBEEF2;
-            border-bottom: 1px solid #DCE3E8;
-        }
+  .detailPanel {
+    height: 100%;
+    background: #f0f2f5;
+    flex: 0 0 auto;
+    float: left;
+    width: 20%;
+    border-right: 1px solid #E9E9E9;
+    border-bottom: 1px solid #E9E9E9;
 
-        .panelBody {
-            .panelRow {
-                text-align: left;
-                display: inline-block;
-                font-size: 12px;
-                width: 100%;
-                padding: 5px 12px;
-            }
-        }
+    .panelTitle {
+      text-align: left;
+      height: 32px;
+      padding-left: 12px;
+      color: #000;
+      line-height: 28px;
+      background: #EBEEF2;
+      border-bottom: 1px solid #DCE3E8;
     }
+
+    .panelBody {
+      .panelRow {
+        text-align: left;
+        display: inline-block;
+        font-size: 12px;
+        width: 100%;
+        padding: 5px 12px;
+      }
+    }
+  }
 </style>

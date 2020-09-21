@@ -1,23 +1,25 @@
 <template>
-    <div :data-clazz="model.clazz">
-        <div class="panelTitle">{{i18n['messageEvent']}}</div>
-        <div class="panelBody">
-            <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly" />
-            <div class="panelRow">
-                <div>{{i18n['messageEvent.message']}}：</div>
-                <el-select style="width:90%; font-size: 12px"
-                           :placeholder="i18n['messageEvent.message']"
-                           :value="model.message"
-                           :disabled="readOnly"
-                           @change="(e) => { onChange('message', e) }">
-                    <el-option v-for="message in messageDefs" :key="message.id" :label="message.name" :value="message.id" />
-                </el-select>
-            </div>
-        </div>
+  <div :data-clazz="model.clazz">
+    <div class="panelTitle">{{ i18n['messageEvent'] }}</div>
+    <div class="panelBody">
+      <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly"/>
+      <div class="panelRow">
+        <div>{{ i18n['messageEvent.message'] }}：</div>
+        <i-select style="width:90%; font-size: 12px"
+                  :placeholder="i18n['messageEvent.message']"
+                  :value="model.message"
+                  :disabled="readOnly"
+                  @change="(e) => { onChange('message', e) }">
+          <i-option v-for="message in messageDefs" :key="message.id" :label="message.name" :value="message.id"/>
+        </i-select>
+      </div>
     </div>
+  </div>
 </template>
+
 <script>
-  import DefaultDetail from "./DefaultDetail";
+  import DefaultDetail from './DefaultDetail'
+
   export default {
     inject: ['i18n'],
     components: {
@@ -25,21 +27,22 @@
     },
     props: {
       model: {
-        type:Object,
-        default: ()=>({}),
+        type: Object,
+        default: () => ({})
       },
       onChange: {
         type: Function,
-        default: ()=>{}
+        default: () => {
+        }
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
-        default: false,
+        default: false
       },
       messageDefs: {
         type: Array,
-        default: ()=>([]),
-      },
-    },
+        default: () => ([])
+      }
+    }
   }
 </script>

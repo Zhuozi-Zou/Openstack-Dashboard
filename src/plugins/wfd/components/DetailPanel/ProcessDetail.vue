@@ -1,60 +1,62 @@
 <template>
-    <div :data-clazz="model.clazz">
-        <div class="panelTitle">{{i18n['process']}}</div>
-        <div class="panelBody">
-            <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly" />
-            <div class="panelRow">
-                <div>{{i18n['process.category']}}：</div>
-                <el-select style="width:90%; font-size:12px"
-                           :disabled="readOnly"
-                           :value="model.category"
-                           allow-create
-                           :filterable="true"
-                           :filter-method="filterCategory"
-                           @change="(e) => onChange('category', e)">
-                    <el-option v-for="category in categoryCopy" :key="category.id" :label="category.name" :value="category.id" />
-                </el-select>
-            </div>
-            <div class="panelRow">
-                <div>{{i18n['process.id']}}：</div>
-                <el-input style="width:90%; font-size:12px"
-                          :disabled="readOnly"
-                          :value="model.id"
-                          @input="(value) => {onChange('id', value)}" />
-            </div>
-            <div class="panelRow">
-                <div>{{i18n['process.name']}}：</div>
-                <el-input style="width:90%; font-size:12px"
-                          :disabled="readOnly"
-                          :value="model.name"
-                          @input="(value) => {onChange('name', value)}" />
-            </div>
-            <div class="panelRow">
-                <div>
-                    {{i18n['process.dataObjs']}}：
-                    <el-button :disabled="readOnly" size="mini" @click="()=>{}">{{i18n['tooltip.edit']}}</el-button>
-                </div>
-
-            </div>
-            <div class="panelRow">
-                <div>
-                    {{i18n['process.signalDefs']}}：
-                    <el-button :disabled="readOnly" size="mini" @click="()=>{}">{{i18n['tooltip.edit']}}</el-button>
-                </div>
-
-            </div>
-            <div class="panelRow">
-                <div>
-                    {{i18n['process.messageDefs']}}：
-                    <el-button :disabled="readOnly" size="mini" @click="()=>{}">{{i18n['tooltip.edit']}}</el-button>
-                </div>
-
-            </div>
+  <div :data-clazz="model.clazz">
+    <div class="panelTitle">{{ i18n['process'] }}</div>
+    <div class="panelBody">
+      <DefaultDetail :model="model" :onChange="onChange" :readOnly="readOnly"/>
+      <div class="panelRow">
+        <div>{{ i18n['process.category'] }}：</div>
+        <i-select style="width:90%; font-size:12px"
+                  :disabled="readOnly"
+                  :value="model.category"
+                  allow-create
+                  :filterable="true"
+                  :filter-method="filterCategory"
+                  @change="(e) => onChange('category', e)">
+          <i-option v-for="category in categoryCopy" :key="category.id" :label="category.name" :value="category.id"/>
+        </i-select>
+      </div>
+      <div class="panelRow">
+        <div>{{ i18n['process.id'] }}：</div>
+        <Input style="width:90%; font-size:12px"
+               :disabled="readOnly"
+               :value="model.id"
+               @input="(value) => {onChange('id', value)}"/>
+      </div>
+      <div class="panelRow">
+        <div>{{ i18n['process.name'] }}：</div>
+        <Input style="width:90%; font-size:12px"
+               :disabled="readOnly"
+               :value="model.name"
+               @input="(value) => {onChange('name', value)}"/>
+      </div>
+      <div class="panelRow">
+        <div>
+          {{ i18n['process.dataObjs'] }}：
+          <Button :disabled="readOnly" size="mini" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
         </div>
+
+      </div>
+      <div class="panelRow">
+        <div>
+          {{ i18n['process.signalDefs'] }}：
+          <Button :disabled="readOnly" size="mini" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
+        </div>
+
+      </div>
+      <div class="panelRow">
+        <div>
+          {{ i18n['process.messageDefs'] }}：
+          <Button :disabled="readOnly" size="mini" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
+        </div>
+
+      </div>
     </div>
+  </div>
 </template>
+
 <script>
-  import DefaultDetail from "./DefaultDetail";
+  import DefaultDetail from './DefaultDetail'
+
   export default {
     inject: ['i18n'],
     components: {
@@ -62,29 +64,30 @@
     },
     props: {
       model: {
-        type:Object,
-        default: ()=>({}),
+        type: Object,
+        default: () => ({})
       },
       categorys: {
         type: Array,
-        default: ()=>([]),
+        default: () => ([])
       },
       onChange: {
         type: Function,
-        default: ()=>{}
+        default: () => {
+        }
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
-        default: false,
+        default: false
       }
     },
-    data() {
+    data () {
       return {
-        categoryCopy: this.categorys,
+        categoryCopy: this.categorys
       }
     },
     methods: {
-      filterCategory(input) {
+      filterCategory (input) {
         if (input) {
           this.categoryCopy = this.categorys.filter((item) => {
             if (!!~item.name.indexOf(input) || !!~item.name.toLowerCase().indexOf(input.toLowerCase())) {
@@ -92,7 +95,7 @@
             }
           })
         } else {
-          this.categoryCopy = this.categorys;
+          this.categoryCopy = this.categorys
         }
       }
     }
