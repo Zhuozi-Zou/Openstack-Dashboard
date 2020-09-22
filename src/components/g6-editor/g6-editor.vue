@@ -8,13 +8,15 @@
             @click="() => { this.$refs['wfd'].graph.saveImg() }">
       导出图片
     </Button>
-    <Button class="button" @click="()=>{this.modalVisible=true}">
+    <Button class="button" @click="() => { this.modalVisible = true }">
       查看流程图
     </Button>
     <wfd-vue ref="wfd" :data="demoData" :height="600" :users="candidateUsers" :groups="candidateGroups"
              :categorys="categories" :lang="lang"/>
     <Modal title="查看流程图" v-model="modalVisible" width="60%">
-      <wfd-vue ref="wfd" :data="demoData1" :height="300" isView/>
+      <div v-if="modalVisible">
+        <wfd-vue ref="wfd" :data="demoData1" :height="300" isView />
+      </div>
     </Modal>
   </div>
 </template>
