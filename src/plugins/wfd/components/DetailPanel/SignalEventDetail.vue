@@ -9,7 +9,7 @@
                   :placeholder="i18n['signalEvent.signal']"
                   :value="model.signal"
                   :disabled="readOnly"
-                  @change="(e) => { onChange('signal', e) }">
+                  @on-change="(e) => { onChange('signal', e) }">
           <i-option v-for="signal in signalDefs" :key="signal.id" :label="signal.name" :value="signal.id"/>
         </i-select>
       </div>

@@ -9,7 +9,7 @@
                   :placeholder="i18n['messageEvent.message']"
                   :value="model.message"
                   :disabled="readOnly"
-                  @change="(e) => { onChange('message', e) }">
+                  @on-change="(e) => { onChange('message', e) }">
           <i-option v-for="message in messageDefs" :key="message.id" :label="message.name" :value="message.id"/>
         </i-select>
       </div>

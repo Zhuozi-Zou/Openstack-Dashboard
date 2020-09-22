@@ -9,7 +9,7 @@
                   :placeholder="i18n['userTask.assignType.placeholder']"
                   :value="model.assignType"
                   :disabled="readOnly"
-                  @change="(e) => { onChange('assignValue', []);onChange('assignType', e) }">
+                  @on-change="(e) => { onChange('assignValue', []); onChange('assignType', e) }">
           <i-option key="assignee" value="assignee" :label="i18n['userTask.assignType.assignee']"/>
           <i-option key="person" value="person" :label="i18n['userTask.assignType.person']"/>
           <i-option key="persongroup" value="persongroup" :label="i18n['userTask.assignType.persongroup']"/>
@@ -26,7 +26,7 @@
                   allow-create
                   :filterable="true"
                   :filter-method="filterUsers"
-                  @change="(e) => onChange('assignValue', e)">
+                  @on-change="(e) => onChange('assignValue', e)">
           <i-option v-for="user in usersCopy" :key="user.id" :label="user.name" :value="user.id"/>
         </i-select>
       </div>
@@ -40,7 +40,7 @@
                   allow-create
                   :filterable="true"
                   :filter-method="filterUsers"
-                  @change="(e) => onChange('assignValue', e)">
+                  @on-change="(e) => onChange('assignValue', e)">
           <i-option v-for="user in usersCopy" :key="user.id" :label="user.name" :value="user.id"/>
         </i-select>
       </div>
@@ -54,7 +54,7 @@
                   allow-create
                   :filterable="true"
                   :filter-method="filterGroups"
-                  @change="(e) => onChange('assignValue', e)">
+                  @on-change="(e) => onChange('assignValue', e)">
           <i-option v-for="group in groupsCopy" :key="group.id" :label="group.name" :value="group.id"/>
         </i-select>
       </div>
@@ -69,7 +69,7 @@
                     @input="(value) => onChange('dueDate', value)"/>
       </div>
       <div class="panelRow">
-        <Checkbox @change="(value) => onChange('isSequential', value)"
+        <Checkbox @on-change="(value) => onChange('isSequential', value)"
                   :disabled="readOnly"
                   :value="!!model.isSequential">{{ i18n['userTask.counterSign'] }}
         </Checkbox>

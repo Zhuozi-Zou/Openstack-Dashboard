@@ -5,10 +5,10 @@
       <Input style="width:90%; font-size:12px"
              :disabled="readOnly"
              :value="model.label"
-             @input="(value) => {onChange('label', value)}"/>
+             @input="(value) => onChange('label', value)"/>
     </div>
     <div class="panelRow">
-      <Checkbox @change="(value) => onChange('hideIcon', value)"
+      <Checkbox @on-change="(value) => onChange('hideIcon', value)"
                 :disabled="readOnly"
                 :value="!!model.hideIcon">{{ i18n['hideIcon'] }}
       </Checkbox>

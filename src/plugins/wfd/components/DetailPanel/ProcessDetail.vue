@@ -11,7 +11,7 @@
                   allow-create
                   :filterable="true"
                   :filter-method="filterCategory"
-                  @change="(e) => onChange('category', e)">
+                  @on-change="(e) => onChange('category', e)">
           <i-option v-for="category in categoryCopy" :key="category.id" :label="category.name" :value="category.id"/>
         </i-select>
       </div>

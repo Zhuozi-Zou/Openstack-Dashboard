@@ -20,7 +20,7 @@
                @input="(value) => {onChange('seq', value)}"/>
       </div>
       <div class="panelRow">
-        <Checkbox @change="(value) => onChange('reverse', value)"
+        <Checkbox @on-change="(value) => onChange('reverse', value)"
                   :disabled="readOnly"
                   :value="!!model.reverse">{{ i18n['sequenceFlow.reverse'] }}
         </Checkbox>
