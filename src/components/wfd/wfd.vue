@@ -14,7 +14,7 @@
         :readOnly="mode !== 'edit'"
         :users="users"
         :groups="groups"
-        :categorys="categorys"
+        :categories="categories"
         :signalDefs="processModel.signalDefs"
         :messageDefs="processModel.messageDefs"
         :onChange="(key, val) => { onItemCfgChange(key,val) }"/>
@@ -84,7 +84,7 @@
         type: Array,
         default: () => ([])
       },
-      categorys: {
+      categories: {
         type: Array,
         default: () => ([])
       }

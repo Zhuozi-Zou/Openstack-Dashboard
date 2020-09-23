@@ -12,7 +12,7 @@
       查看流程图
     </Button>
     <wfd-vue ref="wfd" :data="demoData" :height="700" :users="candidateUsers" :groups="candidateGroups"
-             :categorys="categories" :lang="lang"/>
+             :categories="categories" :lang="lang"/>
     <Modal title="查看流程图" v-model="modalVisible" width="60%">
       <div v-if="modalVisible">
         <wfd-vue ref="wfd" :data="demoData1" :height="300" isView />
