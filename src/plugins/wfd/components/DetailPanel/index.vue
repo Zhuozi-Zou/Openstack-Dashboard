@@ -1,5 +1,5 @@
 <template>
-  <div class="detailPanel" :style="{'height':height+'px'}">
+  <div class="detailPanel">
     <UserTaskDetail v-if="model.clazz === 'userTask'" :model="model" :onChange="onChange" :readOnly="readOnly"
                     :users="users" :groups="groups"/>
     <ScriptTaskDetail v-else-if="model.clazz === 'scriptTask'" :model="model" :onChange="onChange"
@@ -58,10 +58,6 @@
       ProcessDetail
     },
     props: {
-      height: {
-        type: Number,
-        default: 800
-      },
       model: {
         type: Object,
         default: () => ({})
@@ -100,7 +96,6 @@
 </script>
 <style lang="scss">
   .detailPanel {
-    height: 100%;
     background: #f0f2f5;
     flex: 0 0 auto;
     float: left;

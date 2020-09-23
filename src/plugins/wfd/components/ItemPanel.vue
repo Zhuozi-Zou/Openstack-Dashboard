@@ -1,5 +1,5 @@
 <template>
-  <div class="itemPanel" :style="{'height': height+'px'}">
+  <div class="itemPanel">
     <el-collapse v-model="activeNames" accordion>
       <el-collapse-item :title="i18n['start']" name="1">
         <img alt="image" data-item="{clazz:'start',size:'30*30',label:''}"
@@ -66,12 +66,6 @@
 <script>
   export default {
     inject: ['i18n'],
-    props: {
-      height: {
-        type: Number,
-        default: 800
-      }
-    },
     data () {
       return {
         activeNames: [],

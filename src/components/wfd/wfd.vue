@@ -1,15 +1,14 @@
 <template>
   <div class="root">
     <ToolbarPanel ref="toolbar" v-if="!isView"/>
-    <div style="display: flex">
-      <ItemPanel ref="addItemPanel" v-if="!isView" :height="height"/>
+    <div class="body">
+      <ItemPanel ref="addItemPanel" v-if="!isView"/>
       <div ref="canvas" class="canvasPanel"
-           :style="{'height': height + 'px', 'width': isView ? '100%' : '70%', 'border-bottom': isView ? 0 : null }">
+           :style="{'width': isView ? '100%' : '70%', 'border-bottom': isView ? 0 : null }">
       </div>
       <DetailPanel
         ref="detailPanel"
         v-if="!isView"
-        :height="height"
         :model="selectedModel"
         :readOnly="mode !== 'edit'"
         :users="users"
@@ -60,10 +59,6 @@
       mode: {
         type: String,
         default: 'edit'
-      },
-      height: {
-        type: Number,
-        default: 800
       },
       lang: {
         type: String,
@@ -154,9 +149,8 @@
         })
         const page = this.$refs.canvas
         const graph = this.graph
-        const height = this.height - 1
         this.resizeFunc = () => {
-          graph.changeSize(page.offsetWidth, height)
+          graph.changeSize(page.offsetWidth, page.offsetHeight)
         }
         window.addEventListener('resize', this.resizeFunc)
       },
@@ -224,10 +218,11 @@
         plugins = [this.cmdPlugin, toolbar, addItemPanel, canvasPanel]
       }
       const width = this.$refs.canvas.offsetWidth
+      const height = this.$refs.canvas.offsetHeight
       this.graph = new G6.Graph({
         plugins: plugins,
         container: this.$refs.canvas,
-        height: this.height,
+        height: height,
         width: width,
         modes: {
           default: ['drag-canvas', 'clickSelected'],
@@ -263,6 +258,15 @@
     height: 100%;
     background-color: #fff;
     display: block;
+
+    .body {
+      display: flex;
+      position: absolute;
+      top: 65px;
+      right: 16px;
+      left: 16px;
+      bottom: 16px;
+    }
   }
 
   .canvasPanel {
