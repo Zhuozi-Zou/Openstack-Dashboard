@@ -75,6 +75,7 @@ export default function (G6) {
         const addModel = this.graph.get('addModel')
         const { clazz = 'userTask' } = addModel
         addModel.shape = getShapeName(clazz)
+        addModel.type = getShapeName(clazz)
         addModel.size = addModel.size.split('*')
         const timestamp = new Date().getTime()
         const id = clazz + timestamp

@@ -34,21 +34,18 @@
           {{ i18n['process.dataObjs'] }}：
           <Button :disabled="readOnly" size="small" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
         </div>
-
       </div>
       <div class="panelRow">
         <div>
           {{ i18n['process.signalDefs'] }}：
           <Button :disabled="readOnly" size="small" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
         </div>
-
       </div>
       <div class="panelRow">
         <div>
           {{ i18n['process.messageDefs'] }}：
           <Button :disabled="readOnly" size="small" @click="()=>{}">{{ i18n['tooltip.edit'] }}</Button>
         </div>
-
       </div>
     </div>
   </div>

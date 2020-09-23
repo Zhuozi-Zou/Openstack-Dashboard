@@ -131,6 +131,7 @@
             nodes: data.nodes.map(node => {
               return {
                 shape: getShapeName(node.clazz),
+                type: getShapeName(node.clazz),
                 ...node
               }
             }),
@@ -235,7 +236,8 @@
                  'dragPanelItemAddNode', 'clickSelected', 'deleteItem', 'itemAlign', 'dragPoint', 'brush-select']
         },
         defaultEdge: {
-          shape: 'flow-polyline-round'
+          shape: 'flow-polyline-round',
+          type: 'flow-polyline-round'
         }
       })
       this.graph.saveXML = (createFile = true) => exportXML(this.graph.save(), this.processModel, createFile)

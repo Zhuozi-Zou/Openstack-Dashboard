@@ -11,7 +11,7 @@
     <Button class="button" @click="() => { this.modalVisible = true }">
       查看流程图
     </Button>
-    <wfd-vue ref="wfd" :data="demoData" :height="600" :users="candidateUsers" :groups="candidateGroups"
+    <wfd-vue ref="wfd" :data="demoData" :height="700" :users="candidateUsers" :groups="candidateGroups"
              :categorys="categories" :lang="lang"/>
     <Modal title="查看流程图" v-model="modalVisible" width="60%">
       <div v-if="modalVisible">

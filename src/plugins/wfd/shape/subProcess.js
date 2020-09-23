@@ -94,7 +94,8 @@ export default function (G6) {
             groupId: cfg.id,
             model: {
               ...nodeCfg,
-              shape: getShapeName(nodeCfg.clazz)
+              shape: getShapeName(nodeCfg.clazz),
+              type: getShapeName(nodeCfg.clazz)
             }
           })
           node.toFront()
@@ -127,7 +128,8 @@ export default function (G6) {
             id: edgeCfg.id,
             model: {
               ...edgeCfg,
-              shape: 'flow-polyline-round'
+              shape: 'flow-polyline-round',
+              type: 'flow-polyline-round'
             }
           })
           edge.toFront()
