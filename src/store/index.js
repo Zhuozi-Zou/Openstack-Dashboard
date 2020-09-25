@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import state from './state'
 import mutations from './mutations'
 import actions from './actions'
-import saveInLocal from './plugin/saveInLocal'
 import router from './module/router'
 import user from './module/user'
 import neutron from './module/neutron'
@@ -31,6 +30,5 @@ export default new Vuex.Store({
     flavors: nova.flavors,
     statsNova: nova.stats,
     images: glance.images
-  },
-  plugins: [saveInLocal]
+  }
 })

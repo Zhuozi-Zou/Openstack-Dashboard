@@ -39,14 +39,6 @@ export const bytesToSize = (bytes, fracDigits = 2) => {
   return (bytes / Math.pow(k, i)).toFixed(fracDigits) + ' ' + sizes[i]
 }
 
-export const localSave = (name, value) => {
-  localStorage.setItem(name, JSON.stringify(value))
-}
-
-export const localRead = (name) => {
-  return JSON.parse(localStorage.getItem(name))
-}
-
 export const firstLetterUpper = (s) => {
   return s.charAt(0).toUpperCase() + s.substring(1)
 }

@@ -43,7 +43,7 @@
             </span>
         </Tooltip>
         <Tooltip :content="this.i18n['tooltip.autoFit']" placement="bottom">
-            <span class="command" data-command="autoFit">
+            <span class="command" data-command="autoFit" ref="autoFit">
                 <span class="iconfont icon-fit"/>
             </span>
         </Tooltip>
