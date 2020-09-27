@@ -39,11 +39,19 @@ export const topoDataRaw = [
                 url: '', // 如果需要点击就跳转到详情页面的话
                 children: [
                   {
-                    id: 'instance2',
-                    label: '虚拟机2', // 名字
-                    clazz: 'instance', // 种类type，比如这里就是虚拟机
-                    url: '', // 如果需要点击就跳转到详情页面的话
-                    children: []
+                    id: 'security1',
+                    label: '安全组1',
+                    clazz: 'security',
+                    url: '',
+                    children: [
+                      {
+                        id: 'instance2',
+                        label: '虚拟机2', // 名字
+                        clazz: 'instance', // 种类type，比如这里就是虚拟机
+                        url: '', // 如果需要点击就跳转到详情页面的话
+                        children: []
+                      }
+                    ]
                   }
                 ]
               },
@@ -52,7 +60,14 @@ export const topoDataRaw = [
                 label: '子网3', // 名字
                 clazz: 'subnet', // 种类type，比如这里就是子网
                 url: '', // 如果需要点击就跳转到详情页面的话
-                children: []
+                children: [
+                  {
+                    id: 'instance3',
+                    label: '虚拟机3', // 名字
+                    clazz: 'instance', // 种类type，比如这里就是虚拟机
+                    url: '', // 如果需要点击就跳转到详情页面的话
+                    children: []
+                  }]
               }
             ]
           }
@@ -66,83 +81,83 @@ export const testData = [
   {
     id: '111',
     label: 'O',
-    clazz: 'inclusiveGateway',
+    clazz: 'javaTask',
     children: [
       {
         id: '211',
         label: 'E',
-        clazz: 'inclusiveGateway',
+        clazz: 'javaTask',
         children: [
           {
             id: '311',
             label: 'A',
-            clazz: 'inclusiveGateway',
+            clazz: 'javaTask',
             children: [
               {
                 id: '1',
                 label: 'O2',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: [
                   {
                     id: '2',
                     label: 'E2',
-                    clazz: 'inclusiveGateway',
+                    clazz: 'javaTask',
                     children: [
                       {
                         id: '3',
                         label: 'A2',
-                        clazz: 'inclusiveGateway',
+                        clazz: 'javaTask',
                         children: [
                           {
                             id: '8',
                             label: 'N2',
-                            clazz: 'inclusiveGateway',
+                            clazz: 'javaTask',
                             children: [
                               {
                                 id: '9',
                                 label: 'G2',
-                                clazz: 'inclusiveGateway',
+                                clazz: 'javaTask',
                                 children: []
                               },
                               {
                                 id: '10',
                                 label: 'M2',
-                                clazz: 'inclusiveGateway',
+                                clazz: 'javaTask',
                                 children: [
                                   {
                                     id: '16',
                                     label: 'P2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   },
                                   {
                                     id: '11',
                                     label: 'H2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   },
                                   {
                                     id: '12',
                                     label: 'I2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   },
                                   {
                                     id: '13',
                                     label: 'J2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   },
                                   {
                                     id: '14',
                                     label: 'K2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   },
                                   {
                                     id: '15',
                                     label: 'L2',
-                                    clazz: 'inclusiveGateway',
+                                    clazz: 'javaTask',
                                     children: []
                                   }
                                 ]
@@ -154,18 +169,18 @@ export const testData = [
                       {
                         id: '4',
                         label: 'D2',
-                        clazz: 'inclusiveGateway',
+                        clazz: 'javaTask',
                         children: [
                           {
                             id: '5',
                             label: 'B2',
-                            clazz: 'inclusiveGateway',
+                            clazz: 'javaTask',
                             children: []
                           },
                           {
                             id: '6',
                             label: 'C2',
-                            clazz: 'inclusiveGateway',
+                            clazz: 'javaTask',
                             children: []
                           }
                         ]
@@ -175,13 +190,13 @@ export const testData = [
                   {
                     id: '7',
                     label: 'F2',
-                    clazz: 'inclusiveGateway',
+                    clazz: 'javaTask',
                     children: []
                   },
                   {
                     id: '17',
                     label: 'Q2',
-                    clazz: 'inclusiveGateway',
+                    clazz: 'javaTask',
                     children: []
                   }
                 ]
@@ -191,18 +206,18 @@ export const testData = [
           {
             id: '411',
             label: 'D',
-            clazz: 'inclusiveGateway',
+            clazz: 'javaTask',
             children: [
               {
                 id: '511',
                 label: 'B',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '611',
                 label: 'C',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               }
             ]
@@ -212,65 +227,65 @@ export const testData = [
       {
         id: '711',
         label: 'F',
-        clazz: 'inclusiveGateway',
+        clazz: 'javaTask',
         children: []
       },
       {
         id: '1711',
         label: 'Q',
-        clazz: 'inclusiveGateway',
+        clazz: 'javaTask',
         children: []
       },
       {
         id: '811',
         label: 'N',
-        clazz: 'inclusiveGateway',
+        clazz: 'javaTask',
         children: [
           {
             id: '911',
             label: 'G',
-            clazz: 'inclusiveGateway',
+            clazz: 'javaTask',
             children: []
           },
           {
             id: '1011',
             label: 'M',
-            clazz: 'inclusiveGateway',
+            clazz: 'javaTask',
             children: [
               {
                 id: '1611',
                 label: 'P',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '1111',
                 label: 'H',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '1211',
                 label: 'I',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '1311',
                 label: 'J',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '1411',
                 label: 'K',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               },
               {
                 id: '1511',
                 label: 'L',
-                clazz: 'inclusiveGateway',
+                clazz: 'javaTask',
                 children: []
               }
             ]

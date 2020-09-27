@@ -64,6 +64,7 @@
 </template>
 
 <script>
+  // TODO: icon的大小不要写死在这里，应该统一从config里调
   export default {
     inject: ['i18n'],
     data () {

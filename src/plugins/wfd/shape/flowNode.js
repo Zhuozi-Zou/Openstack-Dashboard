@@ -123,11 +123,12 @@ const catchDefaultOptions = {
 export default function (G6) {
   G6.registerNode('task-node', {
     shapeType: 'rect',
+    labelPosition: 'bottom',
     options: {
       ...taskDefaultOptions
     },
     getShapeStyle (cfg) {
-      cfg.size = [80, 44]
+      cfg.size = [50, 30]
       const width = cfg.size[0]
       const height = cfg.size[1]
       return {

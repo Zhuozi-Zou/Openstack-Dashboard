@@ -2,7 +2,7 @@
 export const calculateTreeXY = (root) => {
   initializeNodes(root, 0)
   calculateInitialY(root)
-  checkAllChildrenOnScreen(root)
+  // checkAllChildrenOnScreen(root)
 }
 
 // 递归初始化x、y和mod值(位移值)

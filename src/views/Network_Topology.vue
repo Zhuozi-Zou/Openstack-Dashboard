@@ -6,7 +6,7 @@
 
 <script>
   import G6Editor from '_c/g6-editor'
-  import { testData } from '@/mock/response/network_topology'
+  import { testData, topoDataRaw } from '@/mock/response/network_topology'
   import { calculateTreeXY } from '@/lib/tree_drawing'
   import { topoIconSize } from '@/config'
 
@@ -21,22 +21,37 @@
           nodes: [],
           edges: []
         },
-        xOffset: 30,
-        yOffset: 30
+        rawTopoData: [],
+        xOffset: 50,
+        yOffset: 40
+      }
+    },
+    watch: {
+      rawTopoData () {
+        const fakeRootTree = { children: this.rawTopoData, mod: 0 }
+        calculateTreeXY(fakeRootTree)
+        const nodes = []
+        const edges = []
+        this.initTopoData(fakeRootTree, nodes, edges, fakeRootTree.mod)
+        edges.splice(0, 1)
+        this.topoData = { nodes, edges }
+        this.$nextTick(() => {
+          this.autoFit()
+        })
       }
     },
     methods: {
       initTopoData (parent, nodes, edges, modSum) {
         parent.children.forEach(item => {
-          const iconSize = topoIconSize[item.clazz]
-          const halfIconSize = (iconSize / 2)
+          const iconWidth = topoIconSize.width
+          const iconHeight = topoIconSize.height
 
           nodes.push({
             id: item.id,
             label: item.label,
             clazz: item.clazz,
-            x: item.x * (this.xOffset + iconSize) + halfIconSize,
-            y: (item.y + modSum) * (this.yOffset + iconSize) + halfIconSize
+            x: item.x * (this.xOffset + iconWidth) + iconWidth / 2 + 5,
+            y: (item.y + modSum) * (this.yOffset + iconHeight) + iconHeight / 2 + 5
           })
 
           edges.push({
@@ -50,23 +65,16 @@
           this.initTopoData(item, nodes, edges, modSum + item.mod)
         })
       },
-      setNodeCoordinates () {
-        const fakeRootTree = { children: testData, mod: 0 }
-        calculateTreeXY(fakeRootTree)
-
-        const nodes = []
-        const edges = []
-        this.initTopoData(fakeRootTree, nodes, edges, fakeRootTree.mod)
-        edges.splice(0, 1)
-        this.topoData = { nodes, edges }
+      autoFit () {
+        const autoFit = this.$refs.editor.$refs.wfd.$refs.toolbar.$refs.autoFit
+        autoFit.click()
       }
     },
-    created () {
-      this.setNodeCoordinates()
-    },
     mounted () {
-      const autoFit = this.$refs.editor.$refs.wfd.$refs.toolbar.$refs.autoFit
-      autoFit.click()
+      this.rawTopoData = testData
+      setTimeout(() => {
+        this.rawTopoData = topoDataRaw
+      }, 2000)
     }
   }
 </script>
