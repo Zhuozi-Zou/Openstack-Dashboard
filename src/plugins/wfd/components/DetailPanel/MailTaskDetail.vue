@@ -6,14 +6,14 @@
       <div class="panelRow">
         <div>{{ i18n['mailTask.to'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.to"
                @input="(value) => {onChange('to', value)}"/>
       </div>
       <div class="panelRow">
         <div>{{ i18n['mailTask.subject'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.subject"
                @input="(value) => {onChange('subject', value)}"/>
       </div>
@@ -22,7 +22,7 @@
         <Input style="width:90%; font-size:12px"
                type="textarea"
                :rows="4"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.content"
                @input="(value) => {onChange('content', value)}"/>
       </div>

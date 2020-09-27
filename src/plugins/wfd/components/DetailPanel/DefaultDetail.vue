@@ -3,7 +3,7 @@
     <div class="panelRow">
       <div>{{ i18n['label'] }}：</div>
       <Input style="width:90%; font-size:12px"
-             :disabled="readOnly"
+             :readonly="readOnly"
              :value="model.label"
              @input="(value) => onChange('label', value)"/>
     </div>

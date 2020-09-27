@@ -6,7 +6,7 @@
       <div class="panelRow">
         <div>{{ i18n['javaTask.javaClass'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.javaClass"
                @input="(value) => {onChange('javaClass', value)}"/>
       </div>

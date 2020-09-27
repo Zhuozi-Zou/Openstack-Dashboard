@@ -8,7 +8,7 @@
         <Input style="width:90%; font-size:12px"
                type="textarea"
                :rows="4"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.script"
                @input="(value) => {onChange('script', value)}"/>
       </div>

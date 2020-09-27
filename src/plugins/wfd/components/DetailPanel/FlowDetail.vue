@@ -8,14 +8,14 @@
         <Input style="width:90%; font-size:12px"
                type="textarea"
                :rows="4"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.conditionExpression"
                @input="(value) => {onChange('conditionExpression', value)}"/>
       </div>
       <div class="panelRow">
         <div>{{ i18n['sequenceFlow.seq'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.seq"
                @input="(value) => {onChange('seq', value)}"/>
       </div>

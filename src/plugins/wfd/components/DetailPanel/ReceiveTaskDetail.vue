@@ -6,14 +6,14 @@
       <div class="panelRow">
         <div>{{ i18n['receiveTask.waitState'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.waitState"
                @input="(value) => {onChange('waitState', value)}"/>
       </div>
       <div class="panelRow">
         <div>{{ i18n['receiveTask.stateValue'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.stateValue"
                @input="(value) => {onChange('stateValue', value)}"/>
       </div>

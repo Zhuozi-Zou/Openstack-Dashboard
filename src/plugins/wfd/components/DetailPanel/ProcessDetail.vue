@@ -18,14 +18,14 @@
       <div class="panelRow">
         <div>{{ i18n['process.id'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.id"
                @input="(value) => {onChange('id', value)}"/>
       </div>
       <div class="panelRow">
         <div>{{ i18n['process.name'] }}：</div>
         <Input style="width:90%; font-size:12px"
-               :disabled="readOnly"
+               :readonly="readOnly"
                :value="model.name"
                @input="(value) => {onChange('name', value)}"/>
       </div>
