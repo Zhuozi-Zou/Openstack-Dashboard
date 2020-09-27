@@ -10,7 +10,7 @@
         ref="detailPanel"
         v-if="!isView"
         :model="selectedModel"
-        :readOnly="mode !== 'edit'"
+        :readOnly="readOnly"
         :users="users"
         :groups="groups"
         :categories="categories"
@@ -26,10 +26,10 @@
   import { getShapeName } from '@/plugins/wfd/util/clazz'
   import Command from '@/plugins/wfd/plugins/command'
   import Toolbar from '@/plugins/wfd/plugins/toolbar'
-  import AddItemPanel from '@/plugins/wfd/plugins/addItemPanel'
+  // import AddItemPanel from '@/plugins/wfd/plugins/addItemPanel'
   import CanvasPanel from '@/plugins/wfd/plugins/canvasPanel'
   import ToolbarPanel from '@/plugins/wfd/components/ToolbarPanel'
-  import ItemPanel from '@/plugins/wfd/components/ItemPanel'
+  // import ItemPanel from '@/plugins/wfd/components/ItemPanel'
   import DetailPanel from '@/plugins/wfd/components/DetailPanel'
   import i18n from '@/plugins/wfd/locales'
   import { exportImg, exportXML } from '@/plugins/wfd/util/bpmn'
@@ -52,6 +52,10 @@
       }
     },
     props: {
+      readOnly: {
+        type: Boolean,
+        default: false
+      },
       isView: {
         type: Boolean,
         default: false
