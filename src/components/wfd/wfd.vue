@@ -2,9 +2,9 @@
   <div class="root">
     <ToolbarPanel ref="toolbar" v-if="!isView"/>
     <div class="body">
-      <ItemPanel ref="addItemPanel" v-if="!isView"/>
+<!--      <ItemPanel ref="addItemPanel" v-if="!isView"/>-->
       <div ref="canvas" class="canvasPanel"
-           :style="{'width': isView ? '100%' : '70%', 'border-bottom': isView ? 0 : null }">
+           :style="{'width': isView ? '100%' : '80%', 'border-bottom': isView ? 0 : null }">
       </div>
       <DetailPanel
         ref="detailPanel"
@@ -43,7 +43,7 @@
     name: 'wfd-vue',
     components: {
       ToolbarPanel,
-      ItemPanel,
+      // ItemPanel,
       DetailPanel
     },
     provide () {
@@ -213,9 +213,13 @@
       if (!this.isView) {
         this.cmdPlugin = new Command()
         const toolbar = new Toolbar({ container: this.$refs.toolbar.$el })
-        const addItemPanel = new AddItemPanel({ container: this.$refs.addItemPanel.$el })
+        // const addItemPanel = new AddItemPanel({ container: this.$refs.addItemPanel.$el })
         const canvasPanel = new CanvasPanel({ container: this.$refs.canvas })
-        plugins = [this.cmdPlugin, toolbar, addItemPanel, canvasPanel]
+        plugins = [
+          this.cmdPlugin,
+          toolbar,
+          // addItemPanel,
+          canvasPanel]
       }
       const width = this.$refs.canvas.offsetWidth
       const height = this.$refs.canvas.offsetHeight

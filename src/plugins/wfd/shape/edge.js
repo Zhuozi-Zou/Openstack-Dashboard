@@ -112,11 +112,11 @@ export default function (G6) {
       return {
         path,
         ...style,
-        endArrow: {
+        endArrow: editorStyle.edgeStyle.endArrow ? {
           path: 'M 0,0 L 6,-2 Q 5 0,6 2 Z',
           lineDash: [0, 0],
           fill: editorStyle.edgeStyle.stroke
-        }
+        } : false
       }
     },
     getPath (points) {
@@ -184,8 +184,10 @@ export default function (G6) {
         }
     },
     combineBBoxes (sBBox, tBBox) {
-      const minX = Math.min(sBBox.minX, tBBox.minX); const minY = Math.min(sBBox.minY, tBBox.minY)
-      const maxX = Math.max(sBBox.maxX, tBBox.maxX); const maxY = Math.max(sBBox.maxY, tBBox.maxY)
+      const minX = Math.min(sBBox.minX, tBBox.minX)
+      const minY = Math.min(sBBox.minY, tBBox.minY)
+      const maxX = Math.max(sBBox.maxX, tBBox.maxX)
+      const maxY = Math.max(sBBox.maxY, tBBox.maxY)
       return {
         centerX: (minX + maxX) / 2,
         centerY: (minY + maxY) / 2,
@@ -198,8 +200,10 @@ export default function (G6) {
       }
     },
     getBBoxFromVertexes (sPoint, tPoint) {
-      const minX = Math.min(sPoint.x, tPoint.x); const maxX = Math.max(sPoint.x, tPoint.x)
-      const minY = Math.min(sPoint.y, tPoint.y); const maxY = Math.max(sPoint.y, tPoint.y)
+      const minX = Math.min(sPoint.x, tPoint.x)
+      const maxX = Math.max(sPoint.x, tPoint.x)
+      const minY = Math.min(sPoint.y, tPoint.y)
+      const maxY = Math.max(sPoint.y, tPoint.y)
       return {
         centerX: (minX + maxX) / 2,
         centerY: (minY + maxY) / 2,

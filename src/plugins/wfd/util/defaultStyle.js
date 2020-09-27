@@ -47,7 +47,7 @@ export default {
     strokeOpacity: 0.92,
     lineWidth: 1,
     lineAppendWidth: 8,
-    endArrow: true
+    endArrow: false
   },
   groupBackgroundPadding: [40, 10, 10, 10],
   groupLabelOffsetX: 10,
