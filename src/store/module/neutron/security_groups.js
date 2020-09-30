@@ -1,5 +1,5 @@
 import { getToken } from '@/lib/util'
-import { getRouters } from '@/api/neutron/routers'
+import { getSecurityGroupById } from '@/api/neutron/security_groups'
 
 const state = {
   //
@@ -10,13 +10,13 @@ const mutations = {
 }
 
 const actions = {
-  async getRouters () {
+  async getSecurityGroupById (params, id) {
     try {
       await getToken()
-      const res = await getRouters()
+      const res = await getSecurityGroupById(id)
       return res.data
     } catch (e) {
-      throw new Error('getRouters: ' + e)
+      throw new Error('getSecurityGroupById: ' + e)
     }
   }
 }

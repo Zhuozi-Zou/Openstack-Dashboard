@@ -7,7 +7,7 @@ exports.admin = {
 
 exports.apiAccess = {
   network: 'http://10.199.32.243:9696/v2.0',
-  compute: 'http://10.199.32.243:8774/v2.1',
+  compute: 'http://10.199.32.243:8774/v2.1/fe34e3dd67214a798c1f81809a204b17',
   image: 'http://10.199.32.243:9292/v2'
 }
 

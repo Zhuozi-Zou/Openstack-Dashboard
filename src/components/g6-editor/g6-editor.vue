@@ -1,13 +1,13 @@
 <template>
   <div class="g6-editor-wrapper">
-<!--    <Button class="button"-->
-<!--            @click="() => { this.$refs['wfd'].graph.saveXML() }">-->
-<!--      导出XML-->
-<!--    </Button>-->
-<!--    <Button class="button"-->
-<!--            @click="() => { this.$refs['wfd'].graph.saveImg() }">-->
-<!--      导出图片-->
-<!--    </Button>-->
+    <Button class="button"
+            @click="() => { this.$refs['wfd'].graph.saveXML() }">
+      导出XML
+    </Button>
+    <Button class="button"
+            @click="() => { this.$refs['wfd'].graph.saveImg() }">
+      导出图片
+    </Button>
 <!--    <Button class="button" @click="() => { this.modalVisible = true }">-->
 <!--      查看流程图-->
 <!--    </Button>-->

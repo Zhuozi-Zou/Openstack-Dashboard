@@ -3,6 +3,9 @@ const neutron = express.Router()
 const networks = require('../controllers/neutron/networks')
 const floatingIps = require('../controllers/neutron/floating_ips')
 const stats = require('../controllers/neutron/stats')
+const securityGroups = require('../controllers/neutron/security_groups')
+const ports = require('../controllers/neutron/ports')
+const routers = require('../controllers/neutron/routers')
 
 neutron.get('/getNetworks', networks.getNetworks)
 neutron.get('/getNetworkById', networks.getNetworkById)
@@ -22,5 +25,12 @@ neutron.put('/associateFloatingIp', floatingIps.associateFloatingIp)
 neutron.delete('/deleteFloatingIp', floatingIps.deleteFloatingIp)
 
 neutron.get('/getQuotaDetailsByProjectId', stats.getQuotaDetailsByProjectId)
+
+neutron.get('/getSecurityGroupById', securityGroups.getSecurityGroupById)
+
+neutron.get('/getPortById', ports.getPortById)
+neutron.get('/listPorts', ports.listPorts)
+
+neutron.get('/getRouters', routers.getRouters)
 
 module.exports = neutron
