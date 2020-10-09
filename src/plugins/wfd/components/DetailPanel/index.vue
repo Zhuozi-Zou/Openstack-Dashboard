@@ -1,8 +1,8 @@
 <template>
   <div class="detailPanel">
-    <JavaTaskDetail v-if="model.clazz === 'phy'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'router'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'network'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-if="model.clazz === 'phy'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-else-if="model.clazz === 'router'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <ScriptTaskDetail v-else-if="model.clazz === 'network'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <JavaTaskDetail v-else-if="model.clazz === 'subnet'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <JavaTaskDetail v-else-if="model.clazz === 'instance'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <JavaTaskDetail v-else-if="model.clazz === 'security'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
@@ -45,7 +45,8 @@
   import FlowDetail from './FlowDetail'
   import StartEventDetail from './StartEventDetail'
   import EndEventDetail from './EndEventDetail'
-  import ProcessDetail from './ProcessDetail'
+  // import ProcessDetail from './ProcessDetail'
+  import DetailsPanel from '../DetailsPanel'
 
   export default {
     inject: ['i18n'],
@@ -62,7 +63,8 @@
       FlowDetail,
       StartEventDetail,
       EndEventDetail,
-      ProcessDetail
+      // ProcessDetail,
+      DetailsPanel
     },
     props: {
       model: {

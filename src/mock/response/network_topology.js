@@ -2,7 +2,7 @@ export const topoDataRaw = [
   {
     data: {
       id: 'phy1',
-      name: '物理出口' // 名字
+      name: '物理出口1' // 名字
     },
     clazz: 'phy', // 种类type，比如这里就是物理出口
     children: [

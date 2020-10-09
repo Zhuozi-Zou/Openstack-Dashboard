@@ -5,7 +5,7 @@ export function getShapeName (clazz) {
     case 'router':
       return 'java-task-node'
     case 'network':
-      return 'java-task-node'
+      return 'script-task-node'
     case 'subnet':
       return 'java-task-node'
     case 'instance':

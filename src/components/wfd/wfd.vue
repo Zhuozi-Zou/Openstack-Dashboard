@@ -35,6 +35,7 @@
   import { exportImg, exportXML } from '@/plugins/wfd/util/bpmn'
   import registerShape from '@/plugins/wfd/shape'
   import registerBehavior from '@/plugins/wfd/behavior'
+  import { getTopoDetailData } from '@/lib/network_topo'
 
   registerShape(G6)
   registerBehavior(G6)
@@ -146,7 +147,9 @@
             if (!item) {
               item = this.getNodeInSubProcess(items[0])
             }
-            this.selectedModel = { ...item.getModel() }
+            const selectedModel = { ...item.getModel() }
+            selectedModel.topoData = getTopoDetailData(selectedModel)
+            this.selectedModel = selectedModel
           } else {
             this.selectedModel = this.processModel
           }

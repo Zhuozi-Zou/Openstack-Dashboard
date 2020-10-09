@@ -7,12 +7,12 @@
              :value="model.label"
              @input="(value) => onChange('label', value)"/>
     </div>
-    <div class="panelRow">
-      <Checkbox @on-change="(value) => onChange('hideIcon', value)"
-                :disabled="readOnly"
-                :value="!!model.hideIcon">{{ i18n['hideIcon'] }}
-      </Checkbox>
-    </div>
+<!--    <div class="panelRow">-->
+<!--      <Checkbox @on-change="(value) => onChange('hideIcon', value)"-->
+<!--                :disabled="readOnly"-->
+<!--                :value="!!model.hideIcon">{{ i18n['hideIcon'] }}-->
+<!--      </Checkbox>-->
+<!--    </div>-->
   </div>
 </template>
 

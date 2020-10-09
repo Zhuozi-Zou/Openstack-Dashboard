@@ -66,6 +66,7 @@
             id: item.data.id,
             label: item.data.name,
             clazz: item.clazz,
+            data: item.data,
             x: item.x * (this.xOffset + iconWidth) + iconWidth / 2 + 5,
             y: (item.y + modSum) * (this.yOffset + iconHeight) + iconHeight / 2 + 5
           })
@@ -81,7 +82,7 @@
           this.initTopoData(item, nodes, edges, modSum + item.mod)
         })
       },
-      autoFit () {
+      autoFit () { // 必须在mounted后使用
         const autoFit = this.$refs.editor.$refs.wfd.$refs.toolbar.$refs.autoFit
         autoFit.click()
       },
