@@ -2,8 +2,8 @@
   <div class="detailPanel">
     <DetailsPanel v-if="model.clazz === 'phy'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <DetailsPanel v-else-if="model.clazz === 'router'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <ScriptTaskDetail v-else-if="model.clazz === 'network'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'subnet'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-else-if="model.clazz === 'network'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <ScriptTaskDetail v-else-if="model.clazz === 'subnet'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <JavaTaskDetail v-else-if="model.clazz === 'instance'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <JavaTaskDetail v-else-if="model.clazz === 'security'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
 <!--    以下为原始代码：-->

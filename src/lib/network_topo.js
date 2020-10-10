@@ -1,13 +1,15 @@
 export const getTopoDetailData = (model) => {
   switch (model.clazz) {
     case 'phy':
-      return phyDetailData(model.data)
+      return networkDetailData(model.data)
     case 'router':
       return routerDetailData(model.data)
+    case 'network':
+      return networkDetailData(model.data)
   }
 }
 
-const phyDetailData = phy => {
+const networkDetailData = phy => {
   return [
     {
       name: 'name',

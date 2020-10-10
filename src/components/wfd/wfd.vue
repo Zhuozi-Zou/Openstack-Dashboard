@@ -30,7 +30,7 @@
   import CanvasPanel from '@/plugins/wfd/plugins/canvasPanel'
   import ToolbarPanel from '@/plugins/wfd/components/ToolbarPanel'
   // import ItemPanel from '@/plugins/wfd/components/ItemPanel'
-  import DetailPanel from '@/plugins/wfd/components/DetailPanel'
+  import DetailPanel from '@/plugins/wfd/components/DetailPanelOriginal'
   import i18n from '@/plugins/wfd/locales'
   import { exportImg, exportXML } from '@/plugins/wfd/util/bpmn'
   import registerShape from '@/plugins/wfd/shape'

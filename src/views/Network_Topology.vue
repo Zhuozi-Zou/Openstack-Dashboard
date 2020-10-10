@@ -55,6 +55,7 @@
       ...mapActions([
         'getRouters',
         'getNetworkById',
+        'getSubnetById',
         'listPorts'
       ]),
       initTopoData (parent, nodes, edges, modSum) {
@@ -86,26 +87,55 @@
         const autoFit = this.$refs.editor.$refs.wfd.$refs.toolbar.$refs.autoFit
         autoFit.click()
       },
+      async getSubnetsTopoData (subnetIds, ports) {
+        return await Promise.all(subnetIds.map(async id => {
+          const subnet = await this.getSubnetById(id)
+          return {
+            clazz: 'subnet',
+            data: subnet,
+            children: []
+          }
+        }))
+      },
+      async getNetworksTopoData (ports) {
+        return await Promise.all(ports.map(async port => {
+          const networkId = port.network_id
+          const network = await this.getNetworkById(networkId)
+          const portsOnInstanceByNetworkId = await this.listPorts({ network_id: networkId, device_owner: 'compute:nova' })
+          const subnetsTopo = await this.getSubnetsTopoData(network.subnets, portsOnInstanceByNetworkId)
+          return {
+            clazz: 'network',
+            data: network,
+            children: subnetsTopo
+          }
+        }))
+      },
+      async getRoutersTopoData (routers) {
+        return await Promise.all(routers.map(async router => {
+          const ports = await this.listPorts({ device_id: router.id, device_owner: 'network:router_interface' })
+          const networksTopo = await this.getNetworksTopoData(ports)
+          return {
+            clazz: 'router',
+            data: router,
+            children: networksTopo
+          }
+        }))
+      },
       async getTopoData (externalNetId) {
         try {
           const externalNet = await this.getNetworkById(externalNetId)
-          const routers = (await this.getRouters()).filter(router => router.external_gateway_info.network_id === externalNetId)
-          const routersTopo = await Promise.all(routers.map(async router => {
-            const ports = (await this.listPorts({ device_id: router.id })).filter(port => port.network_id !== externalNetId)
-            console.log(ports)
-            return {
-              clazz: 'router',
-              data: router,
-              children: []
-            }
-          }))
-          console.log(routersTopo)
+          // 查询外部网络关联路由器
+          const routers = (await this.getRouters()).filter(router =>
+            // TODO: change/delete the second condition
+            router.external_gateway_info.network_id === externalNetId && router.project_id === 'fe34e3dd67214a798c1f81809a204b17'
+          )
+          const routersTopo = await this.getRoutersTopoData(routers)
+
           const rawTopoData = [{
             clazz: 'phy',
             data: externalNet,
             children: routersTopo
           }]
-          console.log(rawTopoData)
           this.rawTopoData = rawTopoData
         } catch (e) {
           console.log(e)
