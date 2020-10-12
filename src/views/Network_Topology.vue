@@ -7,7 +7,6 @@
 <script>
   import G6Editor from '_c/g6-editor'
   import { mapActions } from 'vuex'
-  import { topoDataRaw } from '@/mock/response/network_topology'
   import { calculateTreeXY } from '@/lib/tree_drawing'
   import { topoIconSize } from '@/config'
 
@@ -56,7 +55,9 @@
         'getRouters',
         'getNetworkById',
         'getSubnetById',
-        'listPorts'
+        'listPorts',
+        'getSecurityGroupById',
+        'getInstanceById'
       ]),
       initTopoData (parent, nodes, edges, modSum) {
         parent.children.forEach(item => {
@@ -87,13 +88,61 @@
         const autoFit = this.$refs.editor.$refs.wfd.$refs.toolbar.$refs.autoFit
         autoFit.click()
       },
+      async getInstancesTopoData (id) {
+        return [{
+          clazz: 'instance',
+          data: await this.getInstanceById(id),
+          children: []
+        }]
+      },
+      async getSecurityGroupsTopoData (data) {
+        const securityGroups = await Promise.all(data.security_groups.map(async id => {
+          return await this.getSecurityGroupById(id)
+        }))
+
+        const securityGroupsNum = securityGroups.length
+        let securityGroupsTopo = [{
+          clazz: 'security',
+          data: securityGroups[securityGroupsNum - 1],
+          children: await this.getInstancesTopoData(data.device_id)
+        }]
+        for (let i = securityGroupsNum - 2; i > -1; --i) {
+          securityGroupsTopo = [{
+            clazz: 'security',
+            data: securityGroups[i],
+            children: securityGroupsTopo
+          }]
+        }
+
+        return securityGroupsTopo
+      },
       async getSubnetsTopoData (subnetIds, ports) {
+        const subnetsAllocatedToInstance = {}
+        ports.forEach(port => {
+          port.fixed_ips.forEach(ip => {
+            subnetsAllocatedToInstance[ip.subnet_id] = {
+              security_groups: port.security_groups,
+              device_id: port.device_id
+            }
+          })
+        })
+
         return await Promise.all(subnetIds.map(async id => {
-          const subnet = await this.getSubnetById(id)
+          const subnetPro = this.getSubnetById(id)
+          let children = []
+
+          if (id in subnetsAllocatedToInstance) {
+            if (subnetsAllocatedToInstance[id].security_groups.length > 0) {
+              children = await this.getSecurityGroupsTopoData(subnetsAllocatedToInstance[id])
+            } else {
+              children = await this.getInstancesTopoData(subnetsAllocatedToInstance[id].device_id)
+            }
+          }
+
           return {
             clazz: 'subnet',
-            data: subnet,
-            children: []
+            data: await subnetPro,
+            children
           }
         }))
       },
@@ -101,7 +150,10 @@
         return await Promise.all(ports.map(async port => {
           const networkId = port.network_id
           const network = await this.getNetworkById(networkId)
-          const portsOnInstanceByNetworkId = await this.listPorts({ network_id: networkId, device_owner: 'compute:nova' })
+          const portsOnInstanceByNetworkId = await this.listPorts({
+            network_id: networkId,
+            device_owner: 'compute:nova'
+          })
           const subnetsTopo = await this.getSubnetsTopoData(network.subnets, portsOnInstanceByNetworkId)
           return {
             clazz: 'network',
@@ -112,7 +164,10 @@
       },
       async getRoutersTopoData (routers) {
         return await Promise.all(routers.map(async router => {
-          const ports = await this.listPorts({ device_id: router.id, device_owner: 'network:router_interface' })
+          const ports = await this.listPorts({
+            device_id: router.id,
+            device_owner: 'network:router_interface'
+          })
           const networksTopo = await this.getNetworksTopoData(ports)
           return {
             clazz: 'router',
@@ -123,7 +178,7 @@
       },
       async getTopoData (externalNetId) {
         try {
-          const externalNet = await this.getNetworkById(externalNetId)
+          const externalNetPro = this.getNetworkById(externalNetId)
           // 查询外部网络关联路由器
           const routers = (await this.getRouters()).filter(router =>
             // TODO: change/delete the second condition
@@ -131,19 +186,17 @@
           )
           const routersTopo = await this.getRoutersTopoData(routers)
 
-          const rawTopoData = [{
+          this.rawTopoData = [{
             clazz: 'phy',
-            data: externalNet,
+            data: await externalNetPro,
             children: routersTopo
           }]
-          this.rawTopoData = rawTopoData
         } catch (e) {
           console.log(e)
         }
       }
     },
     async mounted () {
-      // this.rawTopoData = topoDataRaw
       try {
         await this.getTopoData('2b178d2b-a3a6-4a7e-b12a-9dd22eb9b17e')
       } catch (e) {

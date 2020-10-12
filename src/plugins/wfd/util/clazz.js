@@ -1,17 +1,17 @@
 export function getShapeName (clazz) {
   switch (clazz) {
     case 'phy':
-      return 'java-task-node'
+      return 'script-task-node'
     case 'router':
       return 'java-task-node'
     case 'network':
       return 'script-task-node'
     case 'subnet':
-      return 'java-task-node'
+      return 'user-task-node'
     case 'instance':
       return 'java-task-node'
     case 'security':
-      return 'java-task-node'
+      return 'mail-task-node'
     // 以下为原始数据：
     case 'start':
       return 'start-node'

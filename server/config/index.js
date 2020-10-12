@@ -1,4 +1,7 @@
-exports.host = '10.199.32.243'
+const host = '10.199.32.243'
+const adminProjectId = 'fe34e3dd67214a798c1f81809a204b17'
+
+exports.host = host
 
 exports.admin = {
   name: 'admin',
@@ -6,9 +9,9 @@ exports.admin = {
 }
 
 exports.apiAccess = {
-  network: 'http://10.199.32.243:9696/v2.0',
-  compute: 'http://10.199.32.243:8774/v2.1/fe34e3dd67214a798c1f81809a204b17',
-  image: 'http://10.199.32.243:9292/v2'
+  network: `http://${host}:9696/v2.0`,
+  compute: `http://${host}:8774/v2.1/${adminProjectId}`,
+  image: `http://${host}:9292/v2`
 }
 
 exports.rules = {
@@ -18,6 +21,7 @@ exports.rules = {
       home: true,
       project: true,
       network: true,
+      network_topology: true,
       networks: true,
       routers: true,
       security_groups: true,
@@ -39,6 +43,7 @@ exports.rules = {
       home: true,
       project: true,
       network: true,
+      network_topology: true,
       networks: true,
       routers: true,
       security_groups: true,

@@ -3,66 +3,22 @@
     <DetailsPanel v-if="model.clazz === 'phy'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <DetailsPanel v-else-if="model.clazz === 'router'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
     <DetailsPanel v-else-if="model.clazz === 'network'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <ScriptTaskDetail v-else-if="model.clazz === 'subnet'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'instance'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'security'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-<!--    以下为原始代码：-->
-    <UserTaskDetail v-else-if="model.clazz === 'userTask'" :model="model" :onChange="onChange" :readOnly="readOnly"
-                    :users="users" :groups="groups"/>
-    <ScriptTaskDetail v-else-if="model.clazz === 'scriptTask'" :model="model" :onChange="onChange"
-                      :readOnly="readOnly"/>
-    <JavaTaskDetail v-else-if="model.clazz === 'javaTask'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <ReceiveTaskDetail v-else-if="model.clazz === 'receiveTask'" :model="model" :onChange="onChange"
-                       :readOnly="readOnly"/>
-    <MailTaskDetail v-else-if="model.clazz === 'mailTask'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <TimerEventDetail v-else-if="model.clazz === 'timerStart' || model.clazz === 'timerCatch'" :model="model"
-                      :onChange="onChange" :readOnly="readOnly"/>
-    <SignalEventDetail v-else-if="model.clazz === 'signalStart' || model.clazz === 'signalCatch'" :model="model"
-                       :onChange="onChange" :readOnly="readOnly" :signalDefs="signalDefs"/>
-    <MessageEventDetail v-else-if="model.clazz === 'messageStart' || model.clazz === 'messageCatch'" :model="model"
-                        :onChange="onChange" :readOnly="readOnly" :messageDefs="messageDefs"/>
-    <GatewayDetail
-      v-else-if="model.clazz === 'gateway' || model.clazz === 'exclusiveGateway' || model.clazz === 'parallelGateway' || model.clazz === 'inclusiveGateway'"
-      :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <FlowDetail v-else-if="model.clazz === 'flow'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <StartEventDetail v-else-if="model.clazz === 'start'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
-    <EndEventDetail v-else-if="model.clazz === 'end'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-else-if="model.clazz === 'subnet'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-else-if="model.clazz === 'instance'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+    <DetailsPanel v-else-if="model.clazz === 'security'" :model="model" :onChange="onChange" :readOnly="readOnly"/>
+<!--    <FlowDetail v-else-if="model.clazz === 'flow'" :model="model" :onChange="onChange" :readOnly="readOnly"/>-->
 <!--    <ProcessDetail v-else-if="model.clazz === 'process'" :model="model" :onChange="onChange" :readOnly="readOnly"-->
 <!--                   :categories="categories"/>-->
   </div>
 </template>
 
 <script>
-  import UserTaskDetail from './UserTaskDetail'
-  import JavaTaskDetail from './JavaTaskDetail'
-  import ScriptTaskDetail from './ScriptTaskDetail'
-  import ReceiveTaskDetail from './ReceiveTaskDetail'
-  import MailTaskDetail from './MailTaskDetail'
-  import TimerEventDetail from './TimerEventDetail'
-  import SignalEventDetail from './SignalEventDetail'
-  import MessageEventDetail from './MessageEventDetail'
-  import GatewayDetail from './GatewayDetail'
-  import FlowDetail from './FlowDetail'
-  import StartEventDetail from './StartEventDetail'
-  import EndEventDetail from './EndEventDetail'
   // import ProcessDetail from './ProcessDetail'
   import DetailsPanel from '../DetailsPanel'
 
   export default {
     inject: ['i18n'],
     components: {
-      UserTaskDetail,
-      ScriptTaskDetail,
-      JavaTaskDetail,
-      ReceiveTaskDetail,
-      MailTaskDetail,
-      TimerEventDetail,
-      SignalEventDetail,
-      MessageEventDetail,
-      GatewayDetail,
-      FlowDetail,
-      StartEventDetail,
-      EndEventDetail,
       // ProcessDetail,
       DetailsPanel
     },
