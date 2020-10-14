@@ -100,6 +100,7 @@
           return await this.getSecurityGroupById(id)
         }))
 
+        // 如果有多个安全组，遍历所有安全组，后一个安全组作为前一个的children，最后一个安全组的children为虚拟机拓扑数据
         const securityGroupsNum = securityGroups.length
         let securityGroupsTopo = [{
           clazz: 'security',
@@ -117,6 +118,7 @@
         return securityGroupsTopo
       },
       async getSubnetsTopoData (subnetIds, ports, networkName) {
+        // 查询每个port的安全组和虚拟机信息，存入以子网id为key的object中
         const subnetsAllocatedToInstance = {}
         ports.forEach(port => {
           port.fixed_ips.forEach(ip => {
@@ -127,6 +129,7 @@
           })
         })
 
+        // 遍历子网，如果子网id在subnetsAllocatedToInstance中则该子网有连虚拟机，不在则没有连虚拟机
         return await Promise.all(subnetIds.map(async id => {
           const subnetPro = this.getSubnetById(id)
           let children = []
@@ -150,6 +153,7 @@
         }))
       },
       async getNetworksTopoData (ports) {
+        // 遍历ports，根据port的network_id，查找所有对应连接虚拟机的ports
         return await Promise.all(ports.map(async port => {
           const networkId = port.network_id
           const network = await this.getNetworkById(networkId)
@@ -166,6 +170,7 @@
         }))
       },
       async getRoutersTopoData (routers) {
+        // 遍历routers，根据router id查找路由上的所有ports
         return await Promise.all(routers.map(async router => {
           const ports = await this.listPorts({
             device_id: router.id,
