@@ -116,7 +116,7 @@
 
         return securityGroupsTopo
       },
-      async getSubnetsTopoData (subnetIds, ports) {
+      async getSubnetsTopoData (subnetIds, ports, networkName) {
         const subnetsAllocatedToInstance = {}
         ports.forEach(port => {
           port.fixed_ips.forEach(ip => {
@@ -139,9 +139,12 @@
             }
           }
 
+          const subnet = await subnetPro
+          subnet.network_name = networkName
+
           return {
             clazz: 'subnet',
-            data: await subnetPro,
+            data: subnet,
             children
           }
         }))
@@ -154,7 +157,7 @@
             network_id: networkId,
             device_owner: 'compute:nova'
           })
-          const subnetsTopo = await this.getSubnetsTopoData(network.subnets, portsOnInstanceByNetworkId)
+          const subnetsTopo = await this.getSubnetsTopoData(network.subnets, portsOnInstanceByNetworkId, network.name)
           return {
             clazz: 'network',
             data: network,

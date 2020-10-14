@@ -16,7 +16,7 @@
         :categories="categories"
         :signalDefs="processModel.signalDefs"
         :messageDefs="processModel.messageDefs"
-        :onChange="(key, val) => { onItemCfgChange(key,val) }"/>
+        :onChange="(key, val) => { onItemCfgChange(key, val) }"/>
     </div>
   </div>
 </template>
@@ -30,12 +30,12 @@
   import CanvasPanel from '@/plugins/wfd/plugins/canvasPanel'
   import ToolbarPanel from '@/plugins/wfd/components/ToolbarPanel'
   // import ItemPanel from '@/plugins/wfd/components/ItemPanel'
-  import DetailPanel from '@/plugins/wfd/components/DetailPanelOriginal'
+  import DetailPanel from '@/plugins/wfd/components/DetailPanel'
   import i18n from '@/plugins/wfd/locales'
   import { exportImg, exportXML } from '@/plugins/wfd/util/bpmn'
   import registerShape from '@/plugins/wfd/shape'
   import registerBehavior from '@/plugins/wfd/behavior'
-  import { getTopoDetailData } from '@/lib/network_topo'
+  import { getTopoDetailData, getModalData } from '@/lib/network_topo'
 
   registerShape(G6)
   registerBehavior(G6)
@@ -149,6 +149,7 @@
             }
             const selectedModel = { ...item.getModel() }
             selectedModel.topoData = getTopoDetailData(selectedModel)
+            selectedModel.modalData = getModalData(selectedModel)
             this.selectedModel = selectedModel
           } else {
             this.selectedModel = this.processModel
