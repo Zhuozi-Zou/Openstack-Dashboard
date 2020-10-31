@@ -1,5 +1,8 @@
 # Openstack-Dashboard
 
+## Configuration
+Configure your OpenStack host address, api access adderess and login info in `./server/config/index.js`.
+
 ## To Run the Website Locally
 After cloning the repository, open a terminal and `cd` to the directory `Openstack-Dashboard`. 
 This is where all the client source code is.
