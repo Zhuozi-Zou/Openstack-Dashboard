@@ -2,7 +2,7 @@
   <div class="root">
     <ToolbarPanel ref="toolbar" v-if="!isView"/>
     <div class="body">
-<!--      <ItemPanel ref="addItemPanel" v-if="!isView"/>-->
+      <!--      <ItemPanel ref="addItemPanel" v-if="!isView"/>-->
       <div ref="canvas" class="canvasPanel"
            :style="{'width': isView ? '100%' : '80%', 'border-bottom': isView ? 0 : null }">
       </div>
@@ -35,7 +35,7 @@
   import { exportImg, exportXML } from '@/plugins/wfd/util/bpmn'
   import registerShape from '@/plugins/wfd/shape'
   import registerBehavior from '@/plugins/wfd/behavior'
-  import { getTopoDetailData, getModalData } from '@/lib/network_topo'
+  import { getModalData, getTopoDetailData } from '@/lib/network_topo'
 
   registerShape(G6)
   registerBehavior(G6)
@@ -91,8 +91,7 @@
     },
     data () {
       return {
-        resizeFunc: () => {
-        },
+        resizeFunc: () => {},
         selectedModel: {},
         processModel: {
           id: '',
