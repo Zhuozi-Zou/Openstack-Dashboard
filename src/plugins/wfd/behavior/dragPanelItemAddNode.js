@@ -47,6 +47,7 @@ export default function (G6) {
     onMouseUp (e) {
       if (this.graph.get('addNodeDragging')) {
         const p = this.graph.getPointByClient(e.clientX, e.clientY)
+        const canvasPoint = this.graph.getCanvasByPoint(p.x, p.y)
         const subProcessNode = this.graph.find('node', (node) => {
           if (node.get('model')) {
             const clazz = node.get('model').clazz
@@ -59,14 +60,10 @@ export default function (G6) {
             return false
           }
         })
-        if (subProcessNode) {
-          if (p.x > 0 && p.y > 0) {
-            this._addNodeBySubProcess(p, subProcessNode)
-          }
-        } else {
-          if (p.x > 0 && p.y > 0) {
-            this._addNode(p)
-          }
+        if (canvasPoint.x > 0 && canvasPoint.x < this.graph.cfg.width &&
+          canvasPoint.y > 0 && canvasPoint.y < this.graph.cfg.height) {
+          if (subProcessNode) this._addNodeBySubProcess(p, subProcessNode)
+          else this._addNode(p)
         }
       }
     },
